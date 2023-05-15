@@ -7,18 +7,20 @@
             <h2 class="display-1 font-style">Sign Up</h2>
           </v-card-title>
           <v-form @submit.prevent="signUp">
-            <v-text-field v-model="username" label="Username" outlined></v-text-field>
+            <v-text-field v-model="username" label="Username" outlined dense></v-text-field>
             <v-text-field
               v-model="password"
               label="Password"
               type="password"
               outlined
+              dense
             ></v-text-field>
-            <v-text-field v-model="email" label="Email" outlined></v-text-field>
-            <v-text-field v-model="address" label="Address" outlined></v-text-field>
-            <v-text-field v-model="phoneNumber" label="Phone Number" outlined></v-text-field>
-            <v-btn type="submit" color="primary" block>Sign Up</v-btn>
+            <v-text-field v-model="email" label="Email" outlined dense></v-text-field>
+            <v-text-field v-model="address" label="Address" outlined dense></v-text-field>
+            <v-text-field v-model="phoneNumber" label="Phone Number" outlined dense></v-text-field>
+            <v-btn type="submit" color="primary" dark block>Sign Up</v-btn>
           </v-form>
+          <v-divider class="my-4"></v-divider>
           <v-row justify="center">
             <v-col cols="12" class="text-center">
               <v-btn text color="primary" @click="goToLogin">Back to Login</v-btn>
@@ -66,5 +68,14 @@ export default {
 .font-style {
   font-family: "Arial", sans-serif;
   /* 원하는 글꼴로 변경할 수 있습니다. */
+}
+
+.v-text-field--outlined .v-label {
+  top: -6px;
+}
+
+.v-btn--dark {
+  background-color: #2196f3;
+  color: #ffffff;
 }
 </style>
