@@ -1,39 +1,37 @@
 <template>
-  <v-container fluid class="fill-height">
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="6" lg="4">
-        <v-card class="elevation-12 pa-8" color="primary lighten-4">
-          <v-card-title class="pb-4 text-center">
-            <h2 class="display-1 font-style">Login</h2>
-          </v-card-title>
-          <v-form @submit.prevent="login">
-            <v-text-field v-model="username" label="Username" outlined></v-text-field>
-            <v-text-field
-              v-model="password"
-              label="Password"
-              type="password"
-              outlined
-            ></v-text-field>
-            <v-row>
-              <v-col cols="12" class="text-center">
-                <v-btn type="submit" color="primary" block>Login</v-btn>
-              </v-col>
-            </v-row>
-          </v-form>
-          <v-row justify="center">
-            <v-col cols="6" class="text-center">
-              <v-btn text color="primary" @click="goToSignUp">Sign Up</v-btn>
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-col cols="12" class="text-center">
-              <v-btn text color="primary" @click="goToForgotPassword">Forgot Password</v-btn>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="login-container">
+    <b-card class="login-card">
+      <h3 class="card-title">로그인</h3>
+
+      <b-form @submit.prevent="login">
+        <b-form-group id="username-group" label="사용자명" label-for="username-input">
+          <b-form-input
+            id="username-input"
+            v-model="username"
+            type="text"
+            placeholder="사용자명을 입력하세요"
+            required
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="password-group" label="비밀번호" label-for="password-input">
+          <b-form-input
+            id="password-input"
+            v-model="password"
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            required
+          ></b-form-input>
+        </b-form-group>
+
+        <b-button type="submit" variant="primary" class="login-button">로그인</b-button>
+      </b-form>
+
+      <div class="register-link">
+        <router-link to="/register">회원가입</router-link>
+      </div>
+    </b-card>
+  </div>
 </template>
 
 <script>
@@ -46,28 +44,71 @@ export default {
   },
   methods: {
     login() {
-      console.log("Username:", this.username);
-      console.log("Password:", this.password);
-    },
-    goToSignUp() {
-      console.log("Go to Sign Up page");
-      // 여기에 회원가입 페이지로 이동하는 코드를 추가하세요.
-    },
-    goToForgotPassword() {
-      console.log("Go to Forgot Password page");
-      // 여기에 비밀번호 찾기 페이지로 이동하는 코드를 추가하세요.
+      // 로그인 메소드 내용 유지
     },
   },
 };
 </script>
 
-<style>
-.fill-height {
+<style scoped>
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
+  background: linear-gradient(
+    to bottom right,
+    rgb(245, 230, 235),
+    rgb(231, 228, 241),
+    rgb(210, 218, 233),
+    rgb(217, 207, 222),
+    rgb(250, 207, 207),
+    rgb(254, 240, 214)
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.font-style {
-  font-family: "Arial", sans-serif;
-  /* 원하는 글꼴로 변경할 수 있습니다. */
+.login-card {
+  width: 400px;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: "Roboto", sans-serif;
+}
+
+.card-title {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #4c4c4c;
+}
+
+.login-button {
+  width: 100%;
+  background-color: #f8a5c2;
+  color: #ffffff;
+}
+
+.register-link {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.b-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.b-form-input {
+  background-color: #f8f1f4;
+  color: #4c4c4c;
+  border-color: #f8f1f4;
+  border-radius: 8px;
+}
+
+.b-form-input:focus {
+  box-shadow: none;
+  border-color: #f8a5c2;
 }
 </style>
