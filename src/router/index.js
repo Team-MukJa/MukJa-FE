@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import AppUser from "@/views/AppUser";
 import AppMyPage from "@/views/AppMyPage";
+import AppMain from "@/views/AppMain";
 
 // components
 import UserLogin from "@/components/user/UserLogin.vue";
@@ -10,6 +11,11 @@ import UserJoin from "@/components/user/UserJoin.vue";
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    name: "AppMain",
+    component: AppMain,
+  },
   {
     path: "/user",
     name: "AppUser",
