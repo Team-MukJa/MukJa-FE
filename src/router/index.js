@@ -1,15 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import AppUser from "@/views/AppUser";
-import UserLogin from "@/components/user/UserLogin.vue";
-import UserJoin from "@/components/user/UserJoin.vue";
+import AppMyPage from "@/views/AppMyPage";
 
 // components
-// import MyUserDetail from "@/components/mypage/MyUserDetail";
-// import MyReview from "@/components/mypage/MyReview";
-// import MyPlan from "@/components/mypage/MyPlan";
-// import MyHotPlace from "@/components/mypage/MyHotPlace";
-// import MyNotice from "@/components/mypage/MyNotice";
+import UserLogin from "@/components/user/UserLogin.vue";
+import UserJoin from "@/components/user/UserJoin.vue";
 
 Vue.use(VueRouter);
 
@@ -32,37 +28,10 @@ const routes = [
       },
     ],
   },
-  // {
-  //   path: "/my",
-  //   component: AppMyPage,
-  //   children: [
-  //     {
-  //       path: "user/:userid",
-  //       name: "MyUserDetail",
-  //       component: MyUserDetail,
-  //     },
-  //     {
-  //       path: "review/:userid",
-  //       name: "MyReview",
-  //       component: MyReview,
-  //     },
-  //     {
-  //       path: "plan/:userid",
-  //       name: "MyPlan",
-  //       component: MyPlan,
-  //     },
-  //     {
-  //       path: "place/:userid",
-  //       name: "MyHotPlace",
-  //       component: MyHotPlace,
-  //     },
-  //     {
-  //       path: "notice/:userid",
-  //       name: "MyNotice",
-  //       component: MyNotice,
-  //     },
-  //   ],
-  // },
+  {
+    path: "/my",
+    component: AppMyPage,
+  },
 ];
 
 const router = new VueRouter({
