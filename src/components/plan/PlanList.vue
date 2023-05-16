@@ -2,7 +2,9 @@
   <div>
     <div class="page-header">
       <h2 class="page-title text-center">여행 계획 리스트</h2>
-      <b-button class="ml-auto" variant="primary" @click="openModal">글 작성</b-button>
+      <b-button class="ml-auto" variant="primary" @click="openModal"
+        >글 작성</b-button
+      >
     </div>
     <hr />
 
@@ -21,10 +23,19 @@
     </div>
 
     <!-- 모달 추가 -->
-    <b-modal v-model="modalOpen" title="여행 계획 작성" @ok="submitForm" @cancel="closeModal">
+    <b-modal
+      v-model="modalOpen"
+      title="여행 계획 작성"
+      @ok="submitForm"
+      @cancel="closeModal"
+    >
       <b-form>
         <b-form-group label="여행 제목" label-for="title-input">
-          <b-form-input id="title-input" v-model="title" required></b-form-input>
+          <b-form-input
+            id="title-input"
+            v-model="title"
+            required
+          ></b-form-input>
         </b-form-group>
 
         <div class="form-row">
@@ -49,7 +60,11 @@
         </div>
 
         <b-form-group label="여행 내용" label-for="content-input">
-          <b-form-textarea id="content-input" v-model="content" required></b-form-textarea>
+          <b-form-textarea
+            id="content-input"
+            v-model="content"
+            required
+          ></b-form-textarea>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -104,6 +119,7 @@ export default {
       // this.title, this.content, this.startDate, this.endDate 값을 활용합니다.
       console.log("여행 계획이 저장되었습니다.");
       this.modalOpen = false; // 저장 후 모달을 닫습니다.
+      this.$router.push({ name: "PlanRegist" });
     },
     goToDetailPage(planId) {
       // 상세보기 페이지로 이동하는 로직을 추가하세요.

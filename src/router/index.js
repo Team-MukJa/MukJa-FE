@@ -56,6 +56,11 @@ const routes = [
         name: "PlanList",
         component: () => import("@/components/plan/PlanList"),
       },
+      {
+        path: "map",
+        name: "PlanMap",
+        component: () => import("@/components/plan/PlanMap"),
+      },
     ],
   },
 
