@@ -1,72 +1,69 @@
 <template>
-  <v-app id="inspire">
-    <v-app-bar absolute color="white" elevate-on-scroll scroll-target="#scrolling-techniques-7">
-      <v-toolbar-title>MukJa</v-toolbar-title>
+  <div>
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar-brand href="#">
+        <router-link to="/">
+          <img class="d-inline-block align-middle" width="100px" alt="ssafy" />
+        </router-link>
+      </b-navbar-brand>
 
-      <v-spacer></v-spacer>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'home' }" class="link"
+              ><b-icon icon="house" font-scale="1.5"></b-icon> 홈</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'board' }" class="link"
+              ><b-icon icon="journal" font-scale="1.5"></b-icon> 게시판</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'instagram' }" class="link"
+              ><b-icon icon="instagram" font-scale="1.5"></b-icon> 인별그램</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'house' }" class="link"
+              ><b-icon icon="house-fill" font-scale="1.5"></b-icon> 아파트정보</router-link
+            ></b-nav-item
+          >
+          <b-nav-item href="#"
+            ><router-link :to="{ name: 'trip' }" class="link"
+              ><b-icon icon="truck" font-scale="1.5"></b-icon> 여행정보</router-link
+            ></b-nav-item
+          >
+        </b-navbar-nav>
 
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dog</v-icon>
-      </v-btn>
-
-      <v-menu bottom min-width="200px" rounded offset-y>
-        <template v-slot:activator="{ on }">
-          <v-btn icon x-large v-on="on">
-            <v-avatar color="#" size="48">
-              <v-icon dark> mdi-account-circle </v-icon>
-            </v-avatar>
-          </v-btn>
-        </template>
-        <v-card>
-          <v-list-item-content class="justify-center">
-            <div class="mx-auto text-center">
-              <!-- <v-avatar color="brown">
-                <span class="white--text text-h5">{{ members.userName }}</span>
-              </v-avatar> -->
-              <h3>{{ members.userId }}</h3>
-              <p class="text-caption mt-1">
-                {{ members.email }}
-              </p>
-              <v-divider class="my-3"></v-divider>
-              <v-btn depressed rounded text> 마이 페이지 </v-btn>
-              <v-divider class="my-3"></v-divider>
-              <v-btn depressed rounded text> 로그아웃 </v-btn>
-            </div>
-          </v-list-item-content>
-        </v-card>
-      </v-menu>
-    </v-app-bar>
-  </v-app>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item-dropdown right>
+            <template #button-content>
+              <b-icon icon="people" font-scale="2"></b-icon>
+            </template>
+            <b-dropdown-item href="#"
+              ><router-link :to="{ name: 'signUp' }" class="link"
+                ><b-icon icon="person-circle"></b-icon> 회원가입</router-link
+              ></b-dropdown-item
+            >
+            <b-dropdown-item href="#"
+              ><router-link :to="{ name: 'signIn' }" class="link"
+                ><b-icon icon="key"></b-icon> 로그인</router-link
+              ></b-dropdown-item
+            >
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "the-header",
-  components: {},
-  data() {
-    return {
-      members: {
-        userId: "John Doe",
-        email: "john.doe@doe.com",
-      },
-      message: "",
-    };
-  },
-  created() {},
-  methods: {},
+  name: "HeaderNaviBar",
 };
 </script>
 
-<style scoped></style>
+<style></style>
