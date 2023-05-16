@@ -1,15 +1,22 @@
 <template>
   <div>
-    <h2>마이 페이지</h2>
-    <b-card no-body>
-      <b-tabs active-nav-item-class="font-weight-bold text-uppercase" content-class="mt-3">
-        <b-tab title="나의 정보" active><my-user-detail :myData="myData"></my-user-detail></b-tab>
-        <b-tab title="나의 핫플레이스"
-          ><my-hot-place :myHotPlace="myHotPlace"></my-hot-place
-        ></b-tab>
-        <b-tab title="나의 문의사항"><my-notice :myNotice="myNotice"></my-notice></b-tab>
-      </b-tabs>
-    </b-card>
+    <b-tabs
+      id="tab"
+      class="justify-content-center"
+      active-nav-item-class="font-weight-bold text-uppercase"
+      style="margin-top: 50px"
+      fill
+    >
+      <b-tab title="나의 정보" active
+        ><my-user-detail style="margin-top: 50px" :myData="myData"></my-user-detail
+      ></b-tab>
+      <b-tab title="나의 핫플레이스"
+        ><my-hot-place style="margin-top: 50px" :myHotPlace="myHotPlace"></my-hot-place
+      ></b-tab>
+      <b-tab title="나의 문의사항"
+        ><my-notice style="margin-top: 50px" :myNotice="myNotice"></my-notice
+      ></b-tab>
+    </b-tabs>
   </div>
 </template>
 
@@ -52,4 +59,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#tab {
+  display: fixed;
+  align-content: center;
+  min-height: 100px;
+  width: 1000px;
+  max-height: 300px;
+}
+</style>

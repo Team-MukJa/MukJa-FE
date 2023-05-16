@@ -28,6 +28,7 @@ export default {
   cursor: pointer;
   transition: box-shadow 0.3s ease-in-out;
   text-align: center;
+  flex: 0 0 auto;
 }
 
 .card-title {

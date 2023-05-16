@@ -4,7 +4,10 @@
     <h2>이름: {{ myData.userName }}</h2>
     <h2>비밀번호: {{ myData.userPwd }}</h2>
     <h2>이메일: {{ myData.emailId + "@" + myData.emailDomain }}</h2>
-    <h2>가입날짜: {{ myData.joinDate }}</h2>
+    <h2>
+      가입날짜:
+      {{ myData.joinDate[0] + "년 " + myData.joinDate[1] + "월 " + myData.joinDate[2] + "일" }}
+    </h2>
   </div>
 </template>
 
