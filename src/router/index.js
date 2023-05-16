@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import AppUser from "@/views/AppUser";
 import AppMyPage from "@/views/AppMyPage";
 import AppMain from "@/views/AppMain";
+import AppPlan from "@/views/AppPlan";
 
 // components
 import UserLogin from "@/components/user/UserLogin.vue";
@@ -37,6 +38,25 @@ const routes = [
   {
     path: "/my",
     component: AppMyPage,
+  },
+
+  {
+    path: "/plan",
+    name: "AppPain",
+    component: AppPlan,
+    redirect: "/plan/list",
+    children: [
+      {
+        path: "regist",
+        name: "PlanRegist",
+        component: () => import("@/components/plan/PlanRegist"),
+      },
+      {
+        path: "list",
+        name: "PlanList",
+        component: () => import("@/components/plan/PlanList"),
+      },
+    ],
   },
 
   // // notice
