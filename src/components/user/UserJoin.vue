@@ -1,37 +1,47 @@
 <template>
-  <v-container fluid class="fill-height">
-    <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="6" lg="4">
-        <v-card class="elevation-12 pa-8" color="primary lighten-4">
-          <v-card-title class="pb-4 text-center">
-            <h2 class="display-1 font-style">Sign Up</h2>
-          </v-card-title>
-          <v-form @submit.prevent="signUp">
-            <v-text-field v-model="username" label="Username" outlined dense></v-text-field>
-            <v-text-field
-              v-model="password"
-              label="Password"
-              type="password"
-              outlined
-              dense
-            ></v-text-field>
-            <v-text-field v-model="email" label="Email" outlined dense></v-text-field>
-            <v-text-field v-model="address" label="Address" outlined dense></v-text-field>
-            <v-text-field v-model="phoneNumber" label="Phone Number" outlined dense></v-text-field>
-            <v-btn type="submit" color="primary" dark block>Sign Up</v-btn>
-          </v-form>
-          <v-divider class="my-4"></v-divider>
-          <v-row justify="center">
-            <v-col cols="12" class="text-center">
-              <v-btn text color="primary" @click="goToLogin">Back to Login</v-btn>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
-</template>
+  <div class="register-container">
+    <b-card class="register-card">
+      <h3 class="card-title">회원가입</h3>
+      <b-form @submit.prevent="register">
+        <b-form-group id="username-group" label="아이디" label-for="username-input">
+          <b-form-input
+            id="username-input"
+            v-model="username"
+            type="text"
+            placeholder="아이디를 입력하세요"
+            required
+          ></b-form-input>
+        </b-form-group>
 
+        <b-form-group id="password-group" label="비밀번호" label-for="password-input">
+          <b-form-input
+            id="password-input"
+            v-model="password"
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            required
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group id="email-group" label="이메일" label-for="email-input">
+          <b-form-input
+            id="email-input"
+            v-model="email"
+            type="email"
+            placeholder="이메일을 입력하세요"
+            required
+          ></b-form-input>
+        </b-form-group>
+
+        <b-button type="submit" variant="primary" class="register-button">회원가입</b-button>
+      </b-form>
+
+      <div class="login-link">
+        <router-link to="/login">로그인</router-link>
+      </div>
+    </b-card>
+  </div>
+</template>
 <script>
 export default {
   data() {
@@ -39,43 +49,74 @@ export default {
       username: "",
       password: "",
       email: "",
-      address: "",
-      phoneNumber: "",
     };
   },
   methods: {
-    signUp() {
-      console.log("Username:", this.username);
-      console.log("Password:", this.password);
-      console.log("Email:", this.email);
-      console.log("Address:", this.address);
-      console.log("Phone Number:", this.phoneNumber);
-      // 여기에 회원가입 처리를 위한 로직을 추가하세요.
-    },
-    goToLogin() {
-      console.log("Go to Login page");
-      // 여기에 로그인 페이지로 이동하는 코드를 추가하세요.
+    register() {
+      // 회원가입 메소드 내용 유지
     },
   },
 };
 </script>
-
-<style>
-.fill-height {
+<style scoped>
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
+  background: linear-gradient(
+    to bottom right,
+    rgb(245, 230, 235),
+    rgb(231, 228, 241),
+    rgb(210, 218, 233),
+    rgb(217, 207, 222),
+    rgb(250, 207, 207),
+    rgb(254, 240, 214)
+  );
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.font-style {
-  font-family: "Arial", sans-serif;
-  /* 원하는 글꼴로 변경할 수 있습니다. */
+.register-card {
+  width: 400px;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: "Roboto", sans-serif;
 }
 
-.v-text-field--outlined .v-label {
-  top: -6px;
+.card-title {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  color: #4c4c4c;
 }
 
-.v-btn--dark {
-  background-color: #2196f3;
+.register-button {
+  width: 100%;
+  background-color: #f8a5c2;
   color: #ffffff;
+}
+
+.login-link {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.b-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.b-form-input {
+  background-color: #f8f1f4;
+  color: #4c4c4c;
+  border-color: #f8f1f4;
+  border-radius: 8px;
+}
+
+.b-form-input:focus {
+  box-shadow: none;
+  border-color: #f8a5c2;
 }
 </style>

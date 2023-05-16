@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import AppUser from "@/views/AppUser";
+import AppMain from "@/views/AppMain";
+
 import UserLogin from "@/components/user/UserLogin.vue";
 import UserJoin from "@/components/user/UserJoin.vue";
 
@@ -14,6 +16,11 @@ import UserJoin from "@/components/user/UserJoin.vue";
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    name: "AppMain",
+    component: AppMain,
+  },
   {
     path: "/user",
     name: "AppUser",
@@ -60,6 +67,43 @@ const routes = [
   //       path: "notice/:userid",
   //       name: "MyNotice",
   //       component: MyNotice,
+  //     },
+  //   ],
+  // },
+  //notice
+  // {
+  //   path: "/notices",
+  //   name: "notices",
+  //   component: () => import("@/views/AppNotice"),
+  //   redirect: "/notices/list",
+  //   children: [
+  //     {
+  //       path: "list",
+  //       name: "noticelist",
+  //       component: () => import("@/components/notice/NoticeList"),
+  //     },
+  //     {
+  //       path: "write",
+  //       name: "noticewrite",
+  //       // beforeEnter: onlyAuthUser,
+  //       component: () => import("@/components/notice/NoticeWrite"),
+  //     },
+  //     {
+  //       path: "view/:articleno",
+  //       name: "noticeview",
+  //       component: () => import("@/components/notice/NoticeView"),
+  //     },
+  //     {
+  //       path: "modify/:articleno",
+  //       name: "noticemodify",
+  //       // beforeEnter: onlyAuthUser,
+  //       component: () => import("@/components/notice/NoticeModify"),
+  //     },
+  //     {
+  //       path: "delete/:articleno",
+  //       name: "noticedelete",
+  //       // beforeEnter: onlyAuthUser,
+  //       component: () => import("@/components/notice/NoticeDelete"),
   //     },
   //   ],
   // },
