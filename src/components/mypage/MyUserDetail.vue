@@ -29,13 +29,10 @@
           <b-form-input id="email-input" v-model="this.email" type="text" required></b-form-input>
         </b-form-group>
 
-        <b-form-group id="regtime-group" label="가입날짜" label-for="regtime-input">
-          <b-form-input
-            id="regtime-input"
-            v-model="this.regtime"
-            type="text"
-            required
-          ></b-form-input>
+        <b-form-group id="regtime-group" label="가입날짜" label-for="regtime-fieldset">
+          <b-form-fieldset id="regtime-fieldset">
+            {{ this.regtime }}
+          </b-form-fieldset>
         </b-form-group>
 
         <b-button type="submit" variant="primary" class="modify-button">수정</b-button>
