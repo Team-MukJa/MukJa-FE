@@ -4,7 +4,7 @@
       <img src="@/assets/travel-plans-image.jpg" alt="여행 계획 이미지" />
     </div>
     <h3 class="card-title">{{ item.subject }}</h3>
-    <p class="card-slogan">{{ item.userId }} | {{ item.hit }} | {{ item.registerTime }}</p>
+    <p class="card-slogan">{{ item.userId }} | {{ item.hit }} | {{ regtime }}</p>
   </b-card>
 </template>
 
@@ -13,6 +13,16 @@ export default {
   name: "BoardListItem",
   props: {
     item: Object,
+  },
+  data() {
+    return {
+      regtime: "",
+    };
+  },
+  created() {
+    this.regtime =
+      this.item.registerTime[0] + "." + this.item.registerTime[1] + "." + this.item.registerTime[2];
+    console.log(this.regtime);
   },
 };
 </script>

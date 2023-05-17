@@ -4,9 +4,18 @@ import AppUser from "@/views/AppUser";
 import AppMyPage from "@/views/AppMyPage";
 import AppMain from "@/views/AppMain";
 
+//추가
+import AppReview from "@/views/AppReview";
+
+
 // components
 import UserLogin from "@/components/user/UserLogin.vue";
 import UserJoin from "@/components/user/UserJoin.vue";
+
+//추가
+// import PlaceDetail from "@/components/review/PlaceDetail.vue";
+import DestinationInfo from "@/components/review/DestinationInfo.vue";
+import ReviewDetail from "@/components/review/ReviewDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -37,6 +46,32 @@ const routes = [
   {
     path: "/my",
     component: AppMyPage,
+  },
+
+  //추가
+
+  {
+    path: "/review",
+    name: "AppReview",
+    component: AppReview,
+    redirect: "/review/detail",
+
+    children: [
+      {
+        path: "place",
+        name: "DestinationInfo",
+        component: DestinationInfo,
+      },
+
+      {
+        path: "detail",
+        name: "ReviewDetail",
+        component: ReviewDetail,
+      },
+
+    ],
+
+
   },
 
   // // notice

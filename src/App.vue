@@ -2,7 +2,7 @@
   <div id="app">
     <the-header></the-header>
     <div class="main-view">
-      <router-view class="router-view" :userid="userid"></router-view>
+      <router-view :userid="userid" class="router-view"></router-view>
     </div>
   </div>
 </template>
@@ -17,7 +17,6 @@ export default {
   },
   data: () => ({
     userid: "ssafy",
-    //
   }),
 };
 </script>

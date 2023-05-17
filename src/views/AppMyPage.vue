@@ -7,13 +7,13 @@
       style="margin-top: 50px"
       fill
     >
-      <b-tab title="나의 정보" active
+      <b-tab title="나의 정보" active title-link-class="text-dark"
         ><my-user-detail style="margin-top: 50px" :myData="myData"></my-user-detail
       ></b-tab>
-      <b-tab title="나의 핫플레이스"
+      <b-tab title="나의 핫플레이스" title-link-class="text-dark"
         ><my-hot-place style="margin-top: 50px" :myHotPlace="myHotPlace"></my-hot-place
       ></b-tab>
-      <b-tab title="나의 문의사항"
+      <b-tab title="나의 문의사항" title-link-class="text-dark"
         ><my-notice style="margin-top: 50px" :myNotice="myNotice"></my-notice
       ></b-tab>
     </b-tabs>

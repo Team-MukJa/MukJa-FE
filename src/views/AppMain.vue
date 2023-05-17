@@ -29,13 +29,15 @@
 export default {
   methods: {
     goToTravelPlans() {
-      // 여행 계획 페이지로 이동하는 메소드를 구현하세요
+      this.$router.push({ name: "PlanList" });
     },
     goToHotPlaces() {
       // 핫플레이스 페이지로 이동하는 메소드를 구현하세요
+      this.$router.push({ name: "hotplacelist" });
     },
     goToSearchLocations() {
       // 여행지 검색 페이지로 이동하는 메소드를 구현하세요
+      this.$router.push({ name: "search" });
     },
   },
 };
@@ -46,7 +48,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(
+  /* background: linear-gradient(
     to bottom right,
     rgb(245, 230, 235),
     rgb(231, 228, 241),
@@ -54,7 +56,7 @@ export default {
     rgb(217, 207, 222),
     rgb(250, 207, 207),
     rgb(254, 240, 214)
-  );
+  ); */
   background-repeat: no-repeat;
   background-size: cover;
 }
