@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <b-card class="edit-card">
-          <h2 class="mb-4">게시물 수정</h2>
+          <h2 class="mb-4">공지사항 수정</h2>
           <hr />
           <b-form-group label="제목">
             <b-form-input v-model="article.subject"></b-form-input>
@@ -59,11 +59,12 @@ export default {
       // 비동기
       // TODO : 글번호에 해당하는 글정보 수정.
       http.put(`/notices/${this.articleno}`, this.article).then(({ data }) => {
-        let msg = "글수정 시 문제 발생!!!";
-        if (data === "success") {
-          msg = "글수정 성공!!!";
-        }
-        alert(msg);
+        // let msg = "글수정 시 문제 발생!!!";
+        // if (data === "success") {
+        //   msg = "글수정 성공!!!";
+        // }
+        // alert(msg);
+        console.log(data);
         this.moveList();
       });
     },

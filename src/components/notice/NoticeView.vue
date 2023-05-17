@@ -3,6 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <b-card class="detail-card">
+          <h2 class="mb-4">공지사항 상세보기</h2>
           <h2 class="mb-4">{{ article.subject }}</h2>
           <hr />
           <div class="text-muted mb-4">

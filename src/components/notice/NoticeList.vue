@@ -1,5 +1,8 @@
 <template>
   <div class="main-container">
+    <div style="background-color: whitesmoke">
+      <h2 class="mb-4">공지사항</h2>
+    </div>
     <div class="table-container">
       <b-table
         class="table"
@@ -78,10 +81,6 @@ export default {
       const noticeId = item.noticeId;
       this.$router.push({ name: "noticeview", params: { noticeid: noticeId } });
     },
-    // goWriteNotice() {
-    //   this.$router.push({ name: "noticewrite" });
-    //   // 글 작성 페이지로 이동하는 메소드를 구현하세요
-    // },
 
     // 글 작성 모달
     openModal() {
@@ -90,9 +89,7 @@ export default {
     hideModal() {
       this.showModal = false;
     },
-    // saveBoard() {
-    //   // 게시글 저장 메소드를 구현하세요
-    // },
+
     resetForm() {
       // 작성 취소 시 폼 초기화 메소드를 구현하세요
       this.article = {
@@ -123,23 +120,22 @@ export default {
     registArticle() {
       // 비동기
       // TODO : 글번호에 해당하는 글정보 등록.
-      alert("글작성 하러가자!!!!");
+      // alert("글작성 하러가자!!!!");
       const param = {
         userId: this.article.userId,
         subject: this.article.subject,
         content: this.article.content,
       };
-      // let param = {};
-      // param = this.article;
+
       console.log(param);
 
       http.post(`/notices`, param).then(({ data }) => {
-        console.log("작성 이동");
-        let msg = "글작성 시 문제 발생";
-        if (data === "success") {
-          msg = "글작성 성공!!";
-        }
-        alert(msg);
+        // let msg = "글작성 시 문제 발생";
+        // if (data === "success") {
+        //   msg = "글작성 성공!!";
+        // }
+        // alert(msg);
+        console.log(data);
         this.hideModal();
         this.$router.go(0); // 새로고침
       });
@@ -149,10 +145,6 @@ export default {
       console.log("글목록 보러가자!!!");
       this.$router.push({ name: "noticelist" });
     },
-
-    // moveWrite() {
-    //   this.$router.push({ name: "noticewrite" });
-    // },
   },
 };
 </script>

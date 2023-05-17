@@ -21,11 +21,12 @@ export default {
     this.articleno = this.$route.params.noticeid;
     console.log(this.articleno + "번글 삭제!!!!!");
     http.delete(`/notices/${this.articleno}`).then(({ data }) => {
-      let msg = "글삭제 시 문제 발생";
-      if (data === "success") {
-        msg = "글삭제 성공!!";
-      }
-      alert(msg);
+      // let msg = "글삭제 시 문제 발생";
+      // if (data === "success") {
+      //   msg = "글삭제 성공!!";
+      // }
+      // alert(msg);
+      console.log(data);
       this.moveList();
     });
   },

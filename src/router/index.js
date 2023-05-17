@@ -51,12 +51,12 @@ const routes = [
         name: "noticelist",
         component: () => import("@/components/notice/NoticeList"),
       },
-      {
-        path: "write",
-        name: "noticewrite",
-        // beforeEnter: onlyAuthUser,
-        component: () => import("@/components/notice/NoticeWrite"),
-      },
+      // {
+      //   path: "write",
+      //   name: "noticewrite",
+      //   // beforeEnter: onlyAuthUser,
+      //   component: () => import("@/components/notice/NoticeWrite"),
+      // },
       {
         path: "view/:noticeid",
         name: "noticeview",
