@@ -3,11 +3,18 @@ import VueRouter from "vue-router";
 import AppUser from "@/views/AppUser";
 import AppMyPage from "@/views/AppMyPage";
 import AppMain from "@/views/AppMain";
-import AppPlan from "@/views/AppPlan";
+
+//추가
+import AppReview from "@/views/AppReview";
 
 // components
 import UserLogin from "@/components/user/UserLogin.vue";
 import UserJoin from "@/components/user/UserJoin.vue";
+
+//추가
+// import PlaceDetail from "@/components/review/PlaceDetail.vue";
+import DestinationInfo from "@/components/review/DestinationInfo.vue";
+import ReviewDetail from "@/components/review/ReviewDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -41,10 +48,11 @@ const routes = [
   },
 
   {
-    path: "/plan",
-    name: "AppPain",
-    component: AppPlan,
-    redirect: "/plan/list",
+    path: "/review",
+    name: "AppReview",
+    component: AppReview,
+    redirect: "/review/detail",
+
     children: [
       {
         path: "regist",
@@ -55,12 +63,15 @@ const routes = [
         path: "list",
         name: "PlanList",
         component: () => import("@/components/plan/PlanList"),
+        path: "place",
+        name: "DestinationInfo",
+        component: DestinationInfo,
       },
 
       {
         path: "detail",
-        name: "PlanDetail",
-        component: () => import("@/components/plan/PlanDetail"),
+        name: "ReviewDetail",
+        component: ReviewDetail,
       },
     ],
   },
@@ -102,7 +113,45 @@ const routes = [
       },
     ],
   },
-];
+
+  //hotplace
+  {
+    path: "/places",
+    name: "places",
+    component: () => import("@/views/AppHotPlace"),
+    redirect: "/places/list",
+    children: [
+      {
+        path: "list",
+        name: "placelist",
+        component: () => import("@/components/hotplace/HotplaceList"),
+      },
+      {
+        path: "write",
+        name: "placewrite",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceWrite"),
+      },
+      {
+        path: "view/:place-id",
+        name: "placeview",
+        component: () => import("@/components/hotplace/HotplaceView"),
+      },
+      {
+        path: "modify/:place-id",
+        name: "placemodify",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceModify"),
+      },
+      {
+        path: "delete/:noticeid",
+        name: "noticedelete",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceDelete"),
+      },
+    ],
+  },
+    ];
 
 const router = new VueRouter({
   mode: "history",
