@@ -2,9 +2,7 @@
   <div>
     <div class="page-header">
       <h2 class="page-title text-center">여행 계획 리스트</h2>
-      <b-button class="ml-auto" variant="primary" @click="openModal"
-        >글 작성</b-button
-      >
+      <b-button class="ml-auto" variant="primary" @click="openModal">글 작성</b-button>
     </div>
     <hr />
 
@@ -23,19 +21,10 @@
     </div>
 
     <!-- 모달 추가 -->
-    <b-modal
-      v-model="modalOpen"
-      title="여행 계획 작성"
-      @ok="submitForm"
-      @cancel="closeModal"
-    >
+    <b-modal v-model="modalOpen" title="여행 계획 작성" @ok="submitForm" @cancel="closeModal">
       <b-form>
         <b-form-group label="여행 제목" label-for="title-input">
-          <b-form-input
-            id="title-input"
-            v-model="title"
-            required
-          ></b-form-input>
+          <b-form-input id="title-input" v-model="title" required></b-form-input>
         </b-form-group>
 
         <div class="form-row">
@@ -60,11 +49,7 @@
         </div>
 
         <b-form-group label="여행 내용" label-for="content-input">
-          <b-form-textarea
-            id="content-input"
-            v-model="content"
-            required
-          ></b-form-textarea>
+          <b-form-textarea id="content-input" v-model="content" required></b-form-textarea>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -124,6 +109,7 @@ export default {
     goToDetailPage(planId) {
       // 상세보기 페이지로 이동하는 로직을 추가하세요.
       console.log(`Go to detail page for planId: ${planId}`);
+      this.$router.push({ name: "PlanDetail" });
     },
   },
 };
