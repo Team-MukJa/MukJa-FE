@@ -20,25 +20,29 @@
       <hr class="divider" />
       <p class="destination-description">{{ description }}</p>
     </div>
+    <!-- <review-regist-modal></review-regist-modal> -->
   </div>
 </template>
 
 <script>
 import BIcon from "bootstrap-vue";
 import StarRating from "vue-star-rating";
+// import ReviewRegistModal from "./ReviewRegistModal.vue";
 
 export default {
   components: {
     BIcon,
     StarRating,
+    // ReviewRegistModal,
   },
   data() {
-    return {
-      photo: "test.jpg",
+      return {
+        //require안들어가면 사진이 안들어감
+      photo: require("@/assets/travel-plans-image.jpg"),
       name: "여행지 제목",
-      address: "주소",
+      address: "광주 광역시 광산구 첨단 어쩌구 저쩌구",
       rating: 5,
-      description: "여행지 설명",
+          description: "여행지 설명: 안녀아세요 저는 아름답고 멋진 풍경이에요",
     };
   },
 };
@@ -53,6 +57,8 @@ export default {
 }
 
 .photo {
+  width: 1000px;
+  height: 1000;
   flex: 1;
   padding-right: 20px;
 }
@@ -86,6 +92,8 @@ export default {
 
 .star-rating {
   margin-left: 10px;
+  font-size:45px;
+  font-style: normal;
 }
 
 .destination-description {

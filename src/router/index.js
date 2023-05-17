@@ -13,7 +13,8 @@ import UserLogin from "@/components/user/UserLogin.vue";
 import UserJoin from "@/components/user/UserJoin.vue";
 
 //추가
-import PlaceDetail from "@/components/review/PlaceDetail.vue";
+// import PlaceDetail from "@/components/review/PlaceDetail.vue";
+import DestinationInfo from "@/components/review/DestinationInfo.vue";
 import ReviewDetail from "@/components/review/ReviewDetail.vue";
 
 Vue.use(VueRouter);
@@ -58,8 +59,8 @@ const routes = [
     children: [
       {
         path: "place",
-        name: "PlaceDetail",
-        component: PlaceDetail,
+        name: "DestinationInfo",
+        component: DestinationInfo,
       },
 
       {
