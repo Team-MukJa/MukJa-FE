@@ -1,17 +1,9 @@
-다음은 탭과 카드 삭제 버튼을 추가하여 예쁘게 꾸며진 코드입니다. 탭은 둥근
-모서리와 배경색이 있는 스타일을 적용하였으며, 카드에는 삭제 버튼이
-추가되었습니다. ```vue
 <template>
   <div class="sidebar-container">
     <div class="main-content">
       <h2 class="text-center">여행지 정보 입력 리스트</h2>
       <b-tabs v-model="selectedDay" pills vertical>
-        <b-tab
-          v-for="day in dayOptions"
-          :key="day.value"
-          :title="day.text"
-          class="tab-item"
-        >
+        <b-tab v-for="day in dayOptions" :key="day.value" :title="day.text" class="tab-item">
           <b-list-group>
             <b-list-group-item
               v-for="destination in getDestinationsByDay(day.value)"
@@ -20,11 +12,7 @@
             >
               <b-card class="destination-card input-list-card">
                 <h4>{{ destination.title }}</h4>
-                <img
-                  :src="destination.imageUrl"
-                  alt="여행지 사진"
-                  class="img-thumbnail"
-                />
+                <img :src="destination.imageUrl" alt="여행지 사진" class="img-thumbnail" />
                 <b-form-group label="방문 시간" label-for="visit-time-input">
                   <b-form-timepicker
                     id="visit-time-input"
@@ -54,6 +42,9 @@
           </b-list-group>
         </b-tab>
       </b-tabs>
+      <div class="save-button-container">
+        <b-button variant="primary" @click="saveDestinations" class="save-button"> 저장 </b-button>
+      </div>
     </div>
 
     <div class="sidebar">
@@ -64,12 +55,9 @@
           placeholder="검색어를 입력하세요"
           class="search-input"
         ></b-form-input>
-        <b-button
-          variant="primary"
-          @click="searchDestinations"
-          class="search-button"
-          >검색</b-button
-        >
+        <b-button variant="primary" @click="searchDestinations" class="search-button">
+          검색
+        </b-button>
       </div>
       <b-list-group class="search-results">
         <b-list-group-item
@@ -79,11 +67,7 @@
           class="search-result-item"
         >
           <div class="search-result-content">
-            <img
-              :src="destination.imageUrl"
-              alt="여행지 사진"
-              class="search-result-image"
-            />
+            <img :src="destination.imageUrl" alt="여행지 사진" class="search-result-image" />
             <div class="search-result-title">{{ destination.title }}</div>
           </div>
         </b-list-group-item>
@@ -135,9 +119,7 @@ export default {
     },
     deleteDestination(day, destinationId) {
       console.log("여행지를 삭제합니다:", day, destinationId);
-      const dayDestination = this.destinationLists.find(
-        (item) => item.day === day
-      );
+      const dayDestination = this.destinationLists.find((item) => item.day === day);
       if (dayDestination) {
         const index = dayDestination.destinations.findIndex(
           (destination) => destination.id === destinationId
@@ -148,9 +130,7 @@ export default {
       }
     },
     getDestinationsByDay(day) {
-      const dayDestination = this.destinationLists.find(
-        (item) => item.day === day
-      );
+      const dayDestination = this.destinationLists.find((item) => item.day === day);
       return dayDestination ? dayDestination.destinations : [];
     },
     formatTime(value) {
@@ -159,6 +139,19 @@ export default {
       const minutes = value.getMinutes().toString().padStart(2, "0");
       return `${hours}:${minutes}`;
     },
+    saveDestinations() {
+      const savedDestinations = this.destinationLists.map((dayDestination) => ({
+        day: dayDestination.day,
+        destinations: dayDestination.destinations.map((destination) => ({
+          id: destination.id,
+          title: destination.title,
+          visitTime: destination.visitTime,
+          memo: destination.memo,
+        })),
+      }));
+      console.log("저장된 여행지 정보:", savedDestinations);
+      // 저장된 여행지 정보를 전송하는 로직 추가
+    },
   },
 };
 </script>
@@ -166,17 +159,22 @@ export default {
 <style scoped>
 .sidebar-container {
   display: flex;
+  flex-wrap: wrap; /* 추가 */
 }
 
 .main-content {
   flex: 1;
   padding-right: 20px;
+  margin-bottom: 20px; /* 추가 */
 }
 
 .sidebar {
   flex: 0 0 300px;
   background-color: #f2f2f2;
   padding: 20px;
+  height: 1000px; /* 수정 */
+  overflow-y: auto; /* 추가 */
+  margin-bottom: 20px; /* 추가 */
 }
 
 .destination-card {
@@ -215,7 +213,7 @@ export default {
 }
 
 .search-results {
-  max-height: 300px;
+  max-height: 1000px;
   overflow-y: auto;
 }
 
@@ -255,5 +253,15 @@ export default {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.save-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.save-button {
+  min-width: 120px;
 }
 </style>

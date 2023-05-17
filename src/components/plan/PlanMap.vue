@@ -1,6 +1,6 @@
 <template>
   <div class="map-container">
-    <div id="map" class="map">asdasd</div>
+    <div id="map" class="map"></div>
   </div>
 </template>
 
@@ -43,10 +43,7 @@ export default {
       this.loadMaker();
     },
     loadMaker() {
-      const markerPosition = new window.kakao.maps.LatLng(
-        33.450701,
-        126.570667
-      );
+      const markerPosition = new window.kakao.maps.LatLng(33.450701, 126.570667);
 
       const marker = new window.kakao.maps.Marker({
         position: markerPosition,
