@@ -23,6 +23,8 @@ export default {
 
 <style scoped>
 .main-view {
+  justify-content: center;
+  align-items: center;
   height: 100vh;
   background: linear-gradient(
     to bottom right,
