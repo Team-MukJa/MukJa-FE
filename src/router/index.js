@@ -3,13 +3,10 @@ import VueRouter from "vue-router";
 import AppUser from "@/views/AppUser";
 import AppMyPage from "@/views/AppMyPage";
 import AppMain from "@/views/AppMain";
+import AppPlan from "@/views/AppPlan";
 
 //추가
 import AppReview from "@/views/AppReview";
-
-// components
-import UserLogin from "@/components/user/UserLogin.vue";
-import UserJoin from "@/components/user/UserJoin.vue";
 
 //추가
 // import PlaceDetail from "@/components/review/PlaceDetail.vue";
@@ -32,13 +29,13 @@ const routes = [
       {
         path: "login",
         name: "UserLogin",
-        component: UserLogin,
+        component: () => import("@/components/user/UserLogin"),
       },
 
       {
         path: "join",
         name: "UserJoin",
-        component: UserJoin,
+        component: () => import("@/components/user/UserJoin"),
       },
     ],
   },
@@ -63,6 +60,8 @@ const routes = [
         path: "list",
         name: "PlanList",
         component: () => import("@/components/plan/PlanList"),
+      },
+      {
         path: "place",
         name: "DestinationInfo",
         component: DestinationInfo,
@@ -151,7 +150,32 @@ const routes = [
       },
     ],
   },
-    ];
+
+  {
+    path: "/plan",
+    name: "AppPain",
+    component: AppPlan,
+    redirect: "/plan/list",
+    children: [
+      {
+        path: "regist",
+        name: "PlanRegist",
+        component: () => import("@/components/plan/PlanRegist"),
+      },
+      {
+        path: "list",
+        name: "PlanList",
+        component: () => import("@/components/plan/PlanList"),
+      },
+
+      {
+        path: "detail",
+        name: "PlanDetail",
+        component: () => import("@/components/plan/PlanDetail"),
+      },
+    ],
+  },
+];
 
 const router = new VueRouter({
   mode: "history",
