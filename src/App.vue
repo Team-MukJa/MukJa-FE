@@ -24,7 +24,6 @@ export default {
 
 <style scoped>
 .main-view {
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;

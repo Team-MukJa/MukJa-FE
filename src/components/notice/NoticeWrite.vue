@@ -54,14 +54,14 @@ export default {
     registArticle() {
       // 비동기
       // TODO : 글번호에 해당하는 글정보 등록.
-      // alert("글작성 하러가자!!!!");
+      alert("글작성 하러가자!!!!");
       let article = {
-        userid: this.userid,
+        noticeId: this.userid,
         subject: this.subject,
         content: this.content,
       };
 
-      http.post(`/notice`, article).then(({ data }) => {
+      http.post(`/notices`, article).then(({ data }) => {
         let msg = "글작성 시 문제 발생";
         if (data === "success") {
           msg = "글작성 성공!!";

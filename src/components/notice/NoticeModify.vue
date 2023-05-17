@@ -1,17 +1,25 @@
 <template>
-  <div class="regist">
-    <h1 class="underline">SSAFY 게시글 수정</h1>
-    <div class="regist_form">
-      <label for="userid">작성자</label>
-      <input type="text" id="userid" v-model="article.userid" ref="userid" /><br />
-      <label for="subject">제목</label>
-      <input type="text" id="subject" v-model="article.subject" ref="subject" /><br />
-      <label for="content">내용</label>
-      <br />
-      <textarea id="content" v-model="article.content" ref="content" cols="35" rows="5"></textarea
-      ><br />
-      <button @click="checkValue">수정</button>
-      <button @click="moveList">목록</button>
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <b-card class="edit-card">
+          <h2 class="mb-4">게시물 수정</h2>
+          <hr />
+          <b-form-group label="제목">
+            <b-form-input v-model="article.subject"></b-form-input>
+          </b-form-group>
+          <b-form-group label="작성자">
+            <b-form-input v-model="article.userId"></b-form-input>
+          </b-form-group>
+          <b-form-group label="내용">
+            <b-form-textarea v-model="article.content" rows="10"></b-form-textarea>
+          </b-form-group>
+          <div class="button-group">
+            <b-button variant="primary" class="mr-2" @click="checkValue">수정</b-button>
+            <b-button variant="secondary" @click="moveList">목록</b-button>
+          </div>
+        </b-card>
+      </div>
     </div>
   </div>
 </template>
@@ -33,7 +41,7 @@ export default {
       // 작성자아이디, 제목, 내용이 없을 경우 각 항목에 맞는 메세지를 출력
       let err = true;
       let msg = "";
-      !this.article.userid &&
+      !this.article.userId &&
         ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userid.focus());
       err &&
         !this.article.subject &&
@@ -47,10 +55,10 @@ export default {
       else this.modifyArticle();
     },
     modifyArticle() {
-      console.log(this.article.articleno + "번 글수정 하러가자!!!!");
+      console.log(this.article.noticeId + "번 글수정 하러가자!!!!");
       // 비동기
       // TODO : 글번호에 해당하는 글정보 수정.
-      http.put(`/board`, this.article).then(({ data }) => {
+      http.put(`/notices/${this.articleno}`, this.article).then(({ data }) => {
         let msg = "글수정 시 문제 발생!!!";
         if (data === "success") {
           msg = "글수정 성공!!!";
@@ -62,29 +70,64 @@ export default {
 
     moveList() {
       console.log("글목록 보러가자!!!");
-      this.$router.push({ name: "boardlist" });
+      this.$router.push({ name: "noticelist" });
     },
   },
   created() {
     // 비동기
     // TODO : 글번호에 해당하는 글정보 얻기.
-    this.articleno = this.$route.params.articleno;
+    this.articleno = this.$route.params.noticeid;
 
-    http.get(`/board/${this.articleno}`).then(({ data }) => {
+    http.get(`/notices/${this.articleno}`).then(({ data }) => {
       this.article = data;
     });
-
-    // this.article = {
-    //   articleNo: this.articleno,
-    //   userId: "ssafy",
-    //   userName: "안효인",
-    //   subject: "안녕하세요",
-    //   content: "안녕하세요!!!!",
-    //   hit: 10,
-    //   registerTime: "2023-05-08 17:03:15",
-    // };
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.edit-card {
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.b-btn {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.b-btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.b-btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.b-btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #5a6268;
+}
+
+.b-btn-secondary:focus,
+.b-btn-secondary.focus {
+  background-color: #5a6268;
+  border-color: #5a6268;
+}
+</style>

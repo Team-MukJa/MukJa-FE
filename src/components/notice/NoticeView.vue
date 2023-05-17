@@ -1,24 +1,21 @@
 <template>
-  <div class="regist">
-    <h1 class="underline">SSAFY 글 상세보기</h1>
-    <div class="regist_form">
-      <label> 글번호</label>
-      <div class="view">{{ article.noticeId }}</div>
-      <label> 글제목</label>
-      <div class="view">{{ article.subject }}</div>
-      <label> 작성자</label>
-      <div class="view">{{ article.userId }}</div>
-      <label> 조회수</label>
-      <div class="view">{{ article.hit }}</div>
-      <label> 작성시간</label>
-      <div class="view">{{ article.registerTime }}</div>
-      <label> 내용</label>
-      <div class="view">{{ article.content }}</div>
-
-      <div style="padding-top: 15px">
-        <button class="btn" @click="moveModifyArticle">수정</button>
-        <button class="btn" @click="deleteArticle">삭제</button>
-        <button class="btn" @click="moveList">목록</button>
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <b-card class="detail-card">
+          <h2 class="mb-4">{{ article.subject }}</h2>
+          <hr />
+          <div class="text-muted mb-4">
+            작성자: {{ article.noticeId }} | 작성일: {{ article.registerTime }} | 조회수:
+            {{ article.hit }}
+          </div>
+          <div class="content" v-html="article.content"></div>
+          <div class="button-group">
+            <b-button variant="primary" class="mr-2" @click="moveModifyArticle">수정</b-button>
+            <b-button variant="danger" @click="deleteArticle">삭제</b-button>
+          </div>
+          <b-button variant="secondary" class="mt-4" @click="moveList">목록</b-button>
+        </b-card>
       </div>
     </div>
   </div>
@@ -42,14 +39,6 @@ export default {
     http.get(`/notices/${this.noticeid}`).then(({ data }) => {
       this.article = data;
     });
-    // this.article = {
-    //   noticeid: this.noticeid,
-    //   userName: "안효인",
-    //   subject: "안녕하세요",
-    //   content: "안녕하세요!!!!",
-    //   hit: 10,
-    //   registerTime: "2023-05-08 17:03:15",
-    // };
   },
   methods: {
     moveModifyArticle() {
@@ -68,4 +57,64 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.detail-card {
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.text-muted {
+  font-size: 14px;
+  color: #999999;
+}
+
+.content {
+  margin-top: 30px;
+  line-height: 1.6;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.b-btn {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.b-btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.b-btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.b-btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.b-btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #5a6268;
+}
+
+.b-btn-secondary:focus,
+.b-btn-secondary.focus {
+  background-color: #5a6268;
+  border-color: #5a6268;
+}
+</style>
