@@ -40,6 +40,7 @@ const routes = [
     component: AppMyPage,
   },
 
+<<<<<<< HEAD
   {
     path: "/plan",
     name: "AppPain",
@@ -106,6 +107,45 @@ const routes = [
   //     },
   //   ],
   // },
+=======
+  // notice
+  {
+    path: "/notices",
+    name: "notices",
+    component: () => import("@/views/AppNotice"),
+    redirect: "/notices/list",
+    children: [
+      {
+        path: "list",
+        name: "noticelist",
+        component: () => import("@/components/notice/NoticeList"),
+      },
+      // {
+      //   path: "write",
+      //   name: "noticewrite",
+      //   // beforeEnter: onlyAuthUser,
+      //   component: () => import("@/components/notice/NoticeWrite"),
+      // },
+      {
+        path: "view/:noticeid",
+        name: "noticeview",
+        component: () => import("@/components/notice/NoticeView"),
+      },
+      {
+        path: "modify/:noticeid",
+        name: "noticemodify",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/notice/NoticeModify"),
+      },
+      {
+        path: "delete/:noticeid",
+        name: "noticedelete",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/notice/NoticeDelete"),
+      },
+    ],
+  },
+>>>>>>> 4aaabdc781203f0714876d38341756565414045d
 ];
 
 const router = new VueRouter({
