@@ -17,7 +17,7 @@
           <b-icon-search></b-icon-search> 여행지 검색
         </b-nav-item>
         <b-nav-item
-          to="/hotplaces"
+          to="/places"
           class="nav-link-login"
           @click="toggleMenuHighlight('hotplaces')"
           :class="{ 'menu-highlight': highlightedMenu === 'hotplaces' }"

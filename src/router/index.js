@@ -40,7 +40,6 @@ const routes = [
     component: AppMyPage,
   },
 
-<<<<<<< HEAD
   {
     path: "/plan",
     name: "AppPain",
@@ -70,44 +69,6 @@ const routes = [
     ],
   },
 
-  // // notice
-  // {
-  //   path: "/notices",
-  //   name: "notices",
-  //   component: () => import("@/views/AppNotice"),
-  //   redirect: "/notices/list",
-  //   children: [
-  //     {
-  //       path: "list",
-  //       name: "noticelist",
-  //       component: () => import("@/components/notice/NoticeList"),
-  //     },
-  //     {
-  //       path: "write",
-  //       name: "noticewrite",
-  //       // beforeEnter: onlyAuthUser,
-  //       component: () => import("@/components/notice/NoticeWrite"),
-  //     },
-  //     {
-  //       path: "view/:articleno",
-  //       name: "noticeview",
-  //       component: () => import("@/components/notice/NoticeView"),
-  //     },
-  //     {
-  //       path: "modify/:articleno",
-  //       name: "noticemodify",
-  //       // beforeEnter: onlyAuthUser,
-  //       component: () => import("@/components/notice/NoticeModify"),
-  //     },
-  //     {
-  //       path: "delete/:articleno",
-  //       name: "noticedelete",
-  //       // beforeEnter: onlyAuthUser,
-  //       component: () => import("@/components/notice/NoticeDelete"),
-  //     },
-  //   ],
-  // },
-=======
   // notice
   {
     path: "/notices",
@@ -145,7 +106,44 @@ const routes = [
       },
     ],
   },
->>>>>>> 4aaabdc781203f0714876d38341756565414045d
+
+  //hotplace
+  {
+    path: "/places",
+    name: "places",
+    component: () => import("@/views/AppHotPlace"),
+    redirect: "/places/list",
+    children: [
+      {
+        path: "list",
+        name: "placelist",
+        component: () => import("@/components/hotplace/HotplaceList"),
+      },
+      {
+        path: "write",
+        name: "placewrite",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceWrite"),
+      },
+      {
+        path: "view/:place-id",
+        name: "placeview",
+        component: () => import("@/components/hotplace/HotplaceView"),
+      },
+      {
+        path: "modify/:place-id",
+        name: "placemodify",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceModify"),
+      },
+      {
+        path: "delete/:noticeid",
+        name: "noticedelete",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceDelete"),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
