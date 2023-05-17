@@ -7,7 +7,6 @@ import AppMain from "@/views/AppMain";
 //추가
 import AppReview from "@/views/AppReview";
 
-
 // components
 import UserLogin from "@/components/user/UserLogin.vue";
 import UserJoin from "@/components/user/UserJoin.vue";
@@ -48,8 +47,6 @@ const routes = [
     component: AppMyPage,
   },
 
-  //추가
-
   {
     path: "/review",
     name: "AppReview",
@@ -68,10 +65,7 @@ const routes = [
         name: "ReviewDetail",
         component: ReviewDetail,
       },
-
     ],
-
-
   },
 
   // notice
@@ -108,6 +102,44 @@ const routes = [
         name: "noticedelete",
         // beforeEnter: onlyAuthUser,
         component: () => import("@/components/notice/NoticeDelete"),
+      },
+    ],
+  },
+
+  //hotplace
+  {
+    path: "/places",
+    name: "places",
+    component: () => import("@/views/AppHotPlace"),
+    redirect: "/places/list",
+    children: [
+      {
+        path: "list",
+        name: "placelist",
+        component: () => import("@/components/hotplace/HotplaceList"),
+      },
+      {
+        path: "write",
+        name: "placewrite",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceWrite"),
+      },
+      {
+        path: "view/:place-id",
+        name: "placeview",
+        component: () => import("@/components/hotplace/HotplaceView"),
+      },
+      {
+        path: "modify/:place-id",
+        name: "placemodify",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceModify"),
+      },
+      {
+        path: "delete/:noticeid",
+        name: "noticedelete",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceDelete"),
       },
     ],
   },
