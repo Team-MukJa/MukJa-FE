@@ -3,11 +3,19 @@ import VueRouter from "vue-router";
 import AppUser from "@/views/AppUser";
 import AppMyPage from "@/views/AppMyPage";
 import AppMain from "@/views/AppMain";
-import AppPlan from "@/views/AppPlan";
+
+//추가
+import AppReview from "@/views/AppReview";
+
 
 // components
 import UserLogin from "@/components/user/UserLogin.vue";
 import UserJoin from "@/components/user/UserJoin.vue";
+
+//추가
+// import PlaceDetail from "@/components/review/PlaceDetail.vue";
+import DestinationInfo from "@/components/review/DestinationInfo.vue";
+import ReviewDetail from "@/components/review/ReviewDetail.vue";
 
 Vue.use(VueRouter);
 
@@ -40,34 +48,30 @@ const routes = [
     component: AppMyPage,
   },
 
-<<<<<<< HEAD
+  //추가
+
   {
-    path: "/plan",
-    name: "AppPain",
-    component: AppPlan,
-    redirect: "/plan/list",
+    path: "/review",
+    name: "AppReview",
+    component: AppReview,
+    redirect: "/review/detail",
+
     children: [
       {
-        path: "regist",
-        name: "PlanRegist",
-        component: () => import("@/components/plan/PlanRegist"),
+        path: "place",
+        name: "DestinationInfo",
+        component: DestinationInfo,
       },
-      {
-        path: "list",
-        name: "PlanList",
-        component: () => import("@/components/plan/PlanList"),
-      },
-      {
-        path: "map",
-        name: "PlanMap",
-        component: () => import("@/components/plan/PlanMap"),
-      },
+
       {
         path: "detail",
-        name: "PlanDetail",
-        component: () => import("@/components/plan/PlanDetail"),
+        name: "ReviewDetail",
+        component: ReviewDetail,
       },
+
     ],
+
+
   },
 
   // // notice
@@ -107,45 +111,6 @@ const routes = [
   //     },
   //   ],
   // },
-=======
-  // notice
-  {
-    path: "/notices",
-    name: "notices",
-    component: () => import("@/views/AppNotice"),
-    redirect: "/notices/list",
-    children: [
-      {
-        path: "list",
-        name: "noticelist",
-        component: () => import("@/components/notice/NoticeList"),
-      },
-      // {
-      //   path: "write",
-      //   name: "noticewrite",
-      //   // beforeEnter: onlyAuthUser,
-      //   component: () => import("@/components/notice/NoticeWrite"),
-      // },
-      {
-        path: "view/:noticeid",
-        name: "noticeview",
-        component: () => import("@/components/notice/NoticeView"),
-      },
-      {
-        path: "modify/:noticeid",
-        name: "noticemodify",
-        // beforeEnter: onlyAuthUser,
-        component: () => import("@/components/notice/NoticeModify"),
-      },
-      {
-        path: "delete/:noticeid",
-        name: "noticedelete",
-        // beforeEnter: onlyAuthUser,
-        component: () => import("@/components/notice/NoticeDelete"),
-      },
-    ],
-  },
->>>>>>> 4aaabdc781203f0714876d38341756565414045d
 ];
 
 const router = new VueRouter({
