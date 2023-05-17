@@ -1,6 +1,7 @@
 <template>
-  <div class="sidebar-container">
-    <div class="main-content">
+  <div class="cont">
+    <!-- 여행 계획 리스트 -->
+    <div class="left-content">
       <h2 class="text-center">여행지 정보 입력 리스트</h2>
       <b-tabs v-model="selectedDay" pills vertical>
         <b-tab v-for="day in dayOptions" :key="day.value" :title="day.text" class="tab-item">
@@ -47,7 +48,8 @@
       </div>
     </div>
 
-    <div class="sidebar">
+    <!-- 여행지 검색 결과   -->
+    <div class="middle-content">
       <h2 class="text-center">여행지 검색 결과</h2>
       <div class="search-bar">
         <b-form-input
@@ -73,10 +75,15 @@
         </b-list-group-item>
       </b-list-group>
     </div>
+    <div class="right-content">
+      <plan-map></plan-map>
+    </div>
   </div>
 </template>
 
 <script>
+import PlanMap from "./PlanRegistMap.vue";
+
 export default {
   data() {
     return {
@@ -98,6 +105,9 @@ export default {
         { value: 3, text: "3일차" },
       ],
     };
+  },
+  components: {
+    PlanMap,
   },
   methods: {
     searchDestinations() {
@@ -151,32 +161,69 @@ export default {
       }));
       console.log("저장된 여행지 정보:", savedDestinations);
       // 저장된 여행지 정보를 전송하는 로직 추가
+      this.$router.push({ name: "PlanList" });
     },
   },
 };
 </script>
 
 <style scoped>
-.sidebar-container {
+.cont {
+  height: 100vh; /* 화면 세로 전체 높이로 설정 */
   display: flex;
-  flex-wrap: wrap; /* 추가 */
+  margin: 0 auto;
 }
 
-.main-content {
-  flex: 1;
-  padding-right: 20px;
-  margin-bottom: 20px; /* 추가 */
-}
-
-.sidebar {
-  flex: 0 0 300px;
-  background-color: #f2f2f2;
+.left-content {
+  flex: 1.5;
   padding: 20px;
-  height: 1000px; /* 수정 */
+  height: 100vh; /* 수정 */
   overflow-y: auto; /* 추가 */
   margin-bottom: 20px; /* 추가 */
+  overflow-y: auto;
+
+  border: #c7e2ff 1px;
+}
+.middle-content {
+  flex: 1;
+  padding: 20px;
+  height: 100vh; /* 수정 */
+  overflow-y: auto; /* 추가 */
+  margin-bottom: 20px; /* 추가 */
+  border: #c7e2ff 1px;
+  overflow-y: auto;
 }
 
+.right-content {
+  flex: 2;
+  border: #c7e2ff 1px;
+  overflow-y: auto;
+}
+
+/* 스크롤바 스타일링 */
+.cont ::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.cont ::-webkit-scrollbar-track {
+  background-color: #f2f2f2; /* 스크롤바 트랙 배경색 */
+}
+
+.cont ::-webkit-scrollbar-thumb {
+  background-color: #c7e2ff; /* 스크롤바 썸 배경색 */
+  border-radius: 4px; /* 스크롤바 썸의 모서리 반경 */
+}
+
+.cont ::-webkit-scrollbar-thumb:hover {
+  background-color: #a9d2ff; /* 스크롤바 썸에 호버 시 배경색 */
+}
+.cont > div {
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 .destination-card {
   margin-bottom: 10px;
   border-radius: 10px;

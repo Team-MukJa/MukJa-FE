@@ -55,6 +55,14 @@ const routes = [
 
     children: [
       {
+        path: "regist",
+        name: "PlanRegist",
+        component: () => import("@/components/plan/PlanRegist"),
+      },
+      {
+        path: "list",
+        name: "PlanList",
+        component: () => import("@/components/plan/PlanList"),
         path: "place",
         name: "DestinationInfo",
         component: DestinationInfo,
@@ -143,7 +151,7 @@ const routes = [
       },
     ],
   },
-];
+    ];
 
 const router = new VueRouter({
   mode: "history",
