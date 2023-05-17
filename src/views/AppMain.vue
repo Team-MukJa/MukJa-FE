@@ -29,7 +29,7 @@
 export default {
   methods: {
     goToTravelPlans() {
-      this.$router.push({ name: "planlist" });
+      this.$router.push({ name: "PlanList" });
     },
     goToHotPlaces() {
       // 핫플레이스 페이지로 이동하는 메소드를 구현하세요

@@ -32,6 +32,15 @@
         >
           <b-icon-list-ul></b-icon-list-ul> 여행 계획
         </b-nav-item>
+
+        <b-nav-item
+          to="/notices"
+          class="nav-link-login"
+          @click="toggleMenuHighlight('notices')"
+          :class="{ 'menu-highlight': highlightedMenu === 'notices' }"
+        >
+          <b-icon-exclamation-circle></b-icon-exclamation-circle> 공지사항
+        </b-nav-item>
         <b-nav-item-dropdown right>
           <template #button-content>
             <b-icon-person-fill></b-icon-person-fill>
