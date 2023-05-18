@@ -4,11 +4,10 @@
       id="tab"
       class="justify-content-center"
       active-nav-item-class="font-weight-bold text-uppercase"
-      style="margin-top: 50px"
       fill
     >
-      <b-tab title="나의 정보" active title-link-class="text-dark"
-        ><my-user-detail style="margin-top: 50px" :myData="myData"></my-user-detail
+      <b-tab title="나의 정보" active title-link-class="text-dark" style="margin-top: 50px"
+        ><my-user-detail :myData="myData"></my-user-detail
       ></b-tab>
       <b-tab title="나의 핫플레이스" title-link-class="text-dark"
         ><my-hot-place style="margin-top: 50px" :myHotPlace="myHotPlace"></my-hot-place
