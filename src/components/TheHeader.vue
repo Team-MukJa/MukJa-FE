@@ -3,7 +3,8 @@
     <b-navbar type="light" variant="light" class="navbar-login">
       <b-navbar-nav>
         <b-navbar-brand to="/" class="navbar-brand-login">
-          <img src="@/assets/ape.png" width="50px" alt="MukJa Icon" class="navbar-icon" /> MukJa
+          <!-- <b-icon-menu-down></b-icon-menu-down>EnjoyTrip -->
+          <img src="@/assets/ape.png" width="50px" alt="MukJa Icon" class="navbar-icon" /> EnjoyTrip
         </b-navbar-brand>
       </b-navbar-nav>
 
