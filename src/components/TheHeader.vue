@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div class="app">
     <b-navbar type="light" variant="light" class="navbar-login">
-      <b-navbar-nav>
+      <b-navbar-nav class="justify-content-centser">
         <b-navbar-brand to="/" class="navbar-brand-login">
           <!-- <b-icon-menu-down></b-icon-menu-down>EnjoyTrip -->
-          <img src="@/assets/ape.png" width="50px" alt="MukJa Icon" class="navbar-icon" /> EnjoyTrip
+          <img src="@/assets/ape.png" width="50px" alt="MukJa Icon" class="navbar-icon" /> MukJa
         </b-navbar-brand>
       </b-navbar-nav>
 
-      <b-navbar-nav class="ml-auto">
+      <b-navbar-nav class="mx-auto">
         <b-nav-item
           to="/searchlocations"
           class="nav-link-login"
@@ -42,7 +42,7 @@
         >
           <b-icon-exclamation-circle></b-icon-exclamation-circle> 공지사항
         </b-nav-item>
-        <b-nav-item-dropdown right>
+        <b-nav-item-dropdown right class="nav-item-dropdown-login">
           <template #button-content>
             <b-icon-person-fill></b-icon-person-fill>
           </template>
@@ -100,17 +100,25 @@ export default {
 
 <style scoped>
 .navbar-login {
+  z-index: 2000; /*맨 앞으로 나오도록 함*/
   background-color: transparent;
   border-bottom: none;
+  display: flex;
+  align-items: center;
 }
-
+.navbar-login .nav-link-login {
+  font-weight: bold;
+}
 .navbar-brand-login {
+  z-index: 2000; /*맨 앞으로 나오도록 함*/
   color: #8d70b7;
   font-size: 20px;
   font-weight: bold;
+  margin-left: 450px;
 }
 
 .nav-link-login {
+  z-index: 2000; /*맨 앞으로 나오도록 함*/
   color: #8d70b7;
   font-size: 16px;
   padding: 0.5rem;
@@ -118,21 +126,34 @@ export default {
 }
 
 .dropdown-login {
+  z-index: 2000; /*맨 앞으로 나오도록 함*/
   border: none;
 }
 
 .dropdown-item-login {
+  z-index: 2000; /*맨 앞으로 나오도록 함*/
   color: #8d70b7;
   font-size: 16px;
 }
 
 .dropdown-item-login:hover,
 .dropdown-item-login:focus {
-  background-color: #d4c8e2;
+  z-index: 2000; /*맨 앞으로 나오도록 함*/
+  background-color: rgb(252, 169, 169);
   color: #542d8d;
 }
 
+.nav-item-dropdown-login {
+  z-index: 2000; /*맨 앞으로 나오도록 함*/
+  margin-top: 8px;
+}
+.nav-item-dropdown-login .dropdown-menu {
+  margin-top: 5px; /* 원하는 간격으로 조정 */
+  text-align: center;
+  font-weight: bold;
+}
 .menu-highlight {
-  background-color: #d4c8e2;
+  z-index: 2000; /*맨 앞으로 나오도록 함*/
+  background-color: rgb(252, 169, 169);
 }
 </style>
