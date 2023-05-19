@@ -145,30 +145,30 @@ export default {
         "</div>" +
         "</div>";
 
-      let contentt = document.createElement("div");
-      contentt.style.paddingTop = "30px";
-      let closeButton = document.createElement("button");
-      closeButton.appendChild(document.createTextNode("Close"));
-      closeButton.onclick = () => {
-        console.log("Close button clicked");
-        // Add your close button functionality here
-      };
+      // let contentt = document.createElement("div");
+      // contentt.style.paddingTop = "30px";
+      // let closeButton = document.createElement("button");
+      // closeButton.appendChild(document.createTextNode("Close"));
+      // closeButton.onclick = () => {
+      //   console.log("Close button clicked");
+      //   // Add your close button functionality here
+      // };
 
-      // Create details button
-      let detailsButton = document.createElement("button");
-      detailsButton.appendChild(document.createTextNode("Details"));
-      detailsButton.onclick = () => {
-        console.log("Details button clicked");
-        // Add your details button functionality here
-      };
+      // // Create details button
+      // let detailsButton = document.createElement("button");
+      // detailsButton.appendChild(document.createTextNode("Details"));
+      // detailsButton.onclick = () => {
+      //   console.log("Details button clicked");
+      //   // Add your details button functionality here
+      // };
 
-      contentt.appendChild(closeButton);
-      contentt.appendChild(detailsButton);
+      // contentt.appendChild(closeButton);
+      // contentt.appendChild(detailsButton);
 
       // 커스텀 오버레이를 생성합니다
       this.customOverlay = new kakao.maps.CustomOverlay({
         position: position.latlng,
-        content: contentt,
+        content: content,
         yAnchor: 1,
       });
 
