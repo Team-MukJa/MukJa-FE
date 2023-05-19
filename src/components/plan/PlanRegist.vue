@@ -2,7 +2,7 @@
   <div class="cont">
     <!-- 여행 계획 리스트 -->
     <div class="left-content">
-      <h2 class="text-center">여행지 정보 입력 리스트</h2>
+      <h2 class="text-center">{{ plan.subject }}</h2>
       <b-tabs v-model="selectedDay" pills vertical>
         <b-tab v-for="day in dayOptions" :key="day.value" :title="day.text" class="tab-item">
           <b-list-group>
@@ -12,8 +12,8 @@
               class="destination-list-item"
             >
               <b-card class="destination-card input-list-card">
-                <h4>{{ destination.title }}</h4>
-                <img :src="destination.imageUrl" alt="여행지 사진" class="img-thumbnail" />
+                <h4>{{ destination.subject }}</h4>
+                <img :src="destination.img" alt="여행지 사진" class="img-thumbnail" />
                 <b-form-group label="방문 시간" label-for="visit-time-input">
                   <b-form-timepicker
                     id="visit-time-input"
@@ -50,48 +50,55 @@
 
     <!-- 여행지 검색 결과   -->
     <div class="middle-content">
-      <h2 class="text-center">여행지 검색 결과</h2>
+      <h2 class="text-center">여행지 검색 진행시켜!!</h2>
       <div class="search-bar">
         <b-form-input
           v-model="searchQuery"
           placeholder="검색어를 입력하세요"
           class="search-input"
         ></b-form-input>
-        <b-button variant="primary" @click="searchDestinations" class="search-button">
+        <b-button variant="primary" @click="searchDestinations(searchQuery)" class="search-button">
           검색
         </b-button>
       </div>
       <b-list-group class="search-results">
         <b-list-group-item
           v-for="destination in searchResults"
-          :key="destination.id"
+          :key="destination.content_id"
           @click="addDestination(destination)"
           class="search-result-item"
         >
           <div class="search-result-content">
-            <img :src="destination.imageUrl" alt="여행지 사진" class="search-result-image" />
-            <div class="search-result-title">{{ destination.title }}</div>
+            <img :src="destination.img" alt="여행지 사진" class="search-result-image" />
+            <div class="search-result-title">{{ destination.subject }}</div>
           </div>
         </b-list-group-item>
       </b-list-group>
     </div>
+
     <div class="right-content">
-      <plan-map></plan-map>
+      <plan-map :searchResults="searchResults"></plan-map>
     </div>
   </div>
 </template>
 
 <script>
 import PlanMap from "./PlanRegistMap.vue";
+import { mapState } from "vuex";
+import { searchByKeyword } from "@/api/plan";
 
+const planStore = "planStore";
 export default {
   data() {
     return {
       searchQuery: "",
       searchResults: [
-        { id: 1, title: "여행지 1", imageUrl: "image1.jpg" },
-        { id: 2, title: "여행지 2", imageUrl: "image2.jpg" },
-        { id: 3, title: "여행지 3", imageUrl: "image3.jpg" },
+        // latitude
+        // longitude
+        // first_img
+        // title
+        // overview
+        // content_id
       ],
       destinationLists: [
         { day: 1, destinations: [] },
@@ -99,20 +106,50 @@ export default {
         { day: 3, destinations: [] },
       ],
       selectedDay: 0,
-      dayOptions: [
-        { value: 1, text: "1일차" },
-        { value: 2, text: "2일차" },
-        { value: 3, text: "3일차" },
-      ],
+      // dayOptions: [
+      //   { value: 1, text: "1일차" },
+      //   { value: 2, text: "2일차" },
+      //   { value: 3, text: "3일차" },
+      // ],
     };
   },
   components: {
     PlanMap,
   },
+  created: {},
+  computed: {
+    // ...mapState(planStore, ["plan"]),
+    ...mapState(planStore, ["plan"]),
+
+    // 시작일과 종료일을 입력 받아 일차를 구해준다.
+    dayOptions() {
+      const startDate = new Date(this.plan.startDate);
+      const endDate = new Date(this.plan.endDate);
+      const diffInTime = endDate.getTime() - startDate.getTime();
+      const diffInDays = diffInTime / (1000 * 3600 * 24);
+
+      const options = [];
+      for (let i = 1; i <= diffInDays; i++) {
+        options.push({ value: i, text: `${i}일차` });
+      }
+      return options;
+    },
+
+    // destinationLists() {},
+  },
   methods: {
-    searchDestinations() {
-      console.log("검색 결과를 가져옵니다:", this.searchQuery);
-      // 검색 결과를 가져오는 로직 추가
+    searchDestinations(keyword) {
+      console.log(keyword + "키워드입니다");
+      // 검색 결과를 가져오는 로직
+      searchByKeyword(
+        keyword,
+        ({ data }) => {
+          this.searchResults = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
     addDestination(destination) {
       console.log("여행지를 추가합니다:", destination);
