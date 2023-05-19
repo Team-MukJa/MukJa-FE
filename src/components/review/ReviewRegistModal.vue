@@ -1,7 +1,7 @@
 <template>
   <div>
     <label>리뷰 등록하러가기 -> </label>
-    <button @click="showModal" class="btn-review">* click  *</button>
+    <button @click="showModal" class="btn-review">* click *</button>
 
     <b-modal v-model="modalVisible" title="리뷰 작성" class="modal-review">
       <div class="form-group">

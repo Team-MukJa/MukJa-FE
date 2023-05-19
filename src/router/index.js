@@ -9,9 +9,10 @@ import AppPlan from "@/views/AppPlan";
 import AppReview from "@/views/AppReview";
 
 //추가
-// import PlaceDetail from "@/components/review/PlaceDetail.vue";
 import DestinationInfo from "@/components/review/DestinationInfo.vue";
 import ReviewDetail from "@/components/review/ReviewDetail.vue";
+import PlaceSearch from "@/components/review/ReviewDetail2.vue";
+
 
 Vue.use(VueRouter);
 
@@ -44,6 +45,14 @@ const routes = [
     component: AppMyPage,
   },
 
+
+  {
+    path: "/search",
+    component: PlaceSearch,
+  },
+
+  //추가
+
   {
     path: "/review",
     name: "AppReview",
@@ -72,8 +81,17 @@ const routes = [
         name: "ReviewDetail",
         component: ReviewDetail,
       },
+      {
+        path: "detail2",
+        name: "PlaceSearch",
+        component: PlaceSearch,
+      },
     ],
   },
+
+
+
+
 
   // notice
   {
