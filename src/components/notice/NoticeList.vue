@@ -128,7 +128,7 @@ export default {
       };
 
       console.log(param);
-
+      alert("글작성");
       http.post(`/notices`, param).then(({ data }) => {
         // let msg = "글작성 시 문제 발생";
         // if (data === "success") {

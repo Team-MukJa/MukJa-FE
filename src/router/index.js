@@ -125,6 +125,11 @@ const routes = [
         name: "placelist",
         component: () => import("@/components/hotplace/HotplaceList"),
       },
+      // {
+      //   path: "image/:image-path",
+      //   name: "placelist",
+      //   component: () => import("@/components/hotplace/HotplaceList"),
+      // },
       {
         path: "write",
         name: "placewrite",
@@ -143,8 +148,8 @@ const routes = [
         component: () => import("@/components/hotplace/HotplaceModify"),
       },
       {
-        path: "delete/:noticeid",
-        name: "noticedelete",
+        path: "delete/:place-id",
+        name: "placedelete",
         // beforeEnter: onlyAuthUser,
         component: () => import("@/components/hotplace/HotplaceDelete"),
       },
