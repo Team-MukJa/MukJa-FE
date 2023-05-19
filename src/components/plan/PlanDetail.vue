@@ -1,33 +1,86 @@
 <template>
-  <div>
-    <h1>여행정보 상세보기</h1>
-    <div v-for="(date, index) in travelDates" :key="index" class="date-section">
-      <h2 class="date-heading">{{ date }}</h2>
-      <div class="row">
-        <div
-          v-for="(spot, spotIndex) in getSpotsByDate(date)"
-          :key="spotIndex"
-          class="col-lg-3 col-md-4 col-sm-6"
-        >
-          <b-card
-            class="spot-card"
-            @mouseover="handleCardMouseOver"
-            @mouseleave="handleCardMouseLeave"
+  <div class="cont">
+    <div class="left-content">
+      <h1>여행정보 상세보기</h1>
+      <div v-for="(date, index) in travelDates" :key="index" class="date-section">
+        <h2 class="date-heading">{{ date }}</h2>
+        <div class="row">
+          <div
+            v-for="(spot, spotIndex) in getSpotsByDate(date)"
+            :key="spotIndex"
+            class="col-lg-3 col-md-4 col-sm-6"
           >
-            <img :src="spot.photo" alt="여행지 사진" />
-            <h3>{{ spot.title }}</h3>
-            <p>{{ spot.memo }}</p>
-            <p>방문 시간: {{ spot.visitTime }}</p>
-          </b-card>
+            <b-card
+              class="spot-card"
+              @mouseover="handleCardMouseOver"
+              @mouseleave="handleCardMouseLeave"
+            >
+              <img :src="spot.photo" alt="여행지 사진" />
+              <h3>{{ spot.title }}</h3>
+              <p>{{ spot.memo }}</p>
+              <p>방문 시간: {{ spot.visitTime }}</p>
+            </b-card>
+          </div>
         </div>
+        <hr class="date-divider" />
       </div>
-      <hr class="date-divider" />
     </div>
-    <plan-map></plan-map>
+    <div class="right-content">
+      <plan-detail-map></plan-detail-map>
+    </div>
   </div>
 </template>
 
 <style>
+.cont {
+  height: 100vh; /* 화면 세로 전체 높이로 설정 */
+  display: flex;
+  margin: 0 auto;
+}
+.left-content {
+  flex: 1;
+  padding: 20px;
+  height: 100vh; /* 수정 */
+  overflow-y: auto; /* 추가 */
+  margin-bottom: 20px; /* 추가 */
+  overflow-y: auto;
+  border: #c7e2ff 1px;
+}
+
+.right-content {
+  flex: 1;
+  padding: 20px;
+  height: 100vh; /* 수정 */
+  overflow-y: auto; /* 추가 */
+  margin-bottom: 20px; /* 추가 */
+  overflow-y: auto;
+  border: #c7e2ff 1px;
+}
+
+/* 스크롤바 스타일링 */
+.cont ::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.cont ::-webkit-scrollbar-track {
+  background-color: #f2f2f2; /* 스크롤바 트랙 배경색 */
+}
+
+.cont ::-webkit-scrollbar-thumb {
+  background-color: #c7e2ff; /* 스크롤바 썸 배경색 */
+  border-radius: 4px; /* 스크롤바 썸의 모서리 반경 */
+}
+
+.cont ::-webkit-scrollbar-thumb:hover {
+  background-color: #a9d2ff; /* 스크롤바 썸에 호버 시 배경색 */
+}
+.cont > div {
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 .date-section {
   margin-bottom: 40px;
 }
@@ -57,7 +110,7 @@
 </style>
 
 <script>
-import PlanMap from "./PlanMap.vue";
+import PlanDetailMap from "./PlanDetailMap.vue";
 export default {
   data() {
     return {
@@ -66,7 +119,7 @@ export default {
     };
   },
   components: {
-    PlanMap,
+    PlanDetailMap,
   },
   methods: {
     getSpotsByDate(date) {

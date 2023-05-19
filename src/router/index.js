@@ -3,14 +3,10 @@ import VueRouter from "vue-router";
 import AppUser from "@/views/AppUser";
 import AppMyPage from "@/views/AppMyPage";
 import AppMain from "@/views/AppMain";
+import AppPlan from "@/views/AppPlan";
 
 //추가
 import AppReview from "@/views/AppReview";
-
-
-// components
-import UserLogin from "@/components/user/UserLogin.vue";
-import UserJoin from "@/components/user/UserJoin.vue";
 
 //추가
 import DestinationInfo from "@/components/review/DestinationInfo.vue";
@@ -34,13 +30,13 @@ const routes = [
       {
         path: "login",
         name: "UserLogin",
-        component: UserLogin,
+        component: () => import("@/components/user/UserLogin"),
       },
 
       {
         path: "join",
         name: "UserJoin",
-        component: UserJoin,
+        component: () => import("@/components/user/UserJoin"),
       },
     ],
   },
@@ -64,6 +60,16 @@ const routes = [
     redirect: "/review/detail",
 
     children: [
+      {
+        path: "regist",
+        name: "PlanRegist",
+        component: () => import("@/components/plan/PlanRegist"),
+      },
+      {
+        path: "list",
+        name: "PlanList",
+        component: () => import("@/components/plan/PlanList"),
+      },
       {
         path: "place",
         name: "DestinationInfo",
@@ -121,6 +127,69 @@ const routes = [
         name: "noticedelete",
         // beforeEnter: onlyAuthUser,
         component: () => import("@/components/notice/NoticeDelete"),
+      },
+    ],
+  },
+
+  //hotplace
+  {
+    path: "/places",
+    name: "places",
+    component: () => import("@/views/AppHotPlace"),
+    redirect: "/places/list",
+    children: [
+      {
+        path: "list",
+        name: "placelist",
+        component: () => import("@/components/hotplace/HotplaceList"),
+      },
+      {
+        path: "write",
+        name: "placewrite",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceWrite"),
+      },
+      {
+        path: "view/:place-id",
+        name: "placeview",
+        component: () => import("@/components/hotplace/HotplaceView"),
+      },
+      {
+        path: "modify/:place-id",
+        name: "placemodify",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceModify"),
+      },
+      {
+        path: "delete/:noticeid",
+        name: "noticedelete",
+        // beforeEnter: onlyAuthUser,
+        component: () => import("@/components/hotplace/HotplaceDelete"),
+      },
+    ],
+  },
+
+  {
+    path: "/plan",
+    name: "AppPain",
+    component: AppPlan,
+    redirect: "/plan/list",
+    children: [
+      {
+        path: "regist",
+        name: "PlanRegist",
+        component: () => import("@/components/plan/PlanRegist"),
+      },
+      {
+        path: "list",
+        name: "PlanList",
+        component: () => import("@/components/plan/PlanList"),
+      },
+
+      {
+        path: "detail",
+        name: "PlanDetail",
+        component: () => import("@/components/plan/PlanDetail"),
       },
     ],
   },

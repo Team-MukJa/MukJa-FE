@@ -2,16 +2,14 @@
   <div>
     <div class="page-header">
       <h2 class="page-title text-center">여행 계획 리스트</h2>
-      <b-button class="ml-auto" variant="primary" @click="openModal"
-        >글 작성</b-button
-      >
+      <b-button class="ml-auto" variant="primary" @click="openModal">글 작성</b-button>
     </div>
     <hr />
 
     <div class="row">
       <div class="col-md-6" v-for="plan in plans" :key="plan.id">
         <b-card class="plan-card" @click="goToDetailPage(plan.id)">
-          <h4 class="card-title">{{ plan.title }}</h4>
+          <h4 class="card-title">{{ plan.subject }}</h4>
           <b-card-text>{{ plan.content }}</b-card-text>
           <div class="d-flex justify-content-between">
             <div v-for="image in plan.images" :key="image.id">
@@ -23,19 +21,10 @@
     </div>
 
     <!-- 모달 추가 -->
-    <b-modal
-      v-model="modalOpen"
-      title="여행 계획 작성"
-      @ok="submitForm"
-      @cancel="closeModal"
-    >
+    <b-modal v-model="modalOpen" title="여행 계획 작성" @ok="submitForm" @cancel="closeModal">
       <b-form>
         <b-form-group label="여행 제목" label-for="title-input">
-          <b-form-input
-            id="title-input"
-            v-model="title"
-            required
-          ></b-form-input>
+          <b-form-input id="title-input" v-model="plan.subject" required></b-form-input>
         </b-form-group>
 
         <div class="form-row">
@@ -43,7 +32,7 @@
             <b-form-group label="여행 시작일" label-for="start-date-picker">
               <b-form-datepicker
                 id="start-date-picker"
-                v-model="startDate"
+                v-model="plan.startDate"
                 required
               ></b-form-datepicker>
             </b-form-group>
@@ -52,7 +41,7 @@
             <b-form-group label="여행 종료일" label-for="end-date-picker">
               <b-form-datepicker
                 id="end-date-picker"
-                v-model="endDate"
+                v-model="plan.endDate"
                 required
               ></b-form-datepicker>
             </b-form-group>
@@ -60,11 +49,7 @@
         </div>
 
         <b-form-group label="여행 내용" label-for="content-input">
-          <b-form-textarea
-            id="content-input"
-            v-model="content"
-            required
-          ></b-form-textarea>
+          <b-form-textarea id="content-input" v-model="plan.content" required></b-form-textarea>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -72,18 +57,25 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+const planStore = "planStore";
+
 export default {
+  name: "PlanList",
   data() {
     return {
       modalOpen: false,
-      title: "",
-      content: "",
-      startDate: null,
-      endDate: null,
+      plan: {
+        userId: "sss",
+        subject: "",
+        content: "",
+        startDate: null,
+        endDate: null,
+      },
       plans: [
         {
           id: 1,
-          title: "여행 계획 1",
+          subject: "여행 계획 1",
           content: "여행 계획 1의 내용입니다.",
           images: [
             { id: 1, url: "image1.jpg" },
@@ -94,7 +86,7 @@ export default {
         },
         {
           id: 2,
-          title: "여행 계획2",
+          subject: "여행 계획2",
           content: "여행 계획 2의 내용입니다.",
           images: [
             { id: 5, url: "image5.jpg" },
@@ -108,6 +100,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(planStore, ["createPlan"]),
     openModal() {
       this.modalOpen = true;
     },
@@ -115,15 +108,28 @@ export default {
       this.modalOpen = false;
     },
     submitForm() {
-      // 여행 계획을 저장하는 로직을 추가하세요.
-      // this.title, this.content, this.startDate, this.endDate 값을 활용합니다.
-      console.log("여행 계획이 저장되었습니다.");
+      // 서버쪽으로 입력 값 보내기
+      console.log(this.plan.fDate, "여행 계획이 장되었습니다.");
+
+      this.createPlan(this.plan);
+
+      // var currentDate = new Date(this.startDate);
+      // var datesInRange = [];
+      // var endFormatDate = new Date(this.endDate);
+      // while (currentDate <= endFormatDate) {
+      //   var formattedDate = currentDate.toISOString().split("T")[0];
+      //   datesInRange.push(formattedDate);
+      //   currentDate.setDate(currentDate.getDate() + 1);
+      // }
+      // console.log(datesInRange);
+
       this.modalOpen = false; // 저장 후 모달을 닫습니다.
       this.$router.push({ name: "PlanRegist" });
     },
     goToDetailPage(planId) {
       // 상세보기 페이지로 이동하는 로직을 추가하세요.
       console.log(`Go to detail page for planId: ${planId}`);
+      this.$router.push({ name: "PlanDetail" });
     },
   },
 };

@@ -6,12 +6,13 @@
 
 <script>
 export default {
-  name: "PlanMap",
+  name: "PlanDetailMap",
   data() {
     return {
       map: null,
     };
   },
+  components: {},
 
   setup() {},
   create() {},
@@ -58,7 +59,7 @@ export default {
 <style scoped>
 .map-container {
   width: 100%;
-  height: 400px;
+  height: 100vh;
 }
 
 .map {

@@ -3,7 +3,8 @@
     <b-navbar type="light" variant="light" class="navbar-login">
       <b-navbar-nav>
         <b-navbar-brand to="/" class="navbar-brand-login">
-          <img src="@/assets/ape.png" width="50px" alt="MukJa Icon" class="navbar-icon" /> MukJa
+          <!-- <b-icon-menu-down></b-icon-menu-down>EnjoyTrip -->
+          <img src="@/assets/ape.png" width="50px" alt="MukJa Icon" class="navbar-icon" /> EnjoyTrip
         </b-navbar-brand>
       </b-navbar-nav>
 
@@ -17,7 +18,7 @@
           <b-icon-search></b-icon-search> 여행지 검색
         </b-nav-item>
         <b-nav-item
-          to="/hotplaces"
+          to="/places"
           class="nav-link-login"
           @click="toggleMenuHighlight('hotplaces')"
           :class="{ 'menu-highlight': highlightedMenu === 'hotplaces' }"
