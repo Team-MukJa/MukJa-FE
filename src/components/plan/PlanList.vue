@@ -111,7 +111,7 @@ export default {
     },
     submitForm() {
       // 서버쪽으로 입력 값 보내기
-      console.log(this.plan.fDate, "여행 계획이 장되었습니다.");
+      console.log(this.plan.fDate, "여행 계획이 저장되었습니다.");
 
       this.createPlan(this.plan);
 

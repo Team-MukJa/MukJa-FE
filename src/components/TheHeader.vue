@@ -50,20 +50,16 @@
           <template #button-content>
             <b-icon-person-fill></b-icon-person-fill>
           </template>
-          <b-dropdown-item v-if="isAuthenticated" @click="goToMyPage" class="dropdown-item-login">
+          <b-dropdown-item v-if="userInfo" @click="goToMyPage" class="dropdown-item-login">
             <b-icon-person-badge-fill></b-icon-person-badge-fill> 마이페이지
           </b-dropdown-item>
-          <b-dropdown-item v-if="isAuthenticated" @click="logout" class="dropdown-item-login">
+          <b-dropdown-item v-if="userInfo" @click="logout" class="dropdown-item-login">
             <b-icon-box-arrow-right></b-icon-box-arrow-right> 로그아웃
           </b-dropdown-item>
-          <b-dropdown-item v-if="!isAuthenticated" @click="goToLogin" class="dropdown-item-login">
+          <b-dropdown-item v-if="!userInfo" @click="goToLogin" class="dropdown-item-login">
             <b-icon-box-arrow-in-right></b-icon-box-arrow-in-right> 로그인
           </b-dropdown-item>
-          <b-dropdown-item
-            v-if="!isAuthenticated"
-            @click="goToRegister"
-            class="dropdown-item-login"
-          >
+          <b-dropdown-item v-if="!userInfo" @click="goToRegister" class="dropdown-item-login">
             <b-icon-person-plus-fill></b-icon-person-plus-fill> 회원가입
           </b-dropdown-item>
         </b-nav-item-dropdown>
@@ -75,21 +71,36 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapActions } from "vuex";
+
+const memberStore = "memberStore";
 export default {
   data() {
     return {
-      isAuthenticated: false,
+      // isAuthenticated: false,
       highlightedMenu: null,
     };
   },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
+  },
   methods: {
+    ...mapActions(memberStore, ["userLogout"]),
+
     goToMyPage() {
       this.$router.push({ name: "my" });
       this.toggleMenuHighlight(null); // 마이페이지로 이동할 때 다른 버튼의 하이라이트 해제
     },
     logout() {
-      this.$router.push({ name: "my" });
       this.toggleMenuHighlight(null); // 로그아웃할 때 다른 버튼의 하이라이트 해제
+      console.log(this.userInfo.userId);
+      //vuex actions에서 userLogout 실행(Backend에 저장 된 리프레시 토큰 없애기
+      //+ satate에 isLogin, userInfo 정보 변경)
+      // this.$store.dispatch("userLogout", this.userInfo.userid);
+      this.userLogout(this.userInfo.userId);
+      localStorage.removeItem("access-token"); //저장된 토큰 없애기
+      if (this.$route.path != "/") this.$router.push({ name: "main" });
     },
     goToLogin() {
       this.$router.push({ name: "UserLogin" });
