@@ -73,12 +73,13 @@ export default {
       this.startCarousel();
     });
   },
+
   methods: {
     startCarousel() {
       setInterval(this.slideNext, 4000);
     },
     slideNext() {
-      this.currentIndex = (this.currentIndex + 1) % (this.slides.length - 1);
+      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
       this.translateX = -this.currentIndex * this.slideWidth;
     },
 

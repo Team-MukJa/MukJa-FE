@@ -20,7 +20,7 @@
     </div>
     <div class="button-container">
       <!-- <b-button class="create-button" variant="primary" @click="goWriteNotice">글 작성</b-button> -->
-      <b-button variant="primary" @click="openModal">게시글 작성</b-button>
+      <b-button variant="primary" @click="openModal" class="regist-button">게시글 작성</b-button>
       <b-modal v-model="showModal" title="게시글 작성" @hide="resetForm" class="write-modal">
         <b-form-group label="제목">
           <b-form-input v-model="article.subject"></b-form-input>
@@ -151,9 +151,16 @@ export default {
 
 <style scoped>
 .main-container {
-  margin: 20px;
+  padding: 10px 0; /* 여백 조정 */
+  margin: 150px;
   font-family: "Arial", sans-serif;
   background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px; /* 테두리 둥글게 조정 */
 }
 
 .table-container {
@@ -192,7 +199,19 @@ export default {
   justify-content: flex-end;
   margin-top: 10px;
 }
+.regist-button {
+  background-color: #f8a5c2;
+  border-color: #f8a5c2;
+  color: #ffffff;
+}
 
+.regist-button:hover,
+.regist-button:focus,
+.regist-button:active {
+  background-color: #e26893;
+  border-color: #e26893;
+  color: #000000;
+}
 .create-button {
   font-weight: bold;
 }

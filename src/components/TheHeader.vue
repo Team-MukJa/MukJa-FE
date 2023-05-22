@@ -2,7 +2,7 @@
   <div class="app">
     <b-navbar type="light" variant="light" class="navbar-login">
       <b-navbar-nav class="justify-content-centser">
-        <b-navbar-brand to="/" class="navbar-brand-login">
+        <b-navbar-brand to="/" class="navbar-brand-login" @click="toggleMenuHighlight(null)">
           <!-- <b-icon-menu-down></b-icon-menu-down>EnjoyTrip -->
           <img src="@/assets/ape.png" width="50px" alt="MukJa Icon" class="navbar-icon" /> MukJa
         </b-navbar-brand>
@@ -42,7 +42,11 @@
         >
           <b-icon-exclamation-circle></b-icon-exclamation-circle> 공지사항
         </b-nav-item>
-        <b-nav-item-dropdown right class="nav-item-dropdown-login">
+        <b-nav-item-dropdown
+          right
+          class="nav-item-dropdown-login"
+          @click="toggleMenuHighlight(null)"
+        >
           <template #button-content>
             <b-icon-person-fill></b-icon-person-fill>
           </template>
@@ -81,18 +85,22 @@ export default {
   methods: {
     goToMyPage() {
       this.$router.push({ name: "my" });
+      this.toggleMenuHighlight(null); // 마이페이지로 이동할 때 다른 버튼의 하이라이트 해제
     },
     logout() {
       this.$router.push({ name: "my" });
+      this.toggleMenuHighlight(null); // 로그아웃할 때 다른 버튼의 하이라이트 해제
     },
     goToLogin() {
       this.$router.push({ name: "UserLogin" });
+      this.toggleMenuHighlight(null); // 로그인 화면으로 이동할 때 다른 버튼의 하이라이트 해제
     },
     goToRegister() {
       this.$router.push({ name: "UserJoin" });
+      this.toggleMenuHighlight(null); // 회원가입 화면으로 이동할 때 다른 버튼의 하이라이트 해제
     },
     toggleMenuHighlight(menu) {
-      this.highlightedMenu = this.highlightedMenu === menu ? null : menu;
+      this.highlightedMenu = menu === this.highlightedMenu ? null : menu;
     },
   },
 };
