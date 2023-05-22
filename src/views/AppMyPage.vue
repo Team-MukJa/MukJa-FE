@@ -12,6 +12,9 @@
       <b-tab title="나의 핫플레이스" title-link-class="text-dark"
         ><my-hot-place style="margin-top: 50px" :myHotPlace="myHotPlace"></my-hot-place
       ></b-tab>
+      <b-tab title="나의 리뷰" title-link-class="text-dark"
+        ><my-review style="margin-top: 50px" :myReview="myReview"></my-review
+      ></b-tab>
       <b-tab title="나의 문의사항" title-link-class="text-dark"
         ><my-notice style="margin-top: 50px" :myNotice="myNotice"></my-notice
       ></b-tab>
@@ -24,6 +27,7 @@ import http from "@/util/http-common";
 
 import MyUserDetail from "@/components/mypage/MyUserDetail.vue";
 import MyHotPlace from "@/components/mypage/MyHotPlace.vue";
+import MyReview from "@/components/mypage/MyReview.vue";
 import MyNotice from "@/components/mypage/MyNotice.vue";
 
 export default {
@@ -31,6 +35,7 @@ export default {
   components: {
     MyUserDetail,
     MyHotPlace,
+    MyReview,
     MyNotice,
   },
   props: {
@@ -40,6 +45,7 @@ export default {
     return {
       myData: {},
       myHotPlace: [],
+      myReview: [],
       myNotice: [],
     };
   },
@@ -49,6 +55,9 @@ export default {
     });
     http.get(`/my/place/${this.userid}`).then(({ data }) => {
       this.myHotPlace = data;
+    });
+    http.get(`/my/review/${this.userid}`).then(({ data }) => {
+      this.myReview = data;
     });
     http.get(`/my/notice/${this.userid}`).then(({ data }) => {
       this.myNotice = data;
