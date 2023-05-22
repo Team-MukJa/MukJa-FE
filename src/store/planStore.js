@@ -1,4 +1,4 @@
-import { createPlanner } from "@/api/lib/plan";
+import { createPlanner } from "@/api/plan";
 
 const planStore = {
   namespaced: true,
