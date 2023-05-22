@@ -45,7 +45,8 @@ const memberStore = {
             commit("SET_IS_LOGIN", true);
             commit("SET_IS_LOGIN_ERROR", false);
             commit("SET_IS_VALID_TOKEN", true);
-            localStorage.setItem("access-token", accessToken);
+            sessionStorage.setItem("access-token", accessToken);
+            // sessionStorage.setItem("refresh-token", refreshToken);
           } else {
             commit("SET_IS_LOGIN", false);
             commit("SET_IS_LOGIN_ERROR", true);

@@ -8,11 +8,11 @@ async function join(member, success, fail) {
   await api.post(`/members/join`, JSON.stringify(member)).then(success).catch(fail);
 }
 async function findById(userId, success, fail) {
-  api.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+  api.defaults.headers["Authorization"] = localStorage.getItem("access-token");
   await api.get(`/members/${userId}`).then(success).catch(fail);
 }
 async function tokenRegeneration(member, success, fail) {
-  api.defaults.headers["refresh-token"] = sessionStorage.getItem("refresh-token"); //axios header에 refresh-token 셋팅
+  api.defaults.headers["refresh-token"] = localStorage.getItem("refresh-token"); //axios header에 refresh-token 셋팅
   await api.post(`/members/refresh`, member).then(success).catch(fail);
 }
 async function logout(userId, success, fail) {
