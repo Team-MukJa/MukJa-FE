@@ -101,9 +101,9 @@ export default {
         // content_id
       ],
       destinationLists: [
-        { day: 1, destinations: [] },
-        { day: 2, destinations: [] },
-        { day: 3, destinations: [] },
+        //   { day: 1, destinations: [] },
+        //   // { day: 2, destinations: [] },
+        //   // { day: 3, destinations: [] },
       ],
       selectedDay: 0,
       // dayOptions: [
@@ -116,7 +116,9 @@ export default {
   components: {
     PlanMap,
   },
-  created: {},
+  created() {
+    this.destinationLists = this.generateDestinationLists();
+  },
   computed: {
     // ...mapState(planStore, ["plan"]),
     ...mapState(planStore, ["plan"]),
@@ -129,7 +131,7 @@ export default {
       const diffInDays = diffInTime / (1000 * 3600 * 24);
 
       const options = [];
-      for (let i = 1; i <= diffInDays; i++) {
+      for (let i = 1; i <= diffInDays + 1; i++) {
         options.push({ value: i, text: `${i}일차` });
       }
       return options;
@@ -150,6 +152,20 @@ export default {
           console.log(error);
         }
       );
+    },
+    generateDestinationLists() {
+      const startDate = new Date(this.plan.startDate);
+      const endDate = new Date(this.plan.endDate);
+      const diffInTime = endDate.getTime() - startDate.getTime();
+      const diffInDays = diffInTime / (1000 * 3600 * 24);
+
+      let destinationLists = [];
+
+      for (let i = 1; i <= diffInDays + 1; i++) {
+        destinationLists.push({ day: i, destinations: [] });
+      }
+
+      return destinationLists;
     },
     addDestination(destination) {
       console.log("여행지를 추가합니다:", destination);
@@ -187,18 +203,53 @@ export default {
       return `${hours}:${minutes}`;
     },
     saveDestinations() {
-      const savedDestinations = this.destinationLists.map((dayDestination) => ({
-        day: dayDestination.day,
-        destinations: dayDestination.destinations.map((destination) => ({
-          id: destination.id,
-          title: destination.title,
-          visitTime: destination.visitTime,
-          memo: destination.memo,
-        })),
-      }));
-      console.log("저장된 여행지 정보:", savedDestinations);
-      // 저장된 여행지 정보를 전송하는 로직 추가
-      this.$router.push({ name: "PlanList" });
+      const startDate = new Date(this.plan.startDate);
+
+      // destinationLists를 변환하면서 날짜와 시간 계산
+      const formattedDestinationLists = this.destinationLists.map((dayDestination, index) => {
+        const formattedDestinations = dayDestination.destinations.map((destination) => {
+          // 각 일차를 더한 날짜 계산
+          const date = new Date(startDate.getTime() + index * 24 * 60 * 60 * 1000);
+          const formattedDate = formatDate(date);
+
+          // 입력된 visitTime을 활용하여 날짜와 시간을 조합
+          const formattedDateTime = `${formattedDate}T${destination.visitTime}`;
+
+          return {
+            planId: this.plan.planId,
+            contentId: destination.contentId,
+            img: destination.img,
+            content: destination.content,
+            x: destination.x,
+            y: destination.y,
+            day: formattedDateTime,
+            addr: destination.addr,
+            subject: destination.subject,
+          };
+        });
+
+        return formattedDestinations;
+      });
+
+      // 날짜를 원하는 형식으로 변환하는 함수
+      function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+      }
+
+      // 변환된 데이터를 서버에 전송하는 부분은 이전 예시와 동일하게 사용하시면 됩니다.
+      console.log(formattedDestinationLists);
+      this.sendFormattedDestinations(formattedDestinationLists);
+    },
+
+    sendFormattedDestinations(formattedDestinationLists) {
+      // 서버에 데이터 전송하는 로직을 구현해 주세요.
+      // 예시: axios 또는 fetch를 사용하여 API 요청을 보내는 등의 방법을 사용할 수 있습니다.
+      // 서버 요청 방식에 맞게 수정하여 사용해 주세요.
+      console.log(formattedDestinationLists);
     },
   },
 };
