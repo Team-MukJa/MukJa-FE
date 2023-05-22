@@ -114,56 +114,82 @@ export default {
         this.customOverlay.setMap(null);
       }
 
-      var content =
-        "<div class='card' style='max-width: 300px; min-width: 300px;'>" +
-        "<div class='card-header d-flex justify-content-end'>" +
-        "<button type='button' class='btn-close' @click=" +
-        '"' +
-        this.closeCard +
-        '"' +
-        "data-bs-dismiss='modal' aria-label='Close'></button>" +
-        "</div>" +
-        "<div class='row g-0'>" +
-        "<div class='col-md-12'>" +
-        "<img src='" +
-        position.img +
-        "' class='img-fluid rounded-start h-100' alt='" +
-        position.title +
-        "' style='object-fit: cover; width:100%; height:300px;'>" +
-        "</div>" +
-        "<div class='col-md-12 ps-2 pe-2 p-1'>" +
-        "<div class='card-body'>" +
-        "<h5 class='card-title fw-bold fs-5 text-wrap'>" +
-        position.title +
-        "</h5>" +
-        "<p class='card-text fs-6 text-wrap'>" +
-        position.addr +
-        "</p>" +
-        "<button type='button'  @click='closeCard'  id = 'test' class='btn btn-primary'>상세보기</button>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</div>";
+      let content = document.createElement("div");
+      content.style.maxWidth = "300px";
+      content.style.minWidth = "300px";
 
-      // let contentt = document.createElement("div");
-      // contentt.style.paddingTop = "30px";
-      // let closeButton = document.createElement("button");
-      // closeButton.appendChild(document.createTextNode("Close"));
-      // closeButton.onclick = () => {
-      //   console.log("Close button clicked");
-      //   // Add your close button functionality here
-      // };
+      let cardHeader = document.createElement("div");
+      cardHeader.classList.add("card-header");
+      cardHeader.classList.add("d-flex");
+      cardHeader.classList.add("justify-content-end");
 
-      // // Create details button
-      // let detailsButton = document.createElement("button");
-      // detailsButton.appendChild(document.createTextNode("Details"));
-      // detailsButton.onclick = () => {
-      //   console.log("Details button clicked");
-      //   // Add your details button functionality here
-      // };
+      let closeButton = document.createElement("button");
+      closeButton.setAttribute("type", "button");
+      closeButton.classList.add("btn-close");
+      closeButton.addEventListener("click", this.closeCard);
+      closeButton.setAttribute("data-bs-dismiss", "modal");
+      closeButton.setAttribute("aria-label", "Close");
 
-      // contentt.appendChild(closeButton);
-      // contentt.appendChild(detailsButton);
+      cardHeader.appendChild(closeButton);
+      content.appendChild(cardHeader);
+
+      let row = document.createElement("div");
+      row.classList.add("row");
+      row.classList.add("g-0");
+
+      let col12 = document.createElement("div");
+      col12.classList.add("col-md-12");
+
+      let img = document.createElement("img");
+      img.setAttribute("src", position.img);
+      img.classList.add("img-fluid");
+      img.classList.add("rounded-start");
+      img.classList.add("h-100");
+      img.setAttribute("alt", position.title);
+      img.style.objectFit = "cover";
+      img.style.width = "100%";
+      img.style.height = "300px";
+
+      col12.appendChild(img);
+      row.appendChild(col12);
+
+      let colBody = document.createElement("div");
+      colBody.classList.add("col-md-12");
+      colBody.classList.add("ps-2");
+      colBody.classList.add("pe-2");
+      colBody.classList.add("p-1");
+
+      let cardBody = document.createElement("div");
+      cardBody.classList.add("card-body");
+
+      let title = document.createElement("h5");
+      title.classList.add("card-title");
+      title.classList.add("fw-bold");
+      title.classList.add("fs-5");
+      title.classList.add("text-wrap");
+      title.appendChild(document.createTextNode(position.title));
+
+      let addr = document.createElement("p");
+      addr.classList.add("card-text");
+      addr.classList.add("fs-6");
+      addr.classList.add("text-wrap");
+      addr.appendChild(document.createTextNode(position.addr));
+
+      let detailButton = document.createElement("button");
+      detailButton.setAttribute("type", "button");
+      detailButton.addEventListener("click", this.closeCard);
+      detailButton.setAttribute("id", "test");
+      detailButton.classList.add("btn");
+      detailButton.classList.add("btn-primary");
+      detailButton.appendChild(document.createTextNode("상세보기"));
+
+      cardBody.appendChild(title);
+      cardBody.appendChild(addr);
+      cardBody.appendChild(detailButton);
+      colBody.appendChild(cardBody);
+      row.appendChild(colBody);
+
+      content.appendChild(row);
 
       // 커스텀 오버레이를 생성합니다
       this.customOverlay = new kakao.maps.CustomOverlay({
