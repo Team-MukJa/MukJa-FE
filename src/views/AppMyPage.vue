@@ -7,7 +7,7 @@
       fill
     >
       <b-tab title="나의 정보" active title-link-class="text-dark" style="margin-top: 50px"
-        ><my-user-detail :myData="myData"></my-user-detail
+        ><my-user-detail @update-user="updateUser" @delete-user="deleteUser"></my-user-detail
       ></b-tab>
       <b-tab title="나의 핫플레이스" title-link-class="text-dark"
         ><my-hot-place style="margin-top: 50px" :myHotPlace="myHotPlace"></my-hot-place
@@ -30,6 +30,10 @@ import MyHotPlace from "@/components/mypage/MyHotPlace.vue";
 import MyReview from "@/components/mypage/MyReview.vue";
 import MyNotice from "@/components/mypage/MyNotice.vue";
 
+import { modify, deleteMember } from "@/api/member";
+import { mapState, mapActions } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   name: "AppMyPage",
   components: {
@@ -38,21 +42,18 @@ export default {
     MyReview,
     MyNotice,
   },
-  props: {
-    userid: String,
-  },
   data() {
     return {
-      myData: {},
       myHotPlace: [],
       myReview: [],
       myNotice: [],
+      member: {
+        userId: null,
+        userPwd: null,
+      },
     };
   },
   created() {
-    http.get(`/my/user/${this.userid}`).then(({ data }) => {
-      this.myData = data;
-    });
     http.get(`/my/place/${this.userid}`).then(({ data }) => {
       this.myHotPlace = data;
     });
@@ -63,7 +64,43 @@ export default {
       this.myNotice = data;
     });
   },
-  methods: {},
+  computed: {
+    ...mapState(memberStore, ["isLogin", "isLoginError", "userInfo"]),
+  },
+  methods: {
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo", "userLogout"]),
+    updateUser(user) {
+      modify(
+        user,
+        ({ data }) => {
+          if (data === "success") {
+            let token = localStorage.getItem("access-token");
+            this.getUserInfo(token);
+            this.$router.go(this.$router.currentRoute);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    deleteUser(userId) {
+      deleteMember(
+        userId,
+        ({ data }) => {
+          if (data === "success") this.logout();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    logout() {
+      this.userLogout(this.userInfo.userId);
+      localStorage.removeItem("access-token"); //저장된 토큰 없애기
+      // if (this.$route.path != "/") this.$router.push({ name: "main" });
+    },
+  },
 };
 </script>
 
