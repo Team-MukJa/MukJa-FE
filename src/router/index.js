@@ -101,7 +101,7 @@ const routes = [
       },
 
       {
-        path: "detail",
+        path: "detail/:contentid",
         name: "ReviewDetail",
         component: ReviewDetail,
       },
