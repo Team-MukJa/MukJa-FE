@@ -60,6 +60,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
+import { getPlans } from "@/api/plan";
 const planStore = "planStore";
 const memberStore = "memberStore";
 
@@ -75,36 +76,20 @@ export default {
         startDate: null,
         endDate: null,
       },
-      plans: [
-        {
-          id: 1,
-          subject: "여행 계획 1",
-          content: "여행 계획 1의 내용입니다.",
-          images: [
-            { id: 1, url: "image1.jpg" },
-            { id: 2, url: "image2.jpg" },
-            { id: 3, url: "image3.jpg" },
-            { id: 4, url: "image4.jpg" },
-          ],
-        },
-        {
-          id: 2,
-          subject: "여행 계획2",
-          content: "여행 계획 2의 내용입니다.",
-          images: [
-            { id: 5, url: "image5.jpg" },
-            { id: 6, url: "image6.jpg" },
-            { id: 7, url: "image7.jpg" },
-            { id: 8, url: "image8.jpg" },
-          ],
-        },
-        // 다른 여행 계획들을 추가할 수 있습니다.
-      ],
+      plans: [],
     };
   },
   created() {
+    getPlans(
+      ({ data }) => {
+        console.log(data);
+        this.plans = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     if (this.userInfo) {
-      console.log("아이디가 나온다고?");
       this.plan.userId = this.userInfo.userId;
     }
   },

@@ -86,6 +86,7 @@
 import PlanMap from "./PlanRegistMap.vue";
 import { mapState } from "vuex";
 import { searchByKeyword } from "@/api/plan";
+import { registPlanInfo } from "@/api/plan";
 
 const planStore = "planStore";
 export default {
@@ -136,7 +137,6 @@ export default {
       }
       return options;
     },
-
     // destinationLists() {},
   },
   methods: {
@@ -153,6 +153,7 @@ export default {
         }
       );
     },
+
     generateDestinationLists() {
       const startDate = new Date(this.plan.startDate);
       const endDate = new Date(this.plan.endDate);
@@ -167,6 +168,7 @@ export default {
 
       return destinationLists;
     },
+
     addDestination(destination) {
       console.log("여행지를 추가합니다:", destination);
       const dayDestination = this.destinationLists.find(
@@ -206,7 +208,7 @@ export default {
       const startDate = new Date(this.plan.startDate);
 
       // destinationLists를 변환하면서 날짜와 시간 계산
-      const formattedDestinationLists = this.destinationLists.map((dayDestination, index) => {
+      const formattedDestinationLists = this.destinationLists.flatMap((dayDestination, index) => {
         const formattedDestinations = dayDestination.destinations.map((destination) => {
           // 각 일차를 더한 날짜 계산
           const date = new Date(startDate.getTime() + index * 24 * 60 * 60 * 1000);
@@ -225,6 +227,7 @@ export default {
             day: formattedDateTime,
             addr: destination.addr,
             subject: destination.subject,
+            memo: destination.memo,
           };
         });
 
@@ -249,7 +252,15 @@ export default {
       // 서버에 데이터 전송하는 로직을 구현해 주세요.
       // 예시: axios 또는 fetch를 사용하여 API 요청을 보내는 등의 방법을 사용할 수 있습니다.
       // 서버 요청 방식에 맞게 수정하여 사용해 주세요.
-      console.log(formattedDestinationLists);
+      registPlanInfo(
+        formattedDestinationLists,
+        ({ data }) => {
+          console.log(data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
 };
