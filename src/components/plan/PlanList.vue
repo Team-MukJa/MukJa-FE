@@ -89,6 +89,7 @@ export default {
         console.log(error);
       }
     );
+
     if (this.userInfo) {
       this.plan.userId = this.userInfo.userId;
     }
