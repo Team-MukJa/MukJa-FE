@@ -20,7 +20,4 @@ function getPlans(success, fail) {
   api.get(`/plans`).then(success).catch(fail);
 }
 
-function getPlanImages(planId, success, fail) {
-  api.get(`/plans/{planId}`, JSON.stringify(planId)).then(success).catch(fail);
-}
-export { createPlanner, searchByKeyword, registPlanInfo, getPlans, getPlanImages };
+export { createPlanner, searchByKeyword, registPlanInfo, getPlans };
