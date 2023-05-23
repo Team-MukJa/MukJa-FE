@@ -28,7 +28,9 @@
         <b-form-group label="여행 제목" label-for="title-input">
           <b-form-input id="title-input" v-model="plan.subject" required></b-form-input>
         </b-form-group>
-
+        <!-- <b-form-group label="작성자" label-for="userId-input">
+          <b-form-input id="user-input" v-model="plan.userId" required></b-form-input>
+        </b-form-group> -->
         <div class="form-row">
           <div class="col">
             <b-form-group label="여행 시작일" label-for="start-date-picker">
@@ -59,8 +61,10 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
+import { getPlans } from "@/api/plan";
 const planStore = "planStore";
+const memberStore = "memberStore";
 
 export default {
   name: "PlanList",
@@ -68,43 +72,41 @@ export default {
     return {
       modalOpen: false,
       plan: {
-        userId: "sss",
+        userId: "",
         subject: "",
         content: "",
         startDate: null,
         endDate: null,
       },
-      plans: [
-        {
-          id: 1,
-          subject: "여행 계획 1",
-          content: "여행 계획 1의 내용입니다.",
-          images: [
-            { id: 1, url: "image1.jpg" },
-            { id: 2, url: "image2.jpg" },
-            { id: 3, url: "image3.jpg" },
-            { id: 4, url: "image4.jpg" },
-          ],
-        },
-        {
-          id: 2,
-          subject: "여행 계획2",
-          content: "여행 계획 2의 내용입니다.",
-          images: [
-            { id: 5, url: "image5.jpg" },
-            { id: 6, url: "image6.jpg" },
-            { id: 7, url: "image7.jpg" },
-            { id: 8, url: "image8.jpg" },
-          ],
-        },
-        // 다른 여행 계획들을 추가할 수 있습니다.
-      ],
+      plans: [],
     };
+  },
+  created() {
+    getPlans(
+      ({ data }) => {
+        console.log(data);
+        this.plans = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    if (this.userInfo) {
+      this.plan.userId = this.userInfo.userId;
+    }
+  },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
   },
   methods: {
     ...mapActions(planStore, ["createPlan"]),
     openModal() {
-      this.modalOpen = true;
+      if (!this.userInfo) alert("로그인을 해야될까?");
+      else {
+        // this.plan = this.userInfo.userId;
+        this.modalOpen = true;
+      }
     },
     closeModal() {
       this.modalOpen = false;

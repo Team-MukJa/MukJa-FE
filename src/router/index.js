@@ -80,7 +80,7 @@ const routes = [
     path: "/review",
     name: "AppReview",
     component: AppReview,
-    redirect: "/review/detail",
+    redirect: "/review/detail2",
 
     children: [
       {
@@ -102,7 +102,7 @@ const routes = [
       },
 
       {
-        path: "detail",
+        path: "detail/:contentid",
         name: "ReviewDetail",
         component: ReviewDetail,
       },

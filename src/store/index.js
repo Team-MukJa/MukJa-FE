@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
 // module import
+import itemStore from "./item/itemStore";
 import planStore from "./planStore";
 import memberStore from "./memberStore";
 Vue.use(Vuex);
@@ -11,6 +12,7 @@ export default new Vuex.Store({
   modules: {
     planStore,
     memberStore,
+    itemStore
   },
   plugins: [
     createPersistedState({
