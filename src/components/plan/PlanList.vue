@@ -2,7 +2,9 @@
   <div>
     <div class="page-header">
       <h2 class="page-title text-center">여행 계획 리스트</h2>
-      <b-button class="ml-auto" variant="primary" @click="openModal">글 작성</b-button>
+      <b-button class="ml-auto" variant="primary" @click="openModal"
+        >글 작성</b-button
+      >
     </div>
     <hr />
 
@@ -12,8 +14,8 @@
           <h4 class="card-title">{{ plan.subject }}</h4>
           <b-card-text>{{ plan.content }}</b-card-text>
           <div class="d-flex justify-content-between">
-            <div v-for="image in plan.images" :key="image.id">
-              <img :src="image.url" alt="여행 사진" class="img-thumbnail" />
+            <div v-for="image in plan.representativeImage" :key="image.id">
+              <img :src="image" alt="여행 사진" class="img-thumbnail" />
             </div>
           </div>
         </b-card>
@@ -21,10 +23,19 @@
     </div>
 
     <!-- 모달 추가 -->
-    <b-modal v-model="modalOpen" title="여행 계획 작성" @ok="submitForm" @cancel="closeModal">
+    <b-modal
+      v-model="modalOpen"
+      title="여행 계획 작성"
+      @ok="submitForm"
+      @cancel="closeModal"
+    >
       <b-form>
         <b-form-group label="여행 제목" label-for="title-input">
-          <b-form-input id="title-input" v-model="plan.subject" required></b-form-input>
+          <b-form-input
+            id="title-input"
+            v-model="plan.subject"
+            required
+          ></b-form-input>
         </b-form-group>
         <!-- <b-form-group label="작성자" label-for="userId-input">
           <b-form-input id="user-input" v-model="plan.userId" required></b-form-input>
@@ -51,7 +62,11 @@
         </div>
 
         <b-form-group label="여행 내용" label-for="content-input">
-          <b-form-textarea id="content-input" v-model="plan.content" required></b-form-textarea>
+          <b-form-textarea
+            id="content-input"
+            v-model="plan.content"
+            required
+          ></b-form-textarea>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -89,9 +104,10 @@ export default {
         console.log(error);
       }
     );
-    if (this.userInfo) {
-      this.plan.userId = this.userInfo.userId;
-    }
+
+    // if (this.userInfo) {
+    //   this.plan.userId = this.userInfo.userId;
+    // }
   },
   computed: {
     ...mapState(memberStore, ["isLogin", "userInfo"]),
