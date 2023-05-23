@@ -54,13 +54,13 @@ export default {
     };
   },
   created() {
-    http.get(`/my/place/${this.userid}`).then(({ data }) => {
+    http.get(`/my/place/${this.userInfo.userId}`).then(({ data }) => {
       this.myHotPlace = data;
     });
-    http.get(`/my/review/${this.userid}`).then(({ data }) => {
+    http.get(`/my/review/${this.userInfo.userId}`).then(({ data }) => {
       this.myReview = data;
     });
-    http.get(`/my/notice/${this.userid}`).then(({ data }) => {
+    http.get(`/my/notice/${this.userInfo.userId}`).then(({ data }) => {
       this.myNotice = data;
     });
   },
@@ -98,7 +98,7 @@ export default {
     logout() {
       this.userLogout(this.userInfo.userId);
       localStorage.removeItem("access-token"); //저장된 토큰 없애기
-      // if (this.$route.path != "/") this.$router.push({ name: "main" });
+      if (this.$route.path != "/") this.$router.push({ name: "AppMain" });
     },
   },
 };
