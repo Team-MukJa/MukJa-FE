@@ -1,11 +1,11 @@
 <template>
   <div>
-    <label>리뷰 등록하러가기 -> </label>
+    <label>리뷰 수정하러가기 -> </label>
     <button @click="showModal" class="btn-review">* click *</button>
 
-    <b-modal v-model="modalVisible" title="리뷰 작성" class="modal-review">
+    <b-modal v-model="modalVisible" title="리뷰 수정" class="modal-review">
       <div class="form-group">
-        <label for="destination">여행지명: {{ title }}</label>
+        <label for="destination">여행지명: {{ review.placeName }}</label>
       </div>
 
       <div class="form-group">
@@ -18,7 +18,8 @@
         <textarea id="content" v-model="review.content" class="form-control"></textarea>
       </div>
 
-      <button @click="checkValue" class="btn-submit">작성 완료</button>
+      <button @click="checkValue" class="btn-submit">수정 완료</button>
+      <button @click="deleteReview" class="btn-submit">삭제</button>
     </b-modal>
   </div>
 </template>
@@ -33,19 +34,11 @@ export default {
   components: {
     StarRating,
   },
-  props: {
-    title: String,
-  },
   data() {
     return {
       contentId: 0,
       modalVisible: false,
-      review: {
-        rating: 0,
-        content: "",
-        userId: "",
-        placeId: 0,
-      },
+      review: {},
     };
   },
   computed: {
@@ -53,14 +46,20 @@ export default {
   },
   created() {
     this.contentId = this.$route.params.contentid;
+    http
+      .get(`/tour/review/${this.contentId}/${this.userInfo.userId}`)
+      .then(({ data }) => {
+        this.review = data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   },
   methods: {
     showModal() {
       this.modalVisible = true;
     },
     checkValue() {
-      // 리뷰 작성 완료 후 처리하는 로직 추가
-      // 예: 서버에 전송, 모달 닫기 등
       let err = true;
       let msg = "";
       !this.review.rating &&
@@ -70,13 +69,19 @@ export default {
         ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
 
       if (!err) alert(msg);
-      // 만약, 내용이 다 입력되어 있다면 modifyArticle 호출
-      else this.registerReview();
+      else this.modifyReview();
     },
-    registerReview() {
+    modifyReview() {
+      http.put(`/tour/review/`, this.review).then(({ data }) => {
+        console.log(data);
+        this.$router.go(this.$router.currentRoute);
+        this.modalVisible = false;
+      });
+    },
+    deleteReview() {
       this.review.userId = this.userInfo.userId;
       this.review.placeId = this.contentId;
-      http.post(`/tour/review/`, this.review).then(({ data }) => {
+      http.delete(`/tour/review/${this.review.reviewId}`).then(({ data }) => {
         console.log(data);
         this.$router.go(this.$router.currentRoute);
         this.modalVisible = false;
