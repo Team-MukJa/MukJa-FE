@@ -6,7 +6,7 @@
     </div>
     <div class="reviews">
       <!-- 여행지 리뷰 컴포넌트 -->
-      <ReviewList :contentId="contentId" :placeTitle="placeTitle" />
+      <ReviewList :placeTitle="placeTitle" />
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
   },
   data() {
     return {
-      contentId: 125406, // 임시 -> props로 받아오기
+      contentId: 0,
       destinationDetail: {}, // 상세 정보를 담는 객체
       avg: 0,
       placeTitle: "",
@@ -31,6 +31,7 @@ export default {
     };
   },
   created() {
+    this.contentId = this.$route.params.contentid;
     http
       .get(`/tour/${this.contentId}`)
       .then(({ data }) => {

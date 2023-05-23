@@ -12,6 +12,7 @@
           <span>{{ myReview.content }}</span>
         </div>
         <div class="userid">{{ myReview.userId }}</div>
+        <review-modify-modal></review-modify-modal>
       </div>
       <div v-show="!myReview"><review-regist-modal :title="placeTitle"></review-regist-modal></div>
     </div>
@@ -30,6 +31,7 @@
 import { BTable } from 'bootstrap-vue';
 import StarRating from 'vue-star-rating';
 import ReviewRegistModal from "./ReviewRegistModal.vue";
+import ReviewModifyModal from "./ReviewModifyModal.vue";
 import http from "@/util/http-common";
 import { mapState } from "vuex";
 const memberStore = "memberStore";
@@ -37,16 +39,16 @@ const memberStore = "memberStore";
 export default {
   components: {
     BTable,
-    //   BButton,
     StarRating,
     ReviewRegistModal,
+    ReviewModifyModal,
   },
   props: {
-    contentId: Number,
     placeTitle: String,
   },
   data() {
     return {
+      contentId: 0,
       test: 1,
       myReview: {},
       reviews: [],
@@ -61,7 +63,7 @@ export default {
     ...mapState(memberStore, ["isLogin", "userInfo"]),
   },
   created() {
-    console.log(this.placeTitle);
+    this.contentId = this.$route.params.contentid;
     http
       .get(`/tour/review/${this.contentId}/${this.userInfo.userId}`)
       .then(({ data }) => {
