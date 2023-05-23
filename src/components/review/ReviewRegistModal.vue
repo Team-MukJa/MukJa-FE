@@ -5,36 +5,17 @@
 
     <b-modal v-model="modalVisible" title="리뷰 작성" class="modal-review">
       <div class="form-group">
-        <label for="destination">여행지명:</label>
-        <input
-          id="destination"
-          v-model="review.destination"
-          type="text"
-          class="form-control" />
+        <label for="destination">여행지명: {{ title }}</label>
       </div>
 
       <div class="form-group">
         <label for="rating">평점:</label>
-        <star-rating
-          v-model="review.rating"
-          :increment="0.5"
-          class="star-rating"></star-rating>
-      </div>
-
-      <div class="form-group">
-        <label for="description">안내 문구:</label>
-        <textarea
-          id="description"
-          v-model="review.description"
-          class="form-control"></textarea>
+        <star-rating v-model="review.rating" :increment="0.5" class="star-rating"></star-rating>
       </div>
 
       <div class="form-group">
         <label for="content">내용:</label>
-        <textarea
-          id="content"
-          v-model="review.content"
-          class="form-control"></textarea>
+        <textarea id="content" v-model="review.content" class="form-control"></textarea>
       </div>
 
       <button @click="submitReview" class="btn-submit">작성 완료</button>
@@ -45,6 +26,9 @@
 <script>
 import StarRating from "vue-star-rating";
 export default {
+  props: {
+    title: String,
+  },
   data() {
     return {
       modalVisible: false,
