@@ -17,7 +17,10 @@
       </b-card>
       <b-card class="main-card" @click="goToSearchLocations">
         <div class="card-image">
-          <img src="../assets/travel-plans-image.jpg" alt="여행지 검색 이미지" />
+          <img
+            src="https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.gameple.co.kr%2Fnews%2FarticleView.html%3Fidxno%3D201847&psig=AOvVaw324rYVrpuIXS_I98GdNAYy&ust=1684906367579000&source=images&cd=vfe&ved=0CA4QjRxqFwoTCIiV077biv8CFQAAAAAdAAAAABAD"
+            alt="여행지 검색 이미지"
+          />
         </div>
         <h3 class="card-title">여행지 검색</h3>
         <p class="card-slogan">당신의 다음 여행지를 찾아보세요!</p>
