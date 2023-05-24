@@ -290,14 +290,15 @@ export default {
 
 <style scoped>
 .cont {
-  height: 100vh; /* 화면 세로 전체 높이로 설정 */
+  height: 90vh; /* 화면 세로 전체 높이로 설정 */
   display: flex;
-  margin: 0 auto;
+  margin-bottom: 100px;
 }
 
 .left-content {
+  width: 1100px;
   flex: 1.5;
-  padding: 20px;
+  /* padding: 20px; */
   height: 100vh; /* 수정 */
   overflow-y: auto; /* 추가 */
   margin-bottom: 20px; /* 추가 */

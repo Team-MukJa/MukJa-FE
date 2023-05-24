@@ -55,7 +55,7 @@
       <li class="nav-link-login mx-auto" @click="toggleMenuHighlight(null)">
         <ul class="nav-items">
           <li class="nav-item">
-            <router-link to="/searchlocations" nav-link-class="text-light" class="nav-link-login"
+            <router-link to="/search" nav-link-class="text-light" class="nav-link-login"
               @click="toggleMenuHighlight('search')" :class="{ 'menu-highlight': highlightedMenu === 'search' }">
               여행지 검색
             </router-link>
