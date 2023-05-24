@@ -1,10 +1,10 @@
 <template>
-  <div class="container d-flex justify-content-center">
-    <div class="col-md-8 rounded p-3" style="height: 800px">
+  <div class="container">
+    <div class="left" style="height: 800px">
       <!-- <MapComponent></MapComponent> -->
       <the-kakao-map></the-kakao-map>
     </div>
-    <div class="col-md-8 rounded p-3" style="background-color: white; margin: 8px">
+    <div class="right" style="background-color: white; margin: 8px">
       <hotplace-input-item></hotplace-input-item>
     </div>
   </div>
@@ -53,8 +53,22 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
   display: flex;
+}
+
+.left{
+  width: 60vh;
+  justify-content: flex-start;
+  border-radius: 10px;
+  margin: 10px;
+}
+.right{
+  width: 60vh;
+  justify-content: flex-end;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
 }
 </style>
