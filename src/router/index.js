@@ -125,34 +125,19 @@ const routes = [
         name: "placelist",
         component: () => import("@/components/hotplace/HotplaceList"),
       },
-      // {
-      //   path: "image/:image-path",
-      //   name: "placelist",
-      //   component: () => import("@/components/hotplace/HotplaceList"),
-      // },
       {
         path: "write",
         name: "placewrite",
         // beforeEnter: onlyAuthUser,
         component: () => import("@/components/hotplace/HotplaceWrite"),
       },
-      {
-        path: "view/:place-id",
-        name: "placeview",
-        component: () => import("@/components/hotplace/HotplaceView"),
-      },
-      {
-        path: "modify/:place-id",
-        name: "placemodify",
-        // beforeEnter: onlyAuthUser,
-        component: () => import("@/components/hotplace/HotplaceModify"),
-      },
-      {
-        path: "delete/:place-id",
-        name: "placedelete",
-        // beforeEnter: onlyAuthUser,
-        component: () => import("@/components/hotplace/HotplaceDelete"),
-      },
+
+      // {
+      //   path: "modify/:place-id",
+      //   name: "placemodify",
+      //   // beforeEnter: onlyAuthUser,
+      //   component: () => import("@/components/hotplace/HotplaceModify"),
+      // },
     ],
   },
 

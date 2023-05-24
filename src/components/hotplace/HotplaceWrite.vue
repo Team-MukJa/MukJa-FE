@@ -12,8 +12,10 @@
 
 <script>
 // import MapComponent from "./MapComponent.vue";
-import TheKakaoMap from "./TheKakaoMap.vue";
-import HotplaceInputItem from "@/components/hotplace/item/HotplaceInputItem.vue";
+// import TheKakaoMap from "./TheKakaoMap.vue";
+import TheKakaoMap from "./HotplaceMap.vue";
+
+import HotplaceInputItem from "./item/HotplaceInputItem.vue";
 
 export default {
   components: {
