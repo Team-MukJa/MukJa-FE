@@ -4,38 +4,41 @@
     <div class="left-content">
       <h2 class="text-center">{{ plan.subject }}</h2>
       <b-tabs v-model="selectedDay" pills vertical>
-        <b-tab v-for="day in dayOptions" :key="day.value" :title="day.text" class="tab-item">
+        <b-tab
+          v-for="day in dayOptions"
+          :key="day.value"
+          :title="day.text"
+          class="tab-item">
           <b-list-group>
             <b-list-group-item
               v-for="destination in getDestinationsByDay(day.value)"
               :key="destination.id"
-              class="destination-list-item"
-            >
+              class="destination-list-item">
               <b-card class="destination-card input-list-card">
                 <h4>{{ destination.subject }}</h4>
-                <img :src="destination.img" alt="여행지 사진" class="img-thumbnail" />
+                <img
+                  :src="destination.img"
+                  alt="여행지 사진"
+                  class="img-thumbnail" />
                 <b-form-group label="방문 시간" label-for="visit-time-input">
                   <b-form-timepicker
                     id="visit-time-input"
                     v-model="destination.visitTime"
                     minute-step="15"
                     :time-formatter="formatTime"
-                    placeholder="방문 시간을 선택하세요"
-                  ></b-form-timepicker>
+                    placeholder="방문 시간을 선택하세요"></b-form-timepicker>
                 </b-form-group>
                 <b-form-group label="메모" label-for="memo-input">
                   <b-form-textarea
                     id="memo-input"
                     v-model="destination.memo"
-                    placeholder="메모를 입력하세요"
-                  ></b-form-textarea>
+                    placeholder="메모를 입력하세요"></b-form-textarea>
                 </b-form-group>
                 <b-button
                   variant="danger"
                   size="sm"
                   @click="deleteDestination(day.value, destination.id)"
-                  class="delete-button"
-                >
+                  class="delete-button">
                   삭제
                 </b-button>
               </b-card>
@@ -44,7 +47,12 @@
         </b-tab>
       </b-tabs>
       <div class="save-button-container">
-        <b-button variant="primary" @click="saveDestinations" class="save-button"> 저장 </b-button>
+        <b-button
+          variant="primary"
+          @click="saveDestinations"
+          class="save-button">
+          저장
+        </b-button>
       </div>
     </div>
 
@@ -55,9 +63,11 @@
         <b-form-input
           v-model="searchQuery"
           placeholder="검색어를 입력하세요"
-          class="search-input"
-        ></b-form-input>
-        <b-button variant="primary" @click="searchDestinations(searchQuery)" class="search-button">
+          class="search-input"></b-form-input>
+        <b-button
+          variant="primary"
+          @click="searchDestinations(searchQuery)"
+          class="search-button">
           검색
         </b-button>
       </div>
@@ -66,10 +76,12 @@
           v-for="destination in searchResults"
           :key="destination.content_id"
           @click="addDestination(destination)"
-          class="search-result-item"
-        >
+          class="search-result-item">
           <div class="search-result-content">
-            <img :src="destination.img" alt="여행지 사진" class="search-result-image" />
+            <img
+              :src="destination.img"
+              alt="여행지 사진"
+              class="search-result-image" />
             <div class="search-result-title">{{ destination.subject }}</div>
           </div>
         </b-list-group-item>
@@ -184,7 +196,9 @@ export default {
     },
     deleteDestination(day, destinationId) {
       console.log("여행지를 삭제합니다:", day, destinationId);
-      const dayDestination = this.destinationLists.find((item) => item.day === day);
+      const dayDestination = this.destinationLists.find(
+        (item) => item.day === day
+      );
       if (dayDestination) {
         const index = dayDestination.destinations.findIndex(
           (destination) => destination.id === destinationId
@@ -195,7 +209,9 @@ export default {
       }
     },
     getDestinationsByDay(day) {
-      const dayDestination = this.destinationLists.find((item) => item.day === day);
+      const dayDestination = this.destinationLists.find(
+        (item) => item.day === day
+      );
       return dayDestination ? dayDestination.destinations : [];
     },
     formatTime(value) {
@@ -208,31 +224,37 @@ export default {
       const startDate = new Date(this.plan.startDate);
 
       // destinationLists를 변환하면서 날짜와 시간 계산
-      const formattedDestinationLists = this.destinationLists.flatMap((dayDestination, index) => {
-        const formattedDestinations = dayDestination.destinations.map((destination) => {
-          // 각 일차를 더한 날짜 계산
-          const date = new Date(startDate.getTime() + index * 24 * 60 * 60 * 1000);
-          const formattedDate = formatDate(date);
+      const formattedDestinationLists = this.destinationLists.flatMap(
+        (dayDestination, index) => {
+          const formattedDestinations = dayDestination.destinations.map(
+            (destination) => {
+              // 각 일차를 더한 날짜 계산
+              const date = new Date(
+                startDate.getTime() + index * 24 * 60 * 60 * 1000
+              );
+              const formattedDate = formatDate(date);
 
-          // 입력된 visitTime을 활용하여 날짜와 시간을 조합
-          const formattedDateTime = `${formattedDate}T${destination.visitTime}`;
+              // 입력된 visitTime을 활용하여 날짜와 시간을 조합
+              const formattedDateTime = `${formattedDate}T${destination.visitTime}`;
 
-          return {
-            addr: destination.addr,
-            content: destination.content,
-            contentId: destination.contentId,
-            day: formattedDateTime,
-            planId: this.plan.planId,
-            img: destination.img,
-            x: destination.x,
-            y: destination.y,
-            subject: destination.subject,
-            memo: destination.memo,
-          };
-        });
+              return {
+                addr: destination.addr,
+                content: destination.content,
+                contentId: destination.contentId,
+                day: formattedDateTime,
+                planId: this.plan.planId,
+                img: destination.img,
+                x: destination.x,
+                y: destination.y,
+                subject: destination.subject,
+                memo: destination.memo,
+              };
+            }
+          );
 
-        return formattedDestinations;
-      });
+          return formattedDestinations;
+        }
+      );
 
       // 날짜를 원하는 형식으로 변환하는 함수
       function formatDate(date) {

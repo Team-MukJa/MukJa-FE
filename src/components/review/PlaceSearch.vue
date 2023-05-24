@@ -1,78 +1,213 @@
 <template>
+  <div>
     <div>
-      <h2>장소 검색</h2>
-      <form @submit.prevent="searchPlace">
-        <label for="sido">시도:</label>
-        <select v-model="sido" id="sido">
-          <option value="경기도">경기도</option>
-          <option value="서울">서울</option>
-          <option value="강원도">강원도</option>
-          <option value="경상남도">경상남도</option>
-          <option value="전라남도">전라남도</option>
-          <option value="전라북도">전라북도</option>
-        </select>
-        <br>
-        <label for="gugun">구군:</label>
-        <select v-model="gugun" id="gugun">
-          <option value="일산서구">일산서구</option>
-          <option value="일산동구">일산동구</option>
-        </select>
-        <br>
-        <label for="keyword">키워드:</label>
-        <input v-model="keyword" type="text" id="keyword">
-        <br>
-        <button type="submit">검색</button>
-      </form>
-      <div v-if="places.length > 0">
-        <h3>검색 결과:</h3>
-        <ul>
-          <li v-for="place in places" :key="place.id">
-            {{ place.place_name }} (위도: {{ place.y }}, 경도: {{ place.x }})
-          </li>
-        </ul>
-        <div id="map" style="width: 100%; height: 400px;"></div>
-      </div>
-      <div v-else-if="searched">
-        <p>해당 장소를 찾을 수 없습니다.</p>
+      <div class="row">
+        <div class="col">
+          <br />
+          <label class="label">시/도: </label>
+          <select-sido @select-sido="selectSido"></select-sido>
+        </div>
+
+        <div class="col">
+          <br />
+          <label class="label">구/군: </label>
+          <select-gugun
+            :sidoCode="sidoCode"
+            @select-gugun="selectGugun"></select-gugun>
+        </div>
+
+        <div class="col">
+          <br />
+          <label class="label">키워드: </label> <br />
+          <input type="text" id="keyword" v-model="keyword" />
+          <button @click="searchPlaces">검색</button>
+        </div>
       </div>
     </div>
-  </template>
 
+    <!-- 여기에 Cateogory 항목 추가 -->
+    <div>
+      <div class="content-type-checkbox-group">
+        <button
+          v-for="contentType in contentTypes"
+          :key="contentType.value"
+          class="content-type-button"
+          :class="{
+            'content-type-selected': selectedContentTypes.includes(
+              contentType.value
+            ),
+          }"
+          @click="toggleContentType(contentType.value)">
+          <span>{{ contentType.text }} </span>
+          <img
+            class="category-icon"
+            width="25px"
+            :src="require(`../../assets/marker/${contentType.value}.png`)"
+            :alt="contentType.text" />
+        </button>
+      </div>
+    </div>
+    <kakao-map :places="places"></kakao-map>
+
+    <div>
+      <br /><br /><br />
+      <h3>[ 검색 결과 ]</h3>
+      <br />
+      <ul></ul>
+    </div>
+  </div>
+</template>
 
 <script>
-// import axios from 'axios';
+// ...
+</script>
 
+<style scoped></style>
+
+<script>
+import KakaoMap from "@/components/search/KakaoMap.vue";
+import SelectSido from "@/components/item/SelectSido.vue";
+import SelectGugun from "@/components/item/SelectGugun.vue";
+import { mapActions, mapMutations } from "vuex";
+import { searchDestination } from "@/api/review";
+const itemStore = "itemStore";
+
+//가져옴
 export default {
-    data() {
-        return {
-            sido: '경기도',
-            gugun: '일산서구',
-            keyword: '',
-            places: [],
-            searched: false
-        };
+  components: {
+    KakaoMap,
+    SelectSido,
+    SelectGugun,
+  },
+  props: {
+    //myPlace를 정의하고 상위 컴포넌트에서 전달된 데이터를 받아온다.
+    // myPlace: Array,
+  },
+
+  data() {
+    return {
+      sidoCode: null,
+      gugunCode: null,
+      keyword: "",
+      places: [],
+      contentTypeId: [],
+      searched: false,
+      gugunOptions: {
+        // 여기서 값 넣어주기
+      },
+      contentTypes: [
+        { text: "관광지", value: 12 },
+        { text: "문화시설", value: 14 },
+        { text: "축제/공연/행사", value: 15 },
+        { text: "여행코스", value: 25 },
+        { text: "레포츠", value: 28 },
+        { text: "숙박", value: 32 },
+        { text: "쇼핑", value: 38 },
+        { text: "음식점", value: 39 },
+      ],
+      selectedContentTypes: [],
+    };
+  },
+  methods: {
+    updateGugunOptions() {
+      this.gugun = "";
     },
-    // methods: {
-    //     searchPlace() {
-    //         const apiUrl = 'https://dapi.kakao.com/v2/local/search/keyword.json';
-    //         const apiKey = '여기에_당신의_API_키를_입력하세요';
+    ...mapActions(itemStore, ["getGugun"]),
+    ...mapMutations(itemStore, ["CLEAR_GUGUN_LIST"]),
+    selectSido(sidoCode) {
+      // this.CLEAR_GUGUN_LIST();
+      // this.getGugun(sidoCode);
+      this.sidoCode = sidoCode;
+      console.log(sidoCode);
+    },
+    selectGugun(gugunCode) {
+      this.gugunCode = gugunCode;
+      console.log(gugunCode);
+    },
+    searchPlaces() {
+      if (this.sido === "" && this.gugun === "") {
+        alert("시도와 구군을 선택해주세요.");
+        return;
+      }
+      searchDestination(
+        this.sidoCode,
+        this.gugunCode,
+        this.selectedContentTypes,
+        this.keyword,
+        ({ data }) => {
+          this.places = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
 
-    //         const query = `${this.sido} ${this.gugun} ${this.keyword}`;
-    //         const params = { query };
-    //         const headers = { Authorization: `KakaoAK ${apiKey}` };
+      this.searched = true;
+    },
+  },
+};
+</script>
 
-    //         axios.get(apiUrl, { params, headers })
-    //             .then(response => {
-    //                 const data = response.data;
-    //                 if (data.documents && data.documents.length > 0) {
-    //                     this.places = data.documents;
-    //                     this.searched = true;
-    //                     this.displayMarkers();
-    //                 } else {
-    //                     this.searched = true;
-    //                     this.places = [];
-    //                 }
-    //             })
-    //     }
-    // }
+<style scoped>
+.label {
+  font-size: 20px;
+  font-family: "Times New Roman", Times, serif;
+  font-weight: bold;
+  margin-right: 10px;
+  margin-left: 30px;
 }
+
+select,
+input {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  font-family: Arial, sans-serif;
+  height: 34px; /* 높이 추가 */
+}
+
+button {
+  background-color: #b25ef7;
+  height: 35px;
+  width: 50px;
+  color: #fff;
+  /* border-radius: 90px; */
+
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
+
+.content-type-checkbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content-type-button {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 150px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: black;
+}
+
+.content-type-button:hover,
+.content-type-button:focus {
+  background-color: #b25ef7;
+  color: white;
+}
+</style>

@@ -13,7 +13,7 @@ import AppReview from "@/views/AppReview";
 //추가
 import DestinationInfo from "@/components/review/DestinationInfo.vue";
 import ReviewDetail from "@/components/review/ReviewDetail.vue";
-import PlaceSearch from "@/components/review/ReviewDetail2.vue";
+import PlaceSearch from "@/components/review/PlaceSearch.vue";
 
 Vue.use(VueRouter);
 
@@ -79,7 +79,7 @@ const routes = [
     path: "/review",
     name: "AppReview",
     component: AppReview,
-    redirect: "/review/detail2",
+    // redirect: "/review/detail2",
 
     children: [
       {
@@ -104,11 +104,6 @@ const routes = [
         path: "detail/:contentid",
         name: "ReviewDetail",
         component: ReviewDetail,
-      },
-      {
-        path: "detail2",
-        name: "PlaceSearch",
-        component: PlaceSearch,
       },
     ],
   },
