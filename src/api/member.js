@@ -18,4 +18,12 @@ async function tokenRegeneration(member, success, fail) {
 async function logout(userId, success, fail) {
   await api.get(`/members/logout/${userId}`).then(success).catch(fail);
 }
-export { login, join, findById, tokenRegeneration, logout };
+
+async function modify(member, success, fail) {
+  await api.put(`/members`, JSON.stringify(member)).then(success).catch(fail);
+}
+async function deleteMember(userId, success, fail) {
+  await api.delete(`/members/${userId}`).then(success).catch(fail);
+}
+
+export { login, join, findById, tokenRegeneration, logout, modify, deleteMember };

@@ -24,11 +24,16 @@ export default {
 
 <style>
 .bg {
-  /* background-color: rgba(0, 0, 0, 0.5); */
-  position: absolute; /*다른 요소들 위로 겹쳐질 수 있게함*/
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
+
 section {
-  background-image: url("@/assets/bg1.jpg");
+  background-image: url("@/assets/bg2.jpg");
   background-size: cover;
   display: block;
   height: 100vh;
@@ -37,13 +42,12 @@ section {
 
 section .header {
   position: relative;
-  z-index: 1000; /*맨 앞으로 나오도록 함*/
+  z-index: 1000;
 }
 
 section .main-view {
-  background-color: rgba(0, 0, 0, 0.5);
   position: relative;
-  z-index: 10; /*맨 앞으로 나오도록 함*/
+  z-index: 10;
   display: flex;
   justify-content: center;
   /* align-items: center;*/

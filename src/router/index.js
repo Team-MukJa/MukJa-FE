@@ -64,6 +64,7 @@ const routes = [
   },
   {
     path: "/my",
+    name:"my",
     component: AppMyPage,
     beforeEnter: onlyAuthUser,
   },
