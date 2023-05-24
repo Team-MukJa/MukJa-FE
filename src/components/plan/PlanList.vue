@@ -2,7 +2,11 @@
   <div class="plan-container">
     <div class="page-header">
       <h2 class="page-title text-center">여행 계획 리스트</h2>
-      <b-button id="regist-button" class="ml-auto" variant="primary" @click="openModal"
+      <b-button
+        id="regist-button"
+        class="ml-auto"
+        variant="primary"
+        @click="openModal"
         >글 작성</b-button
       >
     </div>
@@ -12,7 +16,9 @@
       <div class="col-md-6" v-for="plan in plans" :key="plan.id">
         <b-card class="plan-card" @click="goToDetailPage(plan.planId)">
           <h4 class="card-title">{{ plan.subject }}</h4>
-          <b-card-text>{{ plan.content }}</b-card-text>
+          <b-card-text class="card-text">{{
+            truncateText(plan.content, 30)
+          }}</b-card-text>
           <div class="d-flex justify-content-between">
             <div v-for="image in plan.representativeImage" :key="image">
               <img :src="image" alt="여행 사진" class="img-thumbnail" />
@@ -23,10 +29,19 @@
     </div>
 
     <!-- 모달 추가 -->
-    <b-modal v-model="modalOpen" title="여행 계획 작성" @ok="submitForm" @cancel="closeModal">
+    <b-modal
+      v-model="modalOpen"
+      title="여행 계획 작성"
+      @ok="submitForm"
+      @cancel="closeModal"
+    >
       <b-form>
         <b-form-group label="여행 제목" label-for="title-input">
-          <b-form-input id="title-input" v-model="plan.subject" required></b-form-input>
+          <b-form-input
+            id="title-input"
+            v-model="plan.subject"
+            required
+          ></b-form-input>
         </b-form-group>
         <!-- <b-form-group label="작성자" label-for="userId-input">
           <b-form-input id="user-input" v-model="plan.userId" required></b-form-input>
@@ -53,7 +68,11 @@
         </div>
 
         <b-form-group label="여행 내용" label-for="content-input">
-          <b-form-textarea id="content-input" v-model="plan.content" required></b-form-textarea>
+          <b-form-textarea
+            id="content-input"
+            v-model="plan.content"
+            required
+          ></b-form-textarea>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -102,6 +121,14 @@ export default {
   },
   methods: {
     ...mapActions(planStore, ["createPlan"]),
+
+    truncateText(text, maxLength) {
+      if (text.length <= maxLength) {
+        return text;
+      } else {
+        return text.substring(0, maxLength) + "...";
+      }
+    },
     openModal() {
       if (!this.userInfo) alert("로그인을 해야될까?");
       else {
@@ -144,9 +171,10 @@ export default {
 .plan-container {
   margin: 30px;
   width: 1200px;
-  height: 85%;
+  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
   background-color: whitesmoke;
-  border-radius: 10px; /* 테두리 둥글게 조정 */
+  border-radius: 10px;
+  overflow-y: auto; /* 수직 스크롤 추가 */
 }
 .page-header {
   display: flex;
@@ -191,6 +219,14 @@ hr {
 .card-title {
   font-size: 18px;
   font-weight: bold;
+}
+
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 표시할 줄 수 */
+  -webkit-box-orient: vertical;
 }
 
 .img-thumbnail {

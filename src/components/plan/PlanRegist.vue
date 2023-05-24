@@ -8,37 +8,43 @@
           v-for="day in dayOptions"
           :key="day.value"
           :title="day.text"
-          class="tab-item">
+          class="tab-item"
+        >
           <b-list-group>
             <b-list-group-item
               v-for="destination in getDestinationsByDay(day.value)"
               :key="destination.id"
-              class="destination-list-item">
+              class="destination-list-item"
+            >
               <b-card class="destination-card input-list-card">
                 <h4>{{ destination.subject }}</h4>
                 <img
                   :src="destination.img"
                   alt="여행지 사진"
-                  class="img-thumbnail" />
+                  class="img-thumbnail"
+                />
                 <b-form-group label="방문 시간" label-for="visit-time-input">
                   <b-form-timepicker
                     id="visit-time-input"
                     v-model="destination.visitTime"
                     minute-step="15"
                     :time-formatter="formatTime"
-                    placeholder="방문 시간을 선택하세요"></b-form-timepicker>
+                    placeholder="방문 시간을 선택하세요"
+                  ></b-form-timepicker>
                 </b-form-group>
                 <b-form-group label="메모" label-for="memo-input">
                   <b-form-textarea
                     id="memo-input"
                     v-model="destination.memo"
-                    placeholder="메모를 입력하세요"></b-form-textarea>
+                    placeholder="메모를 입력하세요"
+                  ></b-form-textarea>
                 </b-form-group>
                 <b-button
                   variant="danger"
                   size="sm"
                   @click="deleteDestination(day.value, destination.id)"
-                  class="delete-button">
+                  class="delete-button"
+                >
                   삭제
                 </b-button>
               </b-card>
@@ -50,7 +56,8 @@
         <b-button
           variant="primary"
           @click="saveDestinations"
-          class="save-button">
+          class="save-button"
+        >
           저장
         </b-button>
       </div>
@@ -63,11 +70,13 @@
         <b-form-input
           v-model="searchQuery"
           placeholder="검색어를 입력하세요"
-          class="search-input"></b-form-input>
+          class="search-input"
+        ></b-form-input>
         <b-button
           variant="primary"
           @click="searchDestinations(searchQuery)"
-          class="search-button">
+          class="search-button"
+        >
           검색
         </b-button>
       </div>
@@ -76,12 +85,14 @@
           v-for="destination in searchResults"
           :key="destination.content_id"
           @click="addDestination(destination)"
-          class="search-result-item">
+          class="search-result-item"
+        >
           <div class="search-result-content">
             <img
               :src="destination.img"
               alt="여행지 사진"
-              class="search-result-image" />
+              class="search-result-image"
+            />
             <div class="search-result-title">{{ destination.subject }}</div>
           </div>
         </b-list-group-item>
@@ -290,16 +301,19 @@ export default {
 
 <style scoped>
 .cont {
-  height: 90vh; /* 화면 세로 전체 높이로 설정 */
-  display: flex;
-  margin-bottom: 100px;
+  margin: 30px;
+  width: 1200px;
+  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
+  background-color: whitesmoke;
+  border-radius: 10px;
+  overflow-y: auto; /* 수직 스크롤 추가 */
 }
 
 .left-content {
   width: 1100px;
   flex: 1.5;
   /* padding: 20px; */
-  height: 100vh; /* 수정 */
+  height: 75vh; /* 수정 */
   overflow-y: auto; /* 추가 */
   margin-bottom: 20px; /* 추가 */
   overflow-y: auto;
@@ -309,7 +323,7 @@ export default {
 .middle-content {
   flex: 1;
   padding: 20px;
-  height: 100vh; /* 수정 */
+  height: 75vh; /* 수정 */
   overflow-y: auto; /* 추가 */
   margin-bottom: 20px; /* 추가 */
   border: #c7e2ff 1px;
@@ -318,6 +332,7 @@ export default {
 
 .right-content {
   flex: 2;
+  height: 75vh;
   border: #c7e2ff 1px;
   overflow-y: auto;
 }
@@ -411,11 +426,24 @@ export default {
   font-size: 16px;
 }
 
+.tab-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .tab-item {
-  border-radius: 20px;
-  background-color: #f2f2f2;
+  background-color: transparent;
   color: #555;
-  margin-bottom: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  transition: color 0.3s ease;
+}
+
+.tab-item.active {
+  color: #333;
+  border-bottom-color: #ccc;
 }
 
 .delete-button {
