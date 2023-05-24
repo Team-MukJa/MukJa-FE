@@ -2,10 +2,10 @@
   <div class="container d-flex justify-content-center">
     <div class="col-md-8 rounded p-3" style="height: 800px">
       <!-- <MapComponent></MapComponent> -->
-      <the-kakao-map></the-kakao-map>
+      <the-kakao-map @map-clicked="mapClicked"></the-kakao-map>
     </div>
     <div class="col-md-8 rounded p-3" style="background-color: white; margin: 8px">
-      <hotplace-input-item></hotplace-input-item>
+      <hotplace-input-item :receivedMapValue="mapValue"></hotplace-input-item>
     </div>
   </div>
 </template>
@@ -29,9 +29,14 @@ export default {
       // content: "",
       // file: null,
       // selectedDate: null,
+      mapValue:'',
     };
   },
   methods: {
+    mapClicked(value) {
+      this.mapValue = value;
+      
+    }
     // submitForm() {
     //   // 게시판 작성 로직 구현
     //   const formData = new FormData();
