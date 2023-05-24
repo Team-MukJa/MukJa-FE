@@ -14,8 +14,8 @@
           <h4 class="card-title">{{ plan.subject }}</h4>
           <b-card-text>{{ plan.content }}</b-card-text>
           <div class="d-flex justify-content-between">
-            <div v-for="image in plan.images" :key="image.id">
-              <img :src="image.url" alt="여행 사진" class="img-thumbnail" />
+            <div v-for="image in plan.representativeImage" :key="image.id">
+              <img :src="image" alt="여행 사진" class="img-thumbnail" />
             </div>
           </div>
         </b-card>
@@ -91,6 +91,7 @@ export default {
         console.log(error);
       }
     );
+
     if (this.userInfo) {
       this.plan.userId = this.userInfo.userId;
     }
