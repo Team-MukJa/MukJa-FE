@@ -177,17 +177,17 @@ const routes = [
       //   // beforeEnter: onlyAuthUser,
       //   component: () => import("@/components/hotplace/HotplaceModify"),
       // },
-      {
-        path: "view/:place-id",
-        name: "placeview",
-        component: () => import("@/components/hotplace/HotplaceView"),
-      },
-      {
-        path: "delete/:noticeid",
-        name: "noticedelete",
-        beforeEnter: onlyAuthUser,
-        component: () => import("@/components/hotplace/HotplaceDelete"),
-      },
+      // {
+      //   path: "view/:place-id",
+      //   name: "placeview",
+      //   component: () => import("@/components/hotplace/HotplaceView"),
+      // },
+      // {
+      //   path: "delete/:noticeid",
+      //   name: "noticedelete",
+      //   beforeEnter: onlyAuthUser,
+      //   component: () => import("@/components/hotplace/HotplaceDelete"),
+      // },
     ],
   },
 
