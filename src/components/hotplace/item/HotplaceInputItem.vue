@@ -3,7 +3,7 @@
     <h1>핫플레이스 작성</h1>
     <!-- 나머지 게시판 작성 화면 코드 -->
     <!-- <b-form @submit="submitForm"> -->
-    <b-form>
+    <b-form v-on:submit.prevent>
       <b-form-group label="제목" label-for="title-input">
         <b-form-input id="title-input" v-model="article.subject" required></b-form-input>
       </b-form-group>
@@ -68,7 +68,6 @@ export default {
         formData.append("content", this.article.content);
         formData.append("file", this.article.file);
 
-        console.log(formData);
         alert("작성");
         // 여기에서 formData를 서버로 전송하는 작업을 수행할 수 있습니다.
         // axios 등을 사용하여 서버와 통신하는 코드를 작성할 수 있습니다.
@@ -76,17 +75,17 @@ export default {
           headers: { "Content-Type": "multipart/form-data" },
         });
         console.log(response);
+        // 폼 데이터 전송 후 화면 초기화
+        // this.subject = "";
+        // this.content = "";
+        // this.file = null;
+        // this.tripDay = null;
+        this.$router.push({ name: "placelist" });
       } catch (error) {
         console.error(error);
       }
 
-      // 폼 데이터 전송 후 화면 초기화
-      this.subject = "";
-      this.content = "";
-      this.file = null;
-      this.tripDay = null;
 
-      this.$router.push({ name: "placelist" });
     },
     // writePlace() {},
     moveList() {
