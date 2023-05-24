@@ -36,6 +36,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+
 const memberStore = "memberStore";
 
 export default {
@@ -54,7 +55,7 @@ export default {
     ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
     async confirm() {
       await this.userConfirm(this.member);
-      let token = localStorage.getItem("access-token");
+      let token = sessionStorage.getItem("access-token");
       // console.log("1. confirm() token >> " + token);
       if (this.isLogin) {
         await this.getUserInfo(token);

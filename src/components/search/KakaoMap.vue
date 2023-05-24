@@ -6,12 +6,7 @@
 
 <script>
 export default {
-  name: "KakaoMap",
-
-  props: {
-    searchResults: [],
-  },
-
+  name: "PlanMap",
   data() {
     return {
       map: null,
@@ -20,20 +15,29 @@ export default {
       customOverlay: null,
     };
   },
+
+  props: {
+    places: [],
+  },
   watch: {
-    searchResults() {
+    places() {
       this.positions = [];
-      this.searchResults.forEach((destInfo) => {
+      console.log(this.places);
+      this.places.forEach((destInfo) => {
         let obj = {};
-        obj.title = destInfo.subject;
-        obj.latlng = new kakao.maps.LatLng(destInfo.x, destInfo.y);
-        obj.img = destInfo.img;
-        obj.addr = destInfo.addr;
+        obj.title = destInfo.title;
+        obj.latlng = new kakao.maps.LatLng(destInfo.latitude, destInfo.longitude);
+        obj.img = destInfo.firstImage;
+        obj.addr = destInfo.addr1;
+        obj.id = destInfo.contentId;
+        obj.type = destInfo.contentTypeId;
         this.positions.push(obj);
       });
       this.loadMarker();
     },
   },
+  setup() {},
+  create() {},
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.loadMap();
@@ -41,7 +45,7 @@ export default {
       this.loadScript();
     }
   },
-
+  unmounted() {},
   methods: {
     loadScript() {
       const script = document.createElement("script");
@@ -58,21 +62,28 @@ export default {
       const options = {
         center: new window.kakao.maps.LatLng(37.2073, 127.6358),
         // center: new window.kakao.maps.LatLng( 36.987,  126.789), // 남산 중심 좌표
-        level: 5, // 축소된 지도 레벨
+        level: 15, // 축소된 지도 레벨
       };
       this.map = new window.kakao.maps.Map(container, options);
       console.log("TEST" + this.places);
     },
-
     loadMarker() {
       this.deleteMarker();
 
       this.markers = [];
       this.positions.forEach((position) => {
+        const markerImage = new window.kakao.maps.MarkerImage(
+          require(`../../assets/marker/${position.type}.png`),
+          new window.kakao.maps.Size(35, 35),
+          {
+            offset: new window.kakao.maps.Point(25, 50),
+          }
+        );
+
         const marker = new window.kakao.maps.Marker({
           map: this.map,
           title: position.title,
-          img: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+          image: markerImage,
           position: position.latlng,
         });
 
@@ -98,7 +109,6 @@ export default {
 
       this.map.setBounds(bounds);
     },
-
     deleteMarker() {
       console.log("마커 싹 지우자!!!", this.markers.length);
       if (this.markers.length > 0) {
@@ -108,15 +118,15 @@ export default {
         });
       }
     },
-
     showCustomOverlay(position) {
       if (this.customOverlay) {
         this.customOverlay.setMap(null);
       }
 
       let content = document.createElement("div");
-      content.style.maxWidth = "300px";
-      content.style.minWidth = "300px";
+      content.classList.add("card");
+      content.style.maxWidth = "200px";
+      content.style.minWidth = "200px";
 
       let cardHeader = document.createElement("div");
       cardHeader.classList.add("card-header");
@@ -177,7 +187,9 @@ export default {
 
       let detailButton = document.createElement("button");
       detailButton.setAttribute("type", "button");
-      detailButton.addEventListener("click", this.closeCard);
+      detailButton.addEventListener("click", () => {
+        this.handleDetailClick(position.contentId);
+      });
       detailButton.setAttribute("id", "test");
       detailButton.classList.add("btn");
       detailButton.classList.add("btn-primary");
@@ -202,9 +214,10 @@ export default {
       this.customOverlay.setMap(this.map);
       // 커스텀 오버레이가 생성되었을 때, 스타일을 적용합니다.
     },
-    handleDetailClick() {
+    handleDetailClick(id) {
       // 상세보기 버튼 클릭 시 실행되는 메소드
-      console.log("상세보기 버튼이 클릭되었습니다.");
+      console.log("상세보기 버튼이 클릭되었습니다.", id);
+      this.$router.push({ name: "ReviewDetail", params: { contentid: id } });
     },
 
     closeCard() {
@@ -218,14 +231,12 @@ export default {
 <style scoped>
 .map-container {
   width: 100%;
-  height: 100%;
+  height: 700px;
 }
-
 .map {
   width: 100%;
   height: 100%;
 }
-
 .text-popup {
   position: absolute;
   top: 50%;
