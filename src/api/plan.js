@@ -20,4 +20,11 @@ function getPlans(success, fail) {
   api.get(`/plans`).then(success).catch(fail);
 }
 
-export { createPlanner, searchByKeyword, registPlanInfo, getPlans };
+function getPlanDate(planId, success, fail) {
+  api.get(`/plans/detail/date/${planId}`).then(success).catch(fail);
+}
+
+function getPlanDetail(planId, success, fail) {
+  api.get(`/plans/detail/${planId}`).then(success).catch(fail);
+}
+export { createPlanner, searchByKeyword, registPlanInfo, getPlans, getPlanDate, getPlanDetail };

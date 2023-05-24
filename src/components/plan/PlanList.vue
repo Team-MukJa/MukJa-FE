@@ -8,11 +8,11 @@
 
     <div class="row">
       <div class="col-md-6" v-for="plan in plans" :key="plan.id">
-        <b-card class="plan-card" @click="goToDetailPage(plan.id)">
+        <b-card class="plan-card" @click="goToDetailPage(plan.planId)">
           <h4 class="card-title">{{ plan.subject }}</h4>
           <b-card-text>{{ plan.content }}</b-card-text>
           <div class="d-flex justify-content-between">
-            <div v-for="image in plan.representativeImage" :key="image.id">
+            <div v-for="image in plan.representativeImage" :key="image">
               <img :src="image" alt="여행 사진" class="img-thumbnail" />
             </div>
           </div>
@@ -132,7 +132,7 @@ export default {
     goToDetailPage(planId) {
       // 상세보기 페이지로 이동하는 로직을 추가하세요.
       console.log(`Go to detail page for planId: ${planId}`);
-      this.$router.push({ name: "PlanDetail" });
+      this.$router.push({ name: "PlanDetail", params: { planid: planId } });
     },
   },
 };
