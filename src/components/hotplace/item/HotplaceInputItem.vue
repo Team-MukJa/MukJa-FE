@@ -1,0 +1,98 @@
+<template>
+  <div>
+    <h1>핫플레이스 작성</h1>
+    <!-- 나머지 게시판 작성 화면 코드 -->
+    <!-- <b-form @submit="submitForm"> -->
+    <b-form>
+      <b-form-group label="제목" label-for="title-input">
+        <b-form-input id="title-input" v-model="article.subject" required></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="date-group" label="날짜" label-for="date-input">
+        <b-form-datepicker
+          id="date-input"
+          v-model="article.tripday"
+          :day-names="[]"
+        ></b-form-datepicker>
+      </b-form-group>
+
+      <b-form-group label="내용" label-for="content-input">
+        <b-form-textarea
+          id="content-input"
+          v-model="article.content"
+          rows="13"
+          required
+        ></b-form-textarea>
+      </b-form-group>
+
+      <b-form-group label="파일 업로드" label-for="file-input">
+        <b-form-file
+          id="file-input"
+          v-model="article.file"
+          accept=".jpg,.png"
+          size=""
+        ></b-form-file>
+      </b-form-group>
+
+      <b-button type="submit" variant="primary" @click="writePlace">작 성</b-button>
+
+      <b-button type="submit" @click="moveList">목 록</b-button>
+    </b-form>
+  </div>
+</template>
+
+<script>
+import http from "@/util/http-common";
+
+export default {
+  components: {},
+  data() {
+    return {
+      article: {
+        subject: "",
+        tripday: null,
+        content: "",
+        file: null,
+      },
+    };
+  },
+  methods: {
+    async writePlace() {
+      // 게시판 작성 로직 구현
+      try {
+        const formData = new FormData();
+        let uID = "ssafy";
+        formData.append("userId", uID);
+        formData.append("subject", this.article.subject);
+        formData.append("tripDay", this.article.tripday);
+        formData.append("content", this.article.content);
+        formData.append("file", this.article.file);
+
+        console.log(formData);
+        alert("작성");
+        // 여기에서 formData를 서버로 전송하는 작업을 수행할 수 있습니다.
+        // axios 등을 사용하여 서버와 통신하는 코드를 작성할 수 있습니다.
+        const response = await http.post(`/places`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+
+      // 폼 데이터 전송 후 화면 초기화
+      this.subject = "";
+      this.content = "";
+      this.file = null;
+      this.tripDay = null;
+
+      this.$router.push({ name: "placelist" });
+    },
+    // writePlace() {},
+    moveList() {
+      console.log("글목록 보러가자!!!");
+      this.$router.push({ name: "placelist" });
+    },
+  },
+};
+</script>

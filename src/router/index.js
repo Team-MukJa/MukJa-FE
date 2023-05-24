@@ -165,23 +165,24 @@ const routes = [
         beforeEnter: onlyAuthUser,
         component: () => import("@/components/hotplace/HotplaceWrite"),
       },
-      {
-        path: "view/:place-id",
-        name: "placeview",
-        component: () => import("@/components/hotplace/HotplaceView"),
-      },
-      {
-        path: "modify/:place-id",
-        name: "placemodify",
-        beforeEnter: onlyAuthUser,
-        component: () => import("@/components/hotplace/HotplaceModify"),
-      },
-      {
-        path: "delete/:noticeid",
-        name: "noticedelete",
-        beforeEnter: onlyAuthUser,
-        component: () => import("@/components/hotplace/HotplaceDelete"),
-      },
+
+      // {
+      //   path: "modify/:place-id",
+      //   name: "placemodify",
+      //   // beforeEnter: onlyAuthUser,
+      //   component: () => import("@/components/hotplace/HotplaceModify"),
+      // },
+      // {
+      //   path: "view/:place-id",
+      //   name: "placeview",
+      //   component: () => import("@/components/hotplace/HotplaceView"),
+      // },
+      // {
+      //   path: "delete/:noticeid",
+      //   name: "noticedelete",
+      //   beforeEnter: onlyAuthUser,
+      //   component: () => import("@/components/hotplace/HotplaceDelete"),
+      // },
     ],
   },
 
