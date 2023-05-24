@@ -218,14 +218,14 @@ export default {
           const formattedDateTime = `${formattedDate}T${destination.visitTime}`;
 
           return {
-            planId: this.plan.planId,
-            contentId: destination.contentId,
-            img: destination.img,
+            addr: destination.addr,
             content: destination.content,
+            contentId: destination.contentId,
+            day: formattedDateTime,
+            planId: this.plan.planId,
+            img: destination.img,
             x: destination.x,
             y: destination.y,
-            day: formattedDateTime,
-            addr: destination.addr,
             subject: destination.subject,
             memo: destination.memo,
           };

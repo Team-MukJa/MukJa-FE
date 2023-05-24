@@ -209,7 +209,7 @@ const routes = [
       },
 
       {
-        path: "detail",
+        path: "detail:planid",
         name: "PlanDetail",
         beforeEnter: onlyAuthUser,
         component: () => import("@/components/plan/PlanDetail"),

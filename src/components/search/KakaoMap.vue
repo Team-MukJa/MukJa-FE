@@ -22,13 +22,11 @@ export default {
   watch: {
     places() {
       this.positions = [];
+      console.log(this.places);
       this.places.forEach((destInfo) => {
         let obj = {};
         obj.title = destInfo.title;
-        obj.latlng = new kakao.maps.LatLng(
-          destInfo.latitude,
-          destInfo.longitude
-        );
+        obj.latlng = new kakao.maps.LatLng(destInfo.latitude, destInfo.longitude);
         obj.img = destInfo.firstImage;
         obj.addr = destInfo.addr1;
         obj.id = destInfo.contentId;

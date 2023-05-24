@@ -10,28 +10,70 @@
             :key="spotIndex"
             class="col-lg-3 col-md-4 col-sm-6"
           >
-            <b-card
-              class="spot-card"
-              @mouseover="handleCardMouseOver"
-              @mouseleave="handleCardMouseLeave"
-            >
-              <img :src="spot.photo" alt="여행지 사진" />
-              <h3>{{ spot.title }}</h3>
-              <p>{{ spot.memo }}</p>
-              <p>방문 시간: {{ spot.visitTime }}</p>
+            <b-card class="spot-card" @click="handleCardClick(spot)">
+              <div class="card-image">
+                <img :src="spot.img" alt="여행지 사진" />
+              </div>
+              <div class="card-content">
+                <h3 class="spot-title">{{ spot.subject }}</h3>
+                <p class="spot-memo">{{ spot.memo }}</p>
+                <p class="spot-time">
+                  방문 시간: <span>{{ formatTime(spot.time) }}</span>
+                </p>
+              </div>
             </b-card>
           </div>
         </div>
         <hr class="date-divider" />
       </div>
     </div>
-    <div class="right-content">
-      <plan-detail-map></plan-detail-map>
-    </div>
+    <b-container class="right-content">
+      <b-row><plan-detail-map :spotInfo="spotInfo"></plan-detail-map></b-row>
+
+      <b-row>
+        <plan-explain :spotInfo="spotInfo"></plan-explain>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <style>
+.card-image {
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 0 0 10px 10px;
+}
+
+.spot-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.spot-memo {
+  margin-bottom: 10px;
+}
+
+.spot-time {
+  font-style: italic;
+  color: #888;
+}
+
+.spot-time span {
+  color: #333;
+}
 .cont {
   height: 100vh; /* 화면 세로 전체 높이로 설정 */
   display: flex;
@@ -55,6 +97,12 @@
   margin-bottom: 20px; /* 추가 */
   overflow-y: auto;
   border: #c7e2ff 1px;
+  flex-direction: column;
+}
+
+.right-content > * {
+  height: 50%; /* 자식 컴포넌트가 동일한 크기로 나눠짐 */
+  border: 1px solid black; /* 각 자식 컴포넌트의 테두리 스타일 (옵션) */
 }
 
 /* 스크롤바 스타일링 */
@@ -111,58 +159,86 @@
 
 <script>
 import PlanDetailMap from "./PlanDetailMap.vue";
+import PlanExplain from "./PlanExplain.vue";
+import { getPlanDate, getPlanDetail } from "@/api/plan";
+
 export default {
   data() {
     return {
+      planId: "",
       travelSpots: [],
-      travelDates: ["2023.05.17", "2023.05.18"], // 서버에서 받아온 일자 리스트
+      travelDates: [], // 서버에서 받아온 일자 리스트
+      spotInfo: null,
     };
   },
   components: {
     PlanDetailMap,
+    PlanExplain,
   },
+  created() {
+    this.planId = this.$route.params.planid;
+
+    console.log(this.planId);
+    getPlanDate(
+      this.planId,
+      ({ data }) => {
+        console.log(data);
+        this.travelDates = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    getPlanDetail(
+      this.planId,
+      ({ data }) => {
+        console.log(data);
+        this.travelSpots = data;
+        this.splitDateTime();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
+
   methods: {
     getSpotsByDate(date) {
       // 서버에서 해당 일자에 해당하는 여행지 정보를 필터링하여 반환하는 함수
       return this.travelSpots.filter((spot) => spot.date === date);
     },
-    handleCardMouseOver() {
-      // 카드에 마우스를 올렸을 때 처리할 이벤트 핸들러
-      // 예: 카드 효과 변경, 추가 정보 표시 등
-    },
-    handleCardMouseLeave() {
-      // 카드에서 마우스가 벗어났을 때 처리할 이벤트 핸들러
-      // 예: 카드 효과 원래대로 복원, 추가 정보 숨김 등
-    },
-  },
-  mounted() {
-    // 서버 API를 호출하여 travelSpots 데이터를 가져오는 로직
-    // 예시로 하드코딩된 데이터 사용
-    this.travelSpots = [
-      {
-        title: "남산",
-        photo: "남산 사진 URL",
-        memo: "남산에 대한 메모",
-        visitTime: "방문 시간",
-        date: "2023.05.17",
-      },
-      {
-        title: "명동",
-        photo: "명동 사진 URL",
-        memo: "명동에 대한 메모",
-        visitTime: "방문 시간",
-        date: "2023.05.17",
-      },
+    splitDateTime() {
+      for (let i = 0; i < this.travelSpots.length; i++) {
+        // 각 항목에 새로운 속성 추가
+        const parts = this.travelSpots[i].day.split(" "); // 공백을 기준으로 날짜와 시간 분리
 
-      {
-        title: "경복궁",
-        photo: "경복궁 사진 URL",
-        memo: "경복궁에 대한 메모",
-        visitTime: "방문 시간",
-        date: "2023.05.18",
-      },
-      // 다른 여행지 정보도 추가할 수 있습니다.
-    ];
+        if (parts.length === 2) {
+          // 올바른 형식의 입력인 경우
+          this.travelSpots[i].date = parts[0];
+          this.travelSpots[i].time = parts[1];
+
+          console.log(this.travelSpots[i]);
+        } else {
+          // 올바르지 않은 형식의 입력인 경우
+          this.travelSpots[i].date = "";
+          this.travelSpots[i].time = "";
+          console.log("날짜와 시간 형식이 올바르지 않습니다.");
+        }
+      }
+    },
+    handleCardClick(spot) {
+      console.log(spot);
+      this.spotInfo = spot;
+      // console.log(this.spotInfo);
+    },
+    formatTime(time) {
+      const [hours, minutes] = time.split(":");
+      const formattedHours = parseInt(hours, 10) % 12 || 12;
+      const amPm = parseInt(hours, 10) < 12 ? "AM" : "PM";
+      return `${formattedHours}:${minutes} ${amPm}`;
+    },
   },
+  mounted() {},
 };
 </script>
