@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="my-container">
     <b-tabs
       id="tab"
       class="justify-content-center"
@@ -62,8 +62,14 @@ export default {
 #tab {
   display: fixed;
   align-content: center;
-  min-height: 100px;
   width: 1000px;
-  max-height: 300px;
+  max-height: 100vh;
+  margin-top: 30px;
+  padding-bottom: 50px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+}
+.nav-pills > .nav-item > .active {
+  background-color: rgb(252, 169, 169) !important; /* 클릭된 탭의 배경색 변경 */
 }
 </style>

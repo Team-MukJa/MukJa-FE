@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <div class="plan-container">
     <div class="page-header">
       <h2 class="page-title text-center">여행 계획 리스트</h2>
-      <b-button class="ml-auto" variant="primary" @click="openModal">글 작성</b-button>
+      <b-button id="regist-button" class="ml-auto" variant="primary" @click="openModal"
+        >글 작성</b-button
+      >
     </div>
     <hr />
 
@@ -139,16 +141,38 @@ export default {
 </script>
 
 <style scoped>
+.plan-container {
+  margin: 30px;
+  width: 1200px;
+  height: 85%;
+  background-color: whitesmoke;
+  border-radius: 10px; /* 테두리 둥글게 조정 */
+}
 .page-header {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
+  text-align: center;
+  margin: 30px;
 }
 
 .page-title {
   font-family: "Arial", sans-serif;
   font-size: 24px;
+}
+
+#regist-button {
+  background-color: #f8a5c2;
+  border-color: #f8a5c2;
+  color: #ffffff;
+}
+#regist-button:hover,
+#regist-button:focus,
+#regist-button:active {
+  background-color: #e26893;
+  border-color: #e26893;
+  color: #000000;
 }
 
 hr {
