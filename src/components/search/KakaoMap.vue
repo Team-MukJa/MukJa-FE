@@ -32,6 +32,7 @@ export default {
         obj.img = destInfo.firstImage;
         obj.addr = destInfo.addr1;
         obj.id = destInfo.contentId;
+        obj.type = destInfo.contentTypeId;
         this.positions.push(obj);
       });
       this.loadMarker();
@@ -63,7 +64,7 @@ export default {
       const options = {
         center: new window.kakao.maps.LatLng(37.2073, 127.6358),
         // center: new window.kakao.maps.LatLng( 36.987,  126.789), // 남산 중심 좌표
-        level: 5, // 축소된 지도 레벨
+        level: 15, // 축소된 지도 레벨
       };
       this.map = new window.kakao.maps.Map(container, options);
       console.log("TEST" + this.places);
@@ -73,10 +74,18 @@ export default {
 
       this.markers = [];
       this.positions.forEach((position) => {
+        const markerImage = new window.kakao.maps.MarkerImage(
+          require(`../../assets/marker/${position.type}.png`),
+          new window.kakao.maps.Size(35, 35),
+          {
+            offset: new window.kakao.maps.Point(25, 50),
+          }
+        );
+
         const marker = new window.kakao.maps.Marker({
           map: this.map,
           title: position.title,
-          img: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+          image: markerImage,
           position: position.latlng,
         });
 

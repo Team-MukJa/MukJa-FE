@@ -25,42 +25,36 @@
       </div>
     </div>
 
-    <!-- <template>
-      <div class="col">
-        <br />
-        <label class="label">구/군: </label>
-        <select-gugun
-          :sidoCode="sidoCode"
-          :gugunOptions="gugunOptions[sidoCode]"
-          @select-gugun="selectGugun">
-        </select-gugun>
+    <!-- 여기에 Cateogory 항목 추가 -->
+    <div>
+      <div class="content-type-checkbox-group">
+        <button
+          v-for="contentType in contentTypes"
+          :key="contentType.value"
+          class="content-type-button"
+          :class="{
+            'content-type-selected': selectedContentTypes.includes(
+              contentType.value
+            ),
+          }"
+          @click="toggleContentType(contentType.value)">
+          <span>{{ contentType.text }} </span>
+          <img
+            class="category-icon"
+            width="25px"
+            :src="require(`../../assets/marker/${contentType.value}.png`)"
+            :alt="contentType.text" />
+        </button>
       </div>
-    </template> -->
-
+    </div>
     <kakao-map :places="places"></kakao-map>
 
     <div>
       <br /><br /><br />
       <h3>[ 검색 결과 ]</h3>
       <br />
-      <ul>
-        <!-- <li v-for="place in gugunList" :key="place.id">
-          PLACE_ID: {{ place.id }}, 시/도: {{ place.sido }}, 이름:
-          {{ place.name }}, 위도: {{ place.latitude }}, 경도:
-          {{ place.longitude }}
-        </li> -->
-      </ul>
+      <ul></ul>
     </div>
-    <!-- <b-table
-      class="table"
-      striped
-      hover
-      :items="myPlace"
-      :fields="fields"
-      @row-clicked="viewPost"
-      responsive>
-      <template #cell(id)="row">{{ row.value }}</template>
-    </b-table> -->
   </div>
 </template>
 
@@ -94,13 +88,24 @@ export default {
     return {
       sidoCode: null,
       gugunCode: null,
-      keyword: "null",
+      keyword: "",
       places: [],
-      contentTypeId: [12],
+      contentTypeId: [],
       searched: false,
       gugunOptions: {
         // 여기서 값 넣어주기
       },
+      contentTypes: [
+        { text: "관광지", value: 12 },
+        { text: "문화시설", value: 14 },
+        { text: "축제/공연/행사", value: 15 },
+        { text: "여행코스", value: 25 },
+        { text: "레포츠", value: 28 },
+        { text: "숙박", value: 32 },
+        { text: "쇼핑", value: 38 },
+        { text: "음식점", value: 39 },
+      ],
+      selectedContentTypes: [],
     };
   },
   methods: {
@@ -127,7 +132,7 @@ export default {
       searchDestination(
         this.sidoCode,
         this.gugunCode,
-        this.contentTypeId,
+        this.selectedContentTypes,
         this.keyword,
         ({ data }) => {
           this.places = data;
@@ -136,11 +141,7 @@ export default {
           console.log(error);
         }
       );
-      // 장소 검색 로직 구현
-      // 검색 결과를 this.places에 저장하고 this.searched 값을 true로 설정
-      // 장소 검색 로직 구현
-      // 더미 데이터로 생성된 관광지 정보
-      console.log(this.places);
+
       this.searched = true;
     },
   },
@@ -186,5 +187,27 @@ li {
   margin-bottom: 5px;
   font-weight: bold;
   font-family: Arial, sans-serif;
+}
+
+.content-type-checkbox-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.content-type-button {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 150px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: black;
+}
+
+.content-type-button:hover,
+.content-type-button:focus {
+  background-color: #b25ef7;
+  color: white;
 }
 </style>
