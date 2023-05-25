@@ -131,13 +131,6 @@ const routes = [
         // beforeEnter: onlyAuthUser,
         component: () => import("@/components/hotplace/HotplaceWrite"),
       },
-
-      // {
-      //   path: "modify/:place-id",
-      //   name: "placemodify",
-      //   // beforeEnter: onlyAuthUser,
-      //   component: () => import("@/components/hotplace/HotplaceModify"),
-      // },
     ],
   },
 

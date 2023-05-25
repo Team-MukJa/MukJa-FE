@@ -30,29 +30,42 @@
       hide-footer
       header-bg-variant="transparent"
       size="xl"
+      centered
     >
       <div class="modal-body flex-grow-1" v-if="selectedPlace">
         <div class="mb-3">
-          <h5 class="modal-title">{{ selectedPlace.subject }}</h5>
+          <h5 class="modal-title">
+            {{ selectedPlace.subject }}
+            <span class="place-name">({{ selectedPlace.placeName }})</span>
+            <span class="place-name">({{ selectedPlace.placeAddress }})</span>
+          </h5>
           <hr class="my-2" />
         </div>
-        <div class="d-flex">
-          <div class="mr-4">
-            <img
-              :src="
-                require(`@/assets/img/springboot/img/${selectedPlace.saveFolder}/${selectedPlace.saveFile}`)
-              "
-              alt="place Image"
-              class="place-image"
-            />
+        <div class="row">
+          <div class="col-md-4 d-flex align-items-center" v-if="selectedPlace">
+            <!-- 카카오맵 마커 컴포넌트 Start -->
+            <div>
+              <hotplace-detail-map :spotInfo="spotInfo"></hotplace-detail-map>
+            </div>
+            <!-- 카카오맵 마커 컴포넌트 End -->
           </div>
-          <div class="flex-grow-1">
-            <div class="content-container">
-              <p class="mb-0">{{ selectedPlace.content }}</p>
+          <div class="col-md-8">
+            <b-card class="content-container" no-body>
+              <b-card-text>{{ selectedPlace.content }}</b-card-text>
+            </b-card>
+            <div class="image-container">
+              <img
+                :src="
+                  require(`@/assets/img/springboot/img/${selectedPlace.saveFolder}/${selectedPlace.saveFile}`)
+                "
+                alt="place Image"
+                class="place-image"
+              />
             </div>
           </div>
         </div>
       </div>
+
       <div class="modal-footer" v-if="selectedPlace">
         <b-button variant="danger" @click="confirmDeletePlace">삭제</b-button>
         <b-button variant="primary" @click="closeModal">닫기</b-button>
@@ -75,6 +88,7 @@
 
 <script>
 import http from "@/util/http-common";
+import HotplaceDetailMap from "./item/HotplaceDetailMap.vue";
 
 export default {
   data() {
@@ -83,7 +97,14 @@ export default {
       showModal: false,
       selectedPlace: null,
       confirmModalVisible: false, // 알림창 모달 표시 여부
+      spotInfo: {
+        x: null,
+        y: null,
+      },
     };
+  },
+  components: {
+    HotplaceDetailMap,
   },
   created() {
     http.get("/places").then(({ data }) => {
@@ -98,6 +119,8 @@ export default {
     },
     showDetail(place) {
       this.selectedPlace = place;
+      this.spotInfo.x = this.selectedPlace.placeX;
+      this.spotInfo.y = this.selectedPlace.placeY;
       console.log("상세보기");
       console.log(this.selectedPlace);
 
@@ -199,13 +222,46 @@ export default {
 }
 
 .modal-body .row {
-  align-items: center;
+  align-items: flex-start;
+}
+
+/* ... 기존 스타일 ... */
+.place-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
 }
 
 .content-container {
-  /* height: 500px !important;  */
-  /* 적절한 높이로 조정해주세요 */
-  width: 300px !important;
-  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
+  padding: 0.5rem;
+}
+
+.modal-dialog {
+  max-width: 80vw;
+  max-height: 80vh;
+}
+
+.place-name {
+  font-size: 0.8rem;
+  color: #888;
+  margin-left: 0.5rem;
+  display: inline-block;
+  margin-bottom: 0.2rem;
+}
+
+.modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.place-name {
+  font-size: 1rem;
+  color: #888;
+  margin-left: 0.5rem;
+  display: inline-block;
+  align-self: flex-end;
+  margin-bottom: 0.2rem;
+  font-size: 0.8rem;
 }
 </style>

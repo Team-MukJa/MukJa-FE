@@ -1,11 +1,16 @@
 <template>
-  <div>
+  <div class="writehotplace">
     <h1>핫플레이스 작성</h1>
     <!-- 나머지 게시판 작성 화면 코드 -->
     <!-- <b-form @submit="submitForm"> -->
-    <b-form>
+    <b-form v-on:submit.prevent>
       <b-form-group label="제목" label-for="title-input">
-        <b-form-input id="title-input" v-model="article.subject" @input="checkFormValidity" required></b-form-input>
+        <b-form-input
+          id="title-input"
+          v-model="article.subject"
+          @input="checkFormValidity"
+          required
+        ></b-form-input>
       </b-form-group>
 
       <b-form-group id="date-group" label="날짜" label-for="date-input">
@@ -18,31 +23,33 @@
       </b-form-group>
 
       <!--Map 에서 받아오는 데이터-->
-      <div v-if="!receivedMapValue" class="mb-4">
-        <b-card>
-          <div class="text-center py-3">
-            <b-badge variant="secondary">장소 정보가 아직 제공되지 않았습니다.</b-badge>
+      <div v-if="!receivedMapValue" class="mb-3">
+        <b-card style="height: 120px">
+          <div class="text-center py-2">
+            <b-badge variant="secondary" class="badge-size"
+              >방문했던 곳을 지도에서 선택해주세요</b-badge
+            >
           </div>
         </b-card>
       </div>
 
-      <div v-else class="mb-4">
+      <div v-else class="mb-3">
         <b-card>
           <div class="custom-field">
             <b-form-group label="장소명" label-cols-sm="3">
-              <p>{{ receivedMapValue.place_name }}</p>
+              <p class="map-data">{{ receivedMapValue.place_name }}</p>
             </b-form-group>
           </div>
 
           <div class="custom-field">
             <b-form-group label="주소" label-cols-sm="3">
-              <p>{{ receivedMapValue.address_name }}</p>
+              <p class="map-data">{{ receivedMapValue.address_name }}</p>
             </b-form-group>
           </div>
 
           <div class="custom-field">
             <b-form-group label="카테고리" label-cols-sm="3">
-              <p>{{ receivedMapValue.category_group_name }}</p>
+              <p class="map-data">{{ receivedMapValue.category_group_name }}</p>
             </b-form-group>
           </div>
         </b-card>
@@ -52,7 +59,7 @@
         <b-form-textarea
           id="content-input"
           v-model="article.content"
-          rows="13"
+          rows="8"
           @input="checkFormValidity"
           required
         ></b-form-textarea>
@@ -68,11 +75,11 @@
         ></b-form-file>
       </b-form-group>
 
-      <b-button type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid">작 성</b-button>
-
+      <b-button type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid"
+        >작 성</b-button
+      >
 
       <b-button type="submit" @click="moveList">목 록</b-button>
-
     </b-form>
   </div>
 </template>
@@ -85,8 +92,8 @@ export default {
   props: {
     receivedMapValue: {
       type: Object,
-      required:true,
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -120,7 +127,7 @@ export default {
         alert("파일 크기는 최대 3MB를 초과할 수 없습니다.");
         this.article.file = "";
       }
-      this.checkFormValidity()
+      this.checkFormValidity();
     },
     async writePlace() {
       // 게시판 작성 로직 구현
@@ -148,19 +155,18 @@ export default {
           headers: { "Content-Type": "multipart/form-data" },
         });
         console.log(response);
-      this.$router.push("/placelist" );
 
+        this.$router.push({ name: "placelist" });
       } catch (error) {
         console.error(error);
-        alert("에러발생")
+        alert("에러발생");
       }
 
       // 폼 데이터 전송 후 화면 초기화
-      this.article.subject = "";
-      this.article.content = "";
-      this.article.file = null;
-      this.article.tripDay = null;
-
+      // this.article.subject = "";
+      // this.article.content = "";
+      // this.article.file = null;
+      // this.article.tripDay = null;
     },
 
     moveList() {
@@ -172,16 +178,34 @@ export default {
 </script>
 
 <style>
+.writehotplace {
+  margin: 0 auto;
+}
+
 .custom-field {
-  margin-bottom: 16px;
-  background-color: #F8F8F8;
+  margin-bottom: 8px;
+  background-color: #f8f8f8;
   padding: 10px;
+  height: 50px;
 }
 
 .custom-field p {
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   color: #333333;
+}
+
+.card-body {
+  height: 200px;
+}
+
+.map-data {
+  font-size: 12px;
+}
+
+.badge-size {
+  font-size: 12px;
+  padding: 4px 8px;
 }
 </style>
