@@ -64,7 +64,7 @@ const routes = [
   },
   {
     path: "/my",
-    name:"my",
+    name: "my",
     component: AppMyPage,
     beforeEnter: onlyAuthUser,
   },
@@ -170,7 +170,7 @@ const routes = [
 
   {
     path: "/plan",
-    name: "AppPain",
+    name: "AppPlan",
     component: AppPlan,
     redirect: "/plan/list",
     children: [

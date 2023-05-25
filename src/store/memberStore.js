@@ -32,6 +32,11 @@ const memberStore = {
       state.isLogin = true;
       state.userInfo = userInfo;
     },
+
+    DELETE_USER_INFO: (state) => {
+      state.isLogin = false;
+      state.userInfo = null;
+    },
   },
   actions: {
     async userConfirm({ commit }, user) {
@@ -79,6 +84,8 @@ const memberStore = {
           );
           commit("SET_IS_VALID_TOKEN", false);
           // await dispatch("tokenRegeneration");
+          // commit("DELETE_USER_INFO");
+          // localStorage.removeItem("access-token"); //저장된 토큰 없애기
         }
       );
     },

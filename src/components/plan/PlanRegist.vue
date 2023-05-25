@@ -3,7 +3,7 @@
     <!-- 여행 계획 리스트 -->
     <div class="left-content">
       <h2 class="text-center">{{ plan.subject }}</h2>
-      <b-tabs v-model="selectedDay" fill vertical @input="handleTabChange">
+      <b-tabs v-model="selectedDay" fill vertical>
         <b-tab
           v-for="day in dayOptions"
           :key="day.value"
@@ -144,15 +144,7 @@ export default {
         }
       );
     },
-    handleTabChange(selectedTab) {
-      // 모든 탭을 순회하면서 스타일 초기화
-      this.$refs.tabs.forEach((tab) => {
-        tab.$el.classList.remove("bold-text");
-      });
 
-      // 선택한 탭의 스타일 변경
-      selectedTab.$el.classList.add("bold-text");
-    },
     generateDestinationLists() {
       const startDate = new Date(this.plan.startDate);
       const endDate = new Date(this.plan.endDate);
@@ -272,10 +264,12 @@ export default {
   display: flex;
   margin: 30px;
   width: 150vb;
-  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
+  max-height: 80vh;
+  /* 최대 높이를 viewport의 80%로 설정 */
   background-color: whitesmoke;
   border-radius: 10px;
-  overflow-y: auto; /* 수직 스크롤 추가 */
+  overflow-y: auto;
+  /* 수직 스크롤 추가 */
   display: flex;
   margin-bottom: 100px;
 }
@@ -452,6 +446,7 @@ export default {
   background-color: #333;
   border: #333;
 }
+
 .bold-text {
   font-weight: bold;
 }
