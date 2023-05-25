@@ -23,13 +23,13 @@ export default {
     console.log(this.spotInfo);
   },
   watch: {
-    // spotInfo() {
-    //   console.log("change");
-    //   this.position.title = this.spotInfo.subject;
-    //   this.position.latlng = new kakao.maps.LatLng(this.spotInfo.y, this.spotInfo.x);
-    //   this.loadMap();
-    //   this.loadMarker();
-    // },
+    spotInfo() {
+      console.log("change");
+      this.position.title = this.spotInfo.subject;
+      this.position.latlng = new kakao.maps.LatLng(this.spotInfo.y, this.spotInfo.x);
+      this.loadMap();
+      // this.loadMarker();
+    },
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -42,6 +42,12 @@ export default {
   },
 
   methods: {
+    resetData() {
+      // 데이터 초기화
+      this.map = null;
+      this.position = {};
+      this.marker = {};
+    },
     loadScript() {
       const script = document.createElement("script");
       script.src =
@@ -63,6 +69,7 @@ export default {
       this.map = new window.kakao.maps.Map(container, options);
       console.log("TEST" + this.places);
 
+      this.deleteMarker();
       console.log("마커");
       this.position.latlng = new kakao.maps.LatLng(this.spotInfo.y, this.spotInfo.x);
 

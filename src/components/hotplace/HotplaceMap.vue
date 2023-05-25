@@ -188,11 +188,8 @@ export default {
     },
     emitPlace(clickedMap) {
       console.log(clickedMap);
-      this.$emit('map-clicked', clickedMap)
-
-
-
-  },
+      this.$emit("map-clicked", clickedMap);
+    },
   },
 };
 </script>

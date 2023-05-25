@@ -155,6 +155,7 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+      this.$router.go(0);
     },
 
     deletePlace() {
@@ -293,5 +294,15 @@ export default {
   align-self: flex-end;
   margin-bottom: 0.2rem;
   font-size: 0.8rem;
+}
+
+.container {
+  margin: 30px;
+  width: 150vb;
+  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
+  background-color: whitesmoke;
+  border-radius: 10px;
+  overflow-y: auto; /* 수직 스크롤 추가 */
+  overflow-x: hidden; /* 수직 스크롤 추가 */
 }
 </style>
