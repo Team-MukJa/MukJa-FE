@@ -2,53 +2,75 @@
   <div class="register-container">
     <b-card class="register-card">
       <h3 class="card-title">내 정보</h3>
-      <b-form @submit.prevent="register">
+      <b-form>
         <b-form-group id="username-group" label="아이디" label-for="username-input">
           <b-form-input
             id="username-input"
-            v-model="this.my.userId"
+            v-model="my.userId"
             type="text"
             required
+            readonly
           ></b-form-input>
         </b-form-group>
 
         <b-form-group id="password-group" label="비밀번호" label-for="password-input">
-          <b-form-input id="password-input" v-model="this.my.userPwd" type="test"></b-form-input>
+          <b-form-input id="password-input" v-model="my.userPwd" type="test"></b-form-input>
         </b-form-group>
 
         <b-form-group id="name-group" label="이름" label-for="name-input">
           <b-form-input
             id="name-input"
-            v-model="this.my.userName"
+            v-model="my.userName"
             type="text"
             required
+            readonly
           ></b-form-input>
         </b-form-group>
 
         <b-form-group id="email-group" label="이메일" label-for="email-input">
-          <b-form-input id="email-input" v-model="this.email" type="text" required></b-form-input>
+          <b-input-group>
+            <b-form-input
+              id="email-id-input"
+              v-model="my.emailId"
+              type="text"
+              placeholder="이메일 ID을 입력하세요"
+              required
+            ></b-form-input>
+            <b-input-group-prepend>
+              <span class="input-group-text">@</span>
+            </b-input-group-prepend>
+            <b-form-input
+              id="email-domain-input"
+              v-model="my.emailDomain"
+              type="text"
+              placeholder="도메인을 입력하세요"
+              required
+            ></b-form-input>
+          </b-input-group>
         </b-form-group>
 
         <b-form-group id="regtime-group" label="가입날짜" label-for="regtime-fieldset">
-          <b-form-fieldset id="regtime-fieldset">
-            {{ this.regtime }}
-          </b-form-fieldset>
+          <b-form-input id="regtime-fieldset" v-model="regtime" type="text" readonly></b-form-input>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="modify-button">수정</b-button>
-        <b-button type="submit" variant="primary" class="delete-button">탈퇴</b-button>
+        <b-button variant="primary" class="modify-button" @click.self.prevent="doModify"
+          >수정</b-button
+        >
+        <b-button variant="primary" class="delete-button" @click.self.prevent="doDelete"
+          >탈퇴</b-button
+        >
       </b-form>
     </b-card>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters, mapActions } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   name: "MyUserDetail",
   components: {},
-  props: {
-    myData: Object,
-  },
   data() {
     return {
       my: {
@@ -57,28 +79,39 @@ export default {
         userName: "",
         emailId: "",
         emailDomain: "",
-        joinDate: [],
-        role: "",
       },
       message: "MyUserDetail",
-      email: "",
       regtime: "",
     };
   },
-  created() {
-    this.my.userId = this.myData.userId;
-    this.my.userPwd = this.myData.userPwd;
-    this.my.userName = this.myData.userName;
-    this.my.emailId = this.myData.emailId;
-    this.my.emailDomain = this.myData.emailDomain;
-    this.my.joinDate = this.myData.joinDate;
-    this.my.role = this.myData.role;
-
-    this.email = this.my.emailId + "@" + this.my.emailDomain;
-    this.regtime =
-      this.my.joinDate[0] + "년 " + this.my.joinDate[1] + "월 " + this.my.joinDate[2] + "일";
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
   },
-  methods: {},
+  created() {
+    this.my.userId = this.userInfo.userId;
+    this.my.userName = this.userInfo.userName;
+    this.my.emailId = this.userInfo.emailId;
+    this.my.emailDomain = this.userInfo.emailDomain;
+
+    this.regtime =
+      this.userInfo.joinDate[0] +
+      "년 " +
+      this.userInfo.joinDate[1] +
+      "월 " +
+      this.userInfo.joinDate[2] +
+      "일";
+  },
+  methods: {
+    ...mapActions(memberStore, ["getUserInfo"]),
+    doModify() {
+      if (!this.my.userPwd) this.my.userPwd = null;
+      this.$emit("update-user", this.my);
+    },
+    doDelete() {
+      this.$emit("delete-user", this.my.userId);
+    },
+  },
 };
 </script>
 

@@ -3,11 +3,11 @@
     <b-card class="login-card">
       <h3 class="card-title">로그인</h3>
 
-      <b-form @submit.prevent="login">
-        <b-form-group id="username-group" label="사용자명" label-for="username-input">
+      <b-form @submit.prevent="confirm">
+        <b-form-group id="userId-group" label="사용자명" label-for="userId-input">
           <b-form-input
-            id="username-input"
-            v-model="username"
+            id="userId-input"
+            v-model="member.userId"
             type="text"
             placeholder="사용자명을 입력하세요"
             required
@@ -17,7 +17,7 @@
         <b-form-group id="password-group" label="비밀번호" label-for="password-input">
           <b-form-input
             id="password-input"
-            v-model="password"
+            v-model="member.userPwd"
             type="password"
             placeholder="비밀번호를 입력하세요"
             required
@@ -28,23 +28,42 @@
       </b-form>
 
       <div class="register-link">
-        <router-link to="/register">회원가입</router-link>
+        <router-link to="/user/join">회원가입</router-link>
       </div>
     </b-card>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   data() {
     return {
-      username: "",
-      password: "",
+      member: {
+        userId: null,
+        userPwd: null,
+      },
     };
   },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "isLoginError", "userInfo"]),
+  },
   methods: {
-    login() {
-      // 로그인 메소드 내용 유지
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    async confirm() {
+      await this.userConfirm(this.member);
+      let token = localStorage.getItem("access-token");
+      // console.log("1. confirm() token >> " + token);
+      if (this.isLogin) {
+        await this.getUserInfo(token);
+        // console.log("4. confirm() userInfo :: ", this.userInfo);
+        this.$router.push({ name: "AppMain" });
+      }
+    },
+    movePage() {
+      this.$router.push({ name: "UserJoin" });
     },
   },
 };

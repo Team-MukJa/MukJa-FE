@@ -1,8 +1,26 @@
 <template>
   <div class="container">
     <h1>핫플레이스 목록</h1>
+    <div class="category-buttons">
+      <b-button
+        v-for="category in categories"
+        :key="category"
+        variant="outline-primary"
+        :active="selectedCategory === category"
+        @click="selectCategory(category)"
+      >
+        {{ category }}
+      </b-button>
+      <b-button
+        variant="outline-primary"
+        :active="selectedCategory === ''"
+        @click="selectCategory('')"
+      >
+        전체
+      </b-button>
+    </div>
     <div class="row">
-      <div class="col-lg-3 col-md-6 mb-4" v-for="place in places" :key="place.placeId">
+      <div class="col-lg-3 col-md-6 mb-4" v-for="place in filteredPlaces" :key="place.placeId">
         <div class="card" @click="showDetail(place)">
           <img
             :src="require(`@/assets/img/springboot/img/${place.saveFolder}/${place.saveFile}`)"
@@ -29,7 +47,7 @@
       @shown="setSelectedPlace"
       hide-footer
       header-bg-variant="transparent"
-      size="xl"
+      size="lg"
     >
       <div class="modal-body flex-grow-1" v-if="selectedPlace">
         <div class="mb-3">
@@ -47,6 +65,9 @@
             />
           </div>
           <div class="flex-grow-1">
+            <div class="content-container">
+              <p class="mb-0">{{ selectedPlace.category }}</p>
+            </div>
             <div class="content-container">
               <p class="mb-0">{{ selectedPlace.content }}</p>
             </div>
@@ -83,6 +104,8 @@ export default {
       showModal: false,
       selectedPlace: null,
       confirmModalVisible: false, // 알림창 모달 표시 여부
+      categories: ['음식', '여행', '문화'], // 카테고리 배열 추가
+      selectedCategory: '', // 선택된 카테고리 변수 추가
     };
   },
   created() {
@@ -91,7 +114,14 @@ export default {
       this.places = data;
     });
   },
-
+  computed: {
+    filteredPlaces() {
+      if (this.selectedCategory) {
+        return this.places.filter(place => place.category === this.selectedCategory);
+      }
+      return this.places;
+    }
+  },
   methods: {
     setSelectedPlace() {
       this.selectedPlace = { ...this.selectedPlace };
@@ -126,6 +156,9 @@ export default {
     },
     movePlaceWrite() {
       this.$router.push({ name: "placewrite" });
+    },
+    selectCategory(category) {
+      this.selectedCategory = category;
     },
   },
 };
