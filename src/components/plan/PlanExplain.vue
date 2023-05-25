@@ -4,10 +4,14 @@
       <img :src="spotInfo.img" alt="Destination Image" class="rounded img-fluid" />
     </div>
     <div class="destination-details">
-      <h3 class="destination-title">{{ spotInfo.title }}</h3>
+      <h3 class="destination-title">{{ spotInfo.subject }}</h3>
       <div class="destination-divider"></div>
-      <button @click="toggleDescription" class="btn btn-primary">
-        {{ isDescriptionVisible ? "Hide Description" : "Show Description" }}
+      <button
+        @click="toggleDescription"
+        class="custom-button"
+        :class="{ 'button-visible': isDescriptionVisible }"
+      >
+        {{ isDescriptionVisible ? "숨기기" : "내용보기" }}
       </button>
       <div v-show="isDescriptionVisible" class="destination-description-wrapper">
         <p class="destination-description text-center">{{ spotInfo.content }}</p>
@@ -21,18 +25,19 @@
 <style scoped>
 .destination-info {
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  padding: 20px;
+  margin-bottom: 10px;
+  padding: 10px;
   background-color: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 5px;
 }
 
 .destination-image {
-  max-width: 200px;
+  max-width: 250px;
   height: auto;
   text-align: center;
   margin-bottom: 10px;
@@ -60,8 +65,38 @@
   margin-bottom: 10px;
 }
 
+.custom-button {
+  background-color: transparent;
+  border: none;
+  color: #000000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.custom-button:hover {
+  color: #333333;
+}
+
+.button-visible {
+  background-color: transparent;
+  width: 120px;
+}
+
+.button-visible:hover {
+  background-color: transparent;
+  color: #333333;
+}
+
+.destination-details {
+  height: 200px; /* 원하는 크기로 조정해주세요 */
+  overflow: hidden;
+  text-align: center;
+  overflow-y: auto;
+}
+
 .destination-description-wrapper {
-  max-height: 150px;
+  max-height: 300px;
   overflow: hidden;
   transition: max-height 0.3s;
 }
@@ -70,6 +105,7 @@
   margin-bottom: 10px;
   text-align: center;
   line-height: 1.5;
+  font-size: 10px;
 }
 
 .destination-address {
@@ -77,6 +113,7 @@
   text-align: center;
 }
 </style>
+
 <script>
 export default {
   props: {

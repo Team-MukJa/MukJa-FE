@@ -60,6 +60,8 @@ export default {
         await this.getUserInfo(token);
         // console.log("4. confirm() userInfo :: ", this.userInfo);
         this.$router.push({ name: "AppMain" });
+      } else {
+        alert("로그인에 실패하였습니다.");
       }
     },
     movePage() {

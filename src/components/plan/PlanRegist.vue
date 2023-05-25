@@ -3,8 +3,20 @@
     <!-- 여행 계획 리스트 -->
     <div class="left-content">
       <h2 class="text-center">{{ plan.subject }}</h2>
+<<<<<<< HEAD
+      <b-tabs v-model="selectedDay" fill vertical @input="handleTabChange">
+        <b-tab
+          v-for="day in dayOptions"
+          :key="day.value"
+          :title="day.text"
+          class="tab-item"
+          active
+          title-link-class="text-dark border-top border-bottom text-bold:hover "
+        >
+=======
       <b-tabs v-model="selectedDay" pills vertical>
         <b-tab v-for="day in dayOptions" :key="day.value" :title="day.text" class="tab-item">
+>>>>>>> 7a1381dd433c9f08d935c65beb71a99f2aaf8a17
           <b-list-group>
             <b-list-group-item v-for="destination in getDestinationsByDay(day.value)" :key="destination.id"
               class="destination-list-item">
@@ -28,9 +40,13 @@
         </b-tab>
       </b-tabs>
       <div class="save-button-container">
+<<<<<<< HEAD
+        <b-button variant="primary" @click="saveDestinations" class="save-button"> 저장 </b-button>
+=======
         <b-button variant="primary" @click="saveDestinations" class="save-button">
           저장
         </b-button>
+>>>>>>> 7a1381dd433c9f08d935c65beb71a99f2aaf8a17
       </div>
     </div>
 
@@ -38,7 +54,15 @@
     <div class="middle-content">
       <h2 class="text-center">여행지 검색 진행시켜!!</h2>
       <div class="search-bar">
+<<<<<<< HEAD
+        <b-form-input
+          v-model="searchQuery"
+          placeholder="검색어를 입력하세요"
+          class="search-input"
+        ></b-form-input>
+=======
         <b-form-input v-model="searchQuery" placeholder="검색어를 입력하세요" class="search-input"></b-form-input>
+>>>>>>> 7a1381dd433c9f08d935c65beb71a99f2aaf8a17
         <b-button variant="primary" @click="searchDestinations(searchQuery)" class="search-button">
           검색
         </b-button>
@@ -71,25 +95,9 @@ export default {
   data() {
     return {
       searchQuery: "",
-      searchResults: [
-        // latitude
-        // longitude
-        // first_img
-        // title
-        // overview
-        // content_id
-      ],
-      destinationLists: [
-        //   { day: 1, destinations: [] },
-        //   // { day: 2, destinations: [] },
-        //   // { day: 3, destinations: [] },
-      ],
+      searchResults: [],
+      destinationLists: [],
       selectedDay: 0,
-      // dayOptions: [
-      //   { value: 1, text: "1일차" },
-      //   { value: 2, text: "2일차" },
-      //   { value: 3, text: "3일차" },
-      // ],
     };
   },
   components: {
@@ -131,7 +139,15 @@ export default {
         }
       );
     },
+    handleTabChange(selectedTab) {
+      // 모든 탭을 순회하면서 스타일 초기화
+      this.$refs.tabs.forEach((tab) => {
+        tab.$el.classList.remove("bold-text");
+      });
 
+      // 선택한 탭의 스타일 변경
+      selectedTab.$el.classList.add("bold-text");
+    },
     generateDestinationLists() {
       const startDate = new Date(this.plan.startDate);
       const endDate = new Date(this.plan.endDate);
@@ -162,9 +178,7 @@ export default {
     },
     deleteDestination(day, destinationId) {
       console.log("여행지를 삭제합니다:", day, destinationId);
-      const dayDestination = this.destinationLists.find(
-        (item) => item.day === day
-      );
+      const dayDestination = this.destinationLists.find((item) => item.day === day);
       if (dayDestination) {
         const index = dayDestination.destinations.findIndex(
           (destination) => destination.id === destinationId
@@ -175,9 +189,7 @@ export default {
       }
     },
     getDestinationsByDay(day) {
-      const dayDestination = this.destinationLists.find(
-        (item) => item.day === day
-      );
+      const dayDestination = this.destinationLists.find((item) => item.day === day);
       return dayDestination ? dayDestination.destinations : [];
     },
     formatTime(value) {
@@ -190,37 +202,31 @@ export default {
       const startDate = new Date(this.plan.startDate);
 
       // destinationLists를 변환하면서 날짜와 시간 계산
-      const formattedDestinationLists = this.destinationLists.flatMap(
-        (dayDestination, index) => {
-          const formattedDestinations = dayDestination.destinations.map(
-            (destination) => {
-              // 각 일차를 더한 날짜 계산
-              const date = new Date(
-                startDate.getTime() + index * 24 * 60 * 60 * 1000
-              );
-              const formattedDate = formatDate(date);
+      const formattedDestinationLists = this.destinationLists.flatMap((dayDestination, index) => {
+        const formattedDestinations = dayDestination.destinations.map((destination) => {
+          // 각 일차를 더한 날짜 계산
+          const date = new Date(startDate.getTime() + index * 24 * 60 * 60 * 1000);
+          const formattedDate = formatDate(date);
 
-              // 입력된 visitTime을 활용하여 날짜와 시간을 조합
-              const formattedDateTime = `${formattedDate}T${destination.visitTime}`;
+          // 입력된 visitTime을 활용하여 날짜와 시간을 조합
+          const formattedDateTime = `${formattedDate}T${destination.visitTime}`;
 
-              return {
-                addr: destination.addr,
-                content: destination.content,
-                contentId: destination.contentId,
-                day: formattedDateTime,
-                planId: this.plan.planId,
-                img: destination.img,
-                x: destination.x,
-                y: destination.y,
-                subject: destination.subject,
-                memo: destination.memo,
-              };
-            }
-          );
+          return {
+            addr: destination.addr,
+            content: destination.content,
+            contentId: destination.contentId,
+            day: formattedDateTime,
+            planId: this.plan.planId,
+            img: destination.img,
+            x: destination.x,
+            y: destination.y,
+            subject: destination.subject,
+            memo: destination.memo,
+          };
+        });
 
-          return formattedDestinations;
-        }
-      );
+        return formattedDestinations;
+      });
 
       // 날짜를 원하는 형식으로 변환하는 함수
       function formatDate(date) {
@@ -249,6 +255,8 @@ export default {
           console.log(error);
         }
       );
+
+      this.$router.push({ name: "AppPlan" });
     },
   },
 };
@@ -258,12 +266,29 @@ export default {
 .cont {
   display: flex;
   margin: 30px;
+<<<<<<< HEAD
+  width: 150vb;
+  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
+  background-color: whitesmoke;
+  border-radius: 10px;
+  overflow-y: auto; /* 수직 스크롤 추가 */
+  display: flex;
+  margin-bottom: 100px;
+}
+
+.custom-nav-item {
+  /* 원하는 탭 항목의 스타일을 지정하세요 */
+  /* 예시: 배경색과 글자색을 변경 */
+  background-color: #eaeaea;
+  color: #333333;
+=======
   width: 1500px;
   flex-direction: row;
   max-height: 80vh;
   background-color: whitesmoke;
   border-radius: 10px;
   overflow-y: auto;
+>>>>>>> 7a1381dd433c9f08d935c65beb71a99f2aaf8a17
 }
 
 .left-content {
@@ -354,6 +379,8 @@ export default {
 
 .search-button {
   min-width: 80px;
+  background-color: #333;
+  border: #333;
 }
 
 .search-results {
@@ -420,5 +447,10 @@ export default {
 
 .save-button {
   min-width: 120px;
+  background-color: #333;
+  border: #333;
+}
+.bold-text {
+  font-weight: bold;
 }
 </style>
