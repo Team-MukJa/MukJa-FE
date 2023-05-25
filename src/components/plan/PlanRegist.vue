@@ -4,47 +4,22 @@
     <div class="left-content">
       <h2 class="text-center">{{ plan.subject }}</h2>
       <b-tabs v-model="selectedDay" pills vertical>
-        <b-tab
-          v-for="day in dayOptions"
-          :key="day.value"
-          :title="day.text"
-          class="tab-item"
-        >
+        <b-tab v-for="day in dayOptions" :key="day.value" :title="day.text" class="tab-item">
           <b-list-group>
-            <b-list-group-item
-              v-for="destination in getDestinationsByDay(day.value)"
-              :key="destination.id"
-              class="destination-list-item"
-            >
+            <b-list-group-item v-for="destination in getDestinationsByDay(day.value)" :key="destination.id"
+              class="destination-list-item">
               <b-card class="destination-card input-list-card">
                 <h4>{{ destination.subject }}</h4>
-                <img
-                  :src="destination.img"
-                  alt="여행지 사진"
-                  class="img-thumbnail"
-                />
+                <img :src="destination.img" alt="여행지 사진" class="img-thumbnail" />
                 <b-form-group label="방문 시간" label-for="visit-time-input">
-                  <b-form-timepicker
-                    id="visit-time-input"
-                    v-model="destination.visitTime"
-                    minute-step="15"
-                    :time-formatter="formatTime"
-                    placeholder="방문 시간을 선택하세요"
-                  ></b-form-timepicker>
+                  <b-form-timepicker id="visit-time-input" v-model="destination.visitTime" minute-step="15"
+                    :time-formatter="formatTime" placeholder="방문 시간을 선택하세요"></b-form-timepicker>
                 </b-form-group>
                 <b-form-group label="메모" label-for="memo-input">
-                  <b-form-textarea
-                    id="memo-input"
-                    v-model="destination.memo"
-                    placeholder="메모를 입력하세요"
-                  ></b-form-textarea>
+                  <b-form-textarea id="memo-input" v-model="destination.memo" placeholder="메모를 입력하세요"></b-form-textarea>
                 </b-form-group>
-                <b-button
-                  variant="danger"
-                  size="sm"
-                  @click="deleteDestination(day.value, destination.id)"
-                  class="delete-button"
-                >
+                <b-button variant="danger" size="sm" @click="deleteDestination(day.value, destination.id)"
+                  class="delete-button">
                   삭제
                 </b-button>
               </b-card>
@@ -53,11 +28,7 @@
         </b-tab>
       </b-tabs>
       <div class="save-button-container">
-        <b-button
-          variant="primary"
-          @click="saveDestinations"
-          class="save-button"
-        >
+        <b-button variant="primary" @click="saveDestinations" class="save-button">
           저장
         </b-button>
       </div>
@@ -67,32 +38,16 @@
     <div class="middle-content">
       <h2 class="text-center">여행지 검색 진행시켜!!</h2>
       <div class="search-bar">
-        <b-form-input
-          v-model="searchQuery"
-          placeholder="검색어를 입력하세요"
-          class="search-input"
-        ></b-form-input>
-        <b-button
-          variant="primary"
-          @click="searchDestinations(searchQuery)"
-          class="search-button"
-        >
+        <b-form-input v-model="searchQuery" placeholder="검색어를 입력하세요" class="search-input"></b-form-input>
+        <b-button variant="primary" @click="searchDestinations(searchQuery)" class="search-button">
           검색
         </b-button>
       </div>
       <b-list-group class="search-results">
-        <b-list-group-item
-          v-for="destination in searchResults"
-          :key="destination.content_id"
-          @click="addDestination(destination)"
-          class="search-result-item"
-        >
+        <b-list-group-item v-for="destination in searchResults" :key="destination.content_id"
+          @click="addDestination(destination)" class="search-result-item">
           <div class="search-result-content">
-            <img
-              :src="destination.img"
-              alt="여행지 사진"
-              class="search-result-image"
-            />
+            <img :src="destination.img" alt="여행지 사진" class="search-result-image" />
             <div class="search-result-title">{{ destination.subject }}</div>
           </div>
         </b-list-group-item>
@@ -100,7 +55,7 @@
     </div>
 
     <div class="right-content">
-      <plan-map :searchResults="searchResults"></plan-map>
+      <plan-map :searchResults="searchResults" @add-place="addDestination"></plan-map>
     </div>
   </div>
 </template>
@@ -301,31 +256,29 @@ export default {
 
 <style scoped>
 .cont {
+  display: flex;
   margin: 30px;
-  width: 1200px;
-  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
+  width: 1500px;
+  flex-direction: row;
+  max-height: 80vh;
   background-color: whitesmoke;
   border-radius: 10px;
-  overflow-y: auto; /* 수직 스크롤 추가 */
+  overflow-y: auto;
 }
 
 .left-content {
-  width: 1100px;
   flex: 1.5;
-  /* padding: 20px; */
-  height: 75vh; /* 수정 */
-  overflow-y: auto; /* 추가 */
-  margin-bottom: 20px; /* 추가 */
+  height: 75vh;
+  margin-bottom: 20px;
   overflow-y: auto;
-
   border: #c7e2ff 1px;
 }
+
 .middle-content {
   flex: 1;
   padding: 20px;
-  height: 75vh; /* 수정 */
-  overflow-y: auto; /* 추가 */
-  margin-bottom: 20px; /* 추가 */
+  height: 75vh;
+  margin-bottom: 20px;
   border: #c7e2ff 1px;
   overflow-y: auto;
 }
@@ -339,28 +292,35 @@ export default {
 
 /* 스크롤바 스타일링 */
 .cont ::-webkit-scrollbar {
-  width: 8px; /* 스크롤바의 너비 */
+  width: 8px;
+  /* 스크롤바의 너비 */
 }
 
 .cont ::-webkit-scrollbar-track {
-  background-color: #f2f2f2; /* 스크롤바 트랙 배경색 */
+  background-color: #f2f2f2;
+  /* 스크롤바 트랙 배경색 */
 }
 
 .cont ::-webkit-scrollbar-thumb {
-  background-color: #c7e2ff; /* 스크롤바 썸 배경색 */
-  border-radius: 4px; /* 스크롤바 썸의 모서리 반경 */
+  background-color: #c7e2ff;
+  /* 스크롤바 썸 배경색 */
+  border-radius: 4px;
+  /* 스크롤바 썸의 모서리 반경 */
 }
 
 .cont ::-webkit-scrollbar-thumb:hover {
-  background-color: #a9d2ff; /* 스크롤바 썸에 호버 시 배경색 */
+  background-color: #a9d2ff;
+  /* 스크롤바 썸에 호버 시 배경색 */
 }
-.cont > div {
+
+.cont>div {
   margin: 10px;
   padding: 20px;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .destination-card {
   margin-bottom: 10px;
   border-radius: 10px;
