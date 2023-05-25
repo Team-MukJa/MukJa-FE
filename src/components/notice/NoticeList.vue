@@ -11,8 +11,7 @@
         :items="articles"
         :fields="fields"
         @row-clicked="viewPost"
-        responsive
-      >
+        responsive>
         <template #cell(id)="row">
           {{ row.value }}
         </template>
@@ -20,8 +19,14 @@
     </div>
     <div class="button-container">
       <!-- <b-button class="create-button" variant="primary" @click="goWriteNotice">글 작성</b-button> -->
-      <b-button variant="primary" @click="openModal" class="regist-button">게시글 작성</b-button>
-      <b-modal v-model="showModal" title="게시글 작성" @hide="resetForm" class="write-modal">
+      <b-button variant="primary" @click="openModal" class="regist-button"
+        >게시글 작성</b-button
+      >
+      <b-modal
+        v-model="showModal"
+        title="게시글 작성"
+        @hide="resetForm"
+        class="write-modal">
         <b-form-group label="제목">
           <b-form-input v-model="article.subject"></b-form-input>
         </b-form-group>
@@ -29,10 +34,14 @@
           <b-form-input v-model="article.userId"></b-form-input>
         </b-form-group>
         <b-form-group label="내용">
-          <b-form-textarea v-model="article.content" rows="10"></b-form-textarea>
+          <b-form-textarea
+            v-model="article.content"
+            rows="10"></b-form-textarea>
         </b-form-group>
         <div class="button-group">
-          <b-button variant="primary" class="mr-2" @click="registArticle">작성</b-button>
+          <b-button variant="primary" class="mr-2" @click="registArticle"
+            >작성</b-button
+          >
           <b-button variant="secondary" @click="hideModal">취소</b-button>
         </div>
       </b-modal>

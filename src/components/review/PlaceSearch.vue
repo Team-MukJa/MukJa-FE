@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- 여기에 Category 항목 추가 -->
     <div>
       <div class="content-type-checkbox-group">

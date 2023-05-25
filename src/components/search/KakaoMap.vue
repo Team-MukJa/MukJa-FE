@@ -1,5 +1,8 @@
 <template>
   <div class="map-container">
+    <i class="fas fa-heart"></i>
+
+
     <div id="map" class="map"></div>
   </div>
 </template>
@@ -17,7 +20,11 @@ export default {
   },
 
   props: {
-    places: [],
+    // places: [],
+    places: {
+      type: Array,
+      default: () => [],
+    },
   },
   watch: {
     places() {
@@ -26,7 +33,10 @@ export default {
       this.places.forEach((destInfo) => {
         let obj = {};
         obj.title = destInfo.title;
-        obj.latlng = new kakao.maps.LatLng(destInfo.latitude, destInfo.longitude);
+        obj.latlng = new kakao.maps.LatLng(
+          destInfo.latitude,
+          destInfo.longitude
+        );
         obj.img = destInfo.firstImage;
         obj.addr = destInfo.addr1;
         obj.id = destInfo.contentId;
@@ -188,7 +198,8 @@ export default {
       let detailButton = document.createElement("button");
       detailButton.setAttribute("type", "button");
       detailButton.addEventListener("click", () => {
-        this.handleDetailClick(position.contentId);
+        console.log("contentID: " + position.id);
+        this.handleDetailClick(position.id);
       });
       detailButton.setAttribute("id", "test");
       detailButton.classList.add("btn");
