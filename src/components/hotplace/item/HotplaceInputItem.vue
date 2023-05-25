@@ -1,48 +1,33 @@
 <template>
   <div class="writehotplace">
-    <h1>핫플레이스 작성</h1>
-    <!-- 나머지 게시판 작성 화면 코드 -->
-    <!-- <b-form @submit="submitForm"> -->
+    <div class="page-header">
+      <h2 class="page-title text-center">낭만 일지 기록하기</h2>
+    </div>
+    <hr class="custom-hr" />
     <b-form v-on:submit.prevent class="regist-place">
       <b-form-group label="제목" label-for="title-input">
-        <b-form-input
-          id="title-input"
-          v-model="article.subject"
-          @input="checkFormValidity"
-          required
-        ></b-form-input>
+        <b-form-input id="title-input" v-model="article.subject" @input="checkFormValidity" required></b-form-input>
       </b-form-group>
 
       <b-form-group label="카테고리" label-for="category-buttons">
-        <div id="category-buttons" class="d-flex">
-          <b-button
-            v-for="category in categories"
-            :key="category"
-            v-model="article.selectedCategory"
-            :variant="isSelected(category) ? 'primary' : 'outline-primary'"
-            @click="selectCategory(category)"
-          >
+        <div id="category-buttons" class=" d-flex justify-content-center">
+          <b-button class="category-button" v-for="category in categories" :key="category"
+            v-model="article.selectedCategory" :variant="isSelected(category) ? 'primary' : 'outline-primary'"
+            @click="selectCategory(category)">
             {{ category }}
           </b-button>
         </div>
       </b-form-group>
 
       <b-form-group id="date-group" label="날짜" label-for="date-input">
-        <b-form-datepicker
-          id="date-input"
-          v-model="article.tripday"
-          :day-names="[]"
-          @input="checkFormValidity"
-        ></b-form-datepicker>
+        <b-form-datepicker id="date-input" v-model="article.tripday" :day-names="[]"
+          @input="checkFormValidity"></b-form-datepicker>
       </b-form-group>
 
-      <!--Map 에서 받아오는 데이터-->
       <div v-if="!receivedMapValue" class="mb-3">
         <b-card style="height: 120px">
           <div class="text-center py-2">
-            <b-badge variant="secondary" class="badge-size"
-              >방문했던 곳을 지도에서 선택해주세요</b-badge
-            >
+            <b-badge variant="secondary" class="badge-size">방문했던 곳을 지도에서 선택해주세요</b-badge>
           </div>
         </b-card>
       </div>
@@ -70,30 +55,20 @@
       </div>
 
       <b-form-group label="내용" label-for="content-input">
-        <b-form-textarea
-          id="content-input"
-          v-model="article.content"
-          rows="5"
-          @input="checkFormValidity"
-          required
-        ></b-form-textarea>
+        <b-form-textarea id="content-input" v-model="article.content" rows="5" @input="checkFormValidity"
+          required></b-form-textarea>
       </b-form-group>
 
       <b-form-group label="파일 업로드" label-for="file-input">
-        <b-form-file
-          id="file-input"
-          v-model="article.file"
-          accept=".jpg,.png"
-          size=""
-          @input="checkFileSize"
-        ></b-form-file>
+        <b-form-file id="file-input" v-model="article.file" accept=".jpg,.png" size=""
+          @input="checkFileSize"></b-form-file>
       </b-form-group>
 
-      <b-button type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid"
-        >작 성</b-button
-      >
-
-      <b-button type="submit" @click="moveList">목 록</b-button>
+      <div class="text-center button-container">
+        <b-button class="regist-button" type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid">작
+          성</b-button>
+        <b-button class="regist-button" type="submit" @click="moveList">목 록</b-button>
+      </div>
     </b-form>
   </div>
 </template>
@@ -119,7 +94,7 @@ export default {
         selectedCategory: null,
       },
       isFormValid: false,
-      categories: ["음식", "여행", "문화"],
+      categories: ["낭만", "힐링", "여유"],
     };
   },
   watch: {
@@ -170,31 +145,21 @@ export default {
 
         // map 에서 받아온 데이터
         formData.append("placeAddress", this.receivedMapValue.address_name);
-        // formData.append("category", this.receivedMapValue.category_group_name);
         formData.append("placeName", this.receivedMapValue.place_name);
         formData.append("placeX", this.receivedMapValue.x);
         formData.append("placeY", this.receivedMapValue.y);
 
-        console.log(formData);
-        alert("작성");
-        // 여기에서 formData를 서버로 전송하는 작업을 수행할 수 있습니다.
-        // axios 등을 사용하여 서버와 통신하는 코드를 작성할 수 있습니다.
         const response = await http.post(`/places`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         console.log(response);
+        alert("기록을 완료하였습니다.");
 
         this.$router.push({ name: "placelist" });
       } catch (error) {
         console.error(error);
-        alert("에러발생");
+        alert("기록 중 에러가 발생하였습니다.");
       }
-
-      // 폼 데이터 전송 후 화면 초기화
-      // this.article.subject = "";
-      // this.article.content = "";
-      // this.article.file = null;
-      // this.article.tripDay = null;
     },
     moveList() {
       console.log("글목록 보러가자!!!");
@@ -204,15 +169,73 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .writehotplace {
   margin: 0 auto;
   height: 75vh;
 }
 
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.page-title {
+  font-family: 'MYYeongnamnu',
+    sans-serif;
+  font-size: 40px;
+}
+
+.category-button {
+  border-color: black;
+  color: black;
+  margin-right: 20px;
+}
+
+.category-button:hover,
+.category-button:focus,
+.category-button:active {
+  background-color: rgb(253, 186, 186);
+}
+
 .regist-place {
-  height: 70vh;
+  height: 65vh;
   overflow-y: auto;
+}
+
+.regist-place::-webkit-scrollbar {
+  width: 5px;
+}
+
+.regist-place::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.text-center {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+.button-container>*:not(:last-child) {
+  margin-right: 10px;
+}
+
+.regist-button {
+  background-color: rgb(253, 186, 186);
+  border-color: transparent;
+  color: black;
+}
+
+.regist-button:hover,
+.regist-button:focus {
+  background-color: rgb(255, 165, 165);
 }
 
 .custom-field {
@@ -240,5 +263,9 @@ export default {
 .badge-size {
   font-size: 12px;
   padding: 4px 8px;
+}
+
+.custom-hr {
+  border-top: 2px solid rgb(255, 165, 165);
 }
 </style>

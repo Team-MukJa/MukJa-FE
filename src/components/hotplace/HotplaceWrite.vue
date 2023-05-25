@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div class="left" style="height: 800px">
-      <!-- <MapComponent></MapComponent> -->
       <the-kakao-map @map-clicked="mapClicked"></the-kakao-map>
     </div>
     <div class="right" style="background-color: white; margin: 8px">
@@ -17,16 +16,12 @@ import HotplaceInputItem from "./item/HotplaceInputItem.vue";
 
 export default {
   components: {
-    // MapComponent,
+    // MapComponent
     TheKakaoMap,
     HotplaceInputItem,
   },
   data() {
     return {
-      // title: "",
-      // content: "",
-      // file: null,
-      // selectedDate: null,
       mapValue: "",
     };
   },
@@ -36,23 +31,6 @@ export default {
       console.log("맵 데이터");
       console.log(this.mapValue);
     },
-    // submitForm() {
-    //   // 게시판 작성 로직 구현
-    //   const formData = new FormData();
-    //   formData.append("title", this.title);
-    //   formData.append("content", this.content);
-    //   formData.append("file", this.file);
-    //   // 여기에서 formData를 서버로 전송하는 작업을 수행할 수 있습니다.
-    //   // axios 등을 사용하여 서버와 통신하는 코드를 작성할 수 있습니다.
-    //   // 폼 데이터 전송 후 화면 초기화
-    //   this.title = "";
-    //   this.content = "";
-    //   this.file = null;
-    // },
-    // moveList() {
-    //   console.log("글목록 보러가자!!!");
-    //   this.$router.push({ name: "placelist" });
-    // },
   },
 };
 </script>
@@ -60,6 +38,7 @@ export default {
 <style scoped>
 .container {
   display: flex;
+  margin-top: 30px;
 }
 
 .left {
@@ -75,5 +54,6 @@ export default {
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
+  border: 5px solid rgb(255, 165, 165);
 }
 </style>
