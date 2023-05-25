@@ -48,7 +48,10 @@
 
     <ul class="navbar-login">
       <li class="nav-link-login">
-        <router-link to="/" class="navbar-brand-login" @click="toggleMenuHighlight(null)">
+        <router-link
+          to="/"
+          class="navbar-brand-login"
+          @click="toggleMenuHighlight(null)">
           NangMan
         </router-link>
       </li>
@@ -60,9 +63,8 @@
               nav-link-class="text-light"
               class="nav-link-login"
               @click="toggleMenuHighlight('search')"
-              :class="{ 'menu-highlight': highlightedMenu === 'search' }"
-            >
-              여행지 검색
+              :class="{ 'menu-highlight': highlightedMenu === 'search' }">
+              낭만 플레이스
             </router-link>
           </li>
           <span class="divider"></span>
@@ -71,8 +73,7 @@
               to="/places"
               class="nav-link-login"
               @click="toggleMenuHighlight('hotplaces')"
-              :class="{ 'menu-highlight': highlightedMenu === 'hotplaces' }"
-            >
+              :class="{ 'menu-highlight': highlightedMenu === 'hotplaces' }">
               핫플레이스
             </router-link>
           </li>
@@ -82,8 +83,7 @@
               to="/plan"
               class="nav-link-login"
               @click="toggleMenuHighlight('plan')"
-              :class="{ 'menu-highlight': highlightedMenu === 'plan' }"
-            >
+              :class="{ 'menu-highlight': highlightedMenu === 'plan' }">
               여행 계획
             </router-link>
           </li>
@@ -93,8 +93,7 @@
               to="/notices"
               class="nav-link-login"
               @click="toggleMenuHighlight('notices')"
-              :class="{ 'menu-highlight': highlightedMenu === 'notices' }"
-            >
+              :class="{ 'menu-highlight': highlightedMenu === 'notices' }">
               공지사항
             </router-link>
           </li>
@@ -109,16 +108,28 @@
             <span class="dropdown-caret"></span>
           </div>
         </template>
-        <b-dropdown-item v-if="userInfo" @click="goToMyPage" class="dropdown-item-login">
+        <b-dropdown-item
+          v-if="userInfo"
+          @click="goToMyPage"
+          class="dropdown-item-login">
           <b-icon-person-badge-fill></b-icon-person-badge-fill> 마이페이지
         </b-dropdown-item>
-        <b-dropdown-item v-if="userInfo" @click="logout" class="dropdown-item-login">
+        <b-dropdown-item
+          v-if="userInfo"
+          @click="logout"
+          class="dropdown-item-login">
           <b-icon-box-arrow-right></b-icon-box-arrow-right> 로그아웃
         </b-dropdown-item>
-        <b-dropdown-item v-if="!userInfo" @click="goToLogin" class="dropdown-item-login">
+        <b-dropdown-item
+          v-if="!userInfo"
+          @click="goToLogin"
+          class="dropdown-item-login">
           <b-icon-box-arrow-in-right></b-icon-box-arrow-in-right> 로그인
         </b-dropdown-item>
-        <b-dropdown-item v-if="!userInfo" @click="goToRegister" class="dropdown-item-login">
+        <b-dropdown-item
+          v-if="!userInfo"
+          @click="goToRegister"
+          class="dropdown-item-login">
           <b-icon-person-plus-fill></b-icon-person-plus-fill> 회원가입
         </b-dropdown-item>
       </b-nav-item-dropdown>

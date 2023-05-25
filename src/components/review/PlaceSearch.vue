@@ -1,5 +1,8 @@
 <template>
   <div>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <div>
       <div class="row">
         <div class="col">
@@ -18,9 +21,15 @@
 
         <div class="col">
           <br />
-          <label class="label">키워드: </label> <br />
-          <input type="text" id="keyword" v-model="keyword" />
-          <button @click="searchPlaces">검색</button>
+          <label class="label">키워드: </label>
+          <div class="input-container">
+            <input
+              type="text"
+              id="keyword"
+              class="input-field"
+              v-model="keyword" />
+            <button @click="searchPlaces" class="search-button">검색</button>
+          </div>
         </div>
       </div>
     </div>
@@ -169,27 +178,31 @@ export default {
   font-weight: bold;
   color: white;
   margin-right: 10px;
+  border-radius: 30px;
   margin-left: 30px;
 }
 
 select,
 input {
-  font-size: 18px;
+  width: 300px;
+  height: 250px;
+  font-size: 15px;
   font-weight: bold;
   padding: 5px 10px;
   margin-bottom: 10px;
+  border-radius: 30px;
   font-family: Arial, sans-serif;
   height: 34px; /* 높이 추가 */
 }
 
 button {
   background-color: #f7cbe1;
-  height: 35px;
-  width: 50px;
+  height: 45px;
+  width: 80px;
   color: #080808;
   font-weight: 800;
-  /* border-radius: 90px; */
-
+  border-radius: 30px;
+  margin-bottom: 15px;
   cursor: pointer;
   margin-left: 10px;
 }
@@ -204,6 +217,10 @@ li {
   font-weight: bold;
   font-family: Arial, sans-serif;
 }
+.kakao-map-container {
+  border-radius: 2 0px;
+  overflow: hidden;
+}
 
 .content-type-checkbox-group {
   display: flex;
@@ -215,7 +232,7 @@ li {
   background-color: #fff;
   border-radius: 10px;
   width: 150px;
-  margin-bottom: 10px;
+  margin-bottom: 1px;
   font-size: 15px;
   font-weight: 700;
   color: black;
@@ -224,5 +241,34 @@ li {
 .content-type-button:hover,
 .content-type-selected {
   background-color: #f7cbe1; /* 연핑크색 배경으로 변경 */
+}
+
+.input-field {
+  width: 100%;
+  height: 34px;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  border-radius: 30px;
+  font-family: Arial, sans-serif;
+  display: block;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-button {
+  background-color: #f7cbe1;
+  height: 38px;
+  widows: 80px;
+  color: #080808;
+  font-weight: 800;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 10px;
+  padding: 5px 10px;
 }
 </style>

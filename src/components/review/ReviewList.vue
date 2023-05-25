@@ -1,35 +1,41 @@
 <template>
-  <div class="review-list">
-    <h3>여행지 리뷰 목록</h3>
-    <div>
-      <div v-show="myReview">
-        <!-- <div class="rating">
-            <font-awesome-icon v-for="n in item.rating" :key="n" icon="fa-solid fa-star" />
-            <font-awesome-icon v-for="n in 5 - item.rating" :key="n" icon="fa-regular fa-star" />
-            <i style="color: black; font-style: normal">&nbsp;&nbsp;{{ item.placeTitle }}</i>
-          </div> -->
-        <div class="content">
-          <span>{{ myReview.content }}</span>
+  <div class="review-list-container">
+    <div class="review-list">
+      <h3>낭 만 리 뷰</h3>
+      <div>
+        <div v-show="myReview">
+          <div class="content">
+            <span>{{ myReview.content }}</span>
+          </div>
+          <div class="userid">{{ myReview.userId }}</div>
+          <review-modify-modal></review-modify-modal>
         </div>
-        <div class="userid">{{ myReview.userId }}</div>
-        <review-modify-modal></review-modify-modal>
+        <div v-show="!myReview">
+          <review-regist-modal :title="placeTitle"></review-regist-modal>
+        </div>
       </div>
-      <div v-show="!myReview"><review-regist-modal :title="placeTitle"></review-regist-modal></div>
+      <b-table striped hover :items="reviews" :fields="reviewFields">
+        <template #cell(rating)="row">
+          <star-rating
+            v-model="row.item.rating"
+            :value="row.value"
+            :increment="0.5"
+            :read-only="true"
+            :star-size="20"
+            :show-rating="true"
+            :star-color="'#f8c102'"
+            :border-color="'#ccc'"
+            :active-color="'#f8c102'"
+            :inactive-color="'#ccc'"></star-rating>
+        </template>
+      </b-table>
     </div>
-    <b-table striped hover :items="reviews" :fields="reviewFields">
-      <template #cell(rating)="row">
-        <star-rating v-model="row.item.rating" :value="row.value" :increment="0.5" :read-only="true" :star-size="20"
-          :show-rating="true" :star-color="'#f8c102'" :border-color="'#ccc'" :active-color="'#f8c102'"
-          :inactive-color="'#ccc'"></star-rating>
-      </template>
-    </b-table>
-
   </div>
 </template>
-  
+
 <script>
-import { BTable } from 'bootstrap-vue';
-import StarRating from 'vue-star-rating';
+import { BTable } from "bootstrap-vue";
+import StarRating from "vue-star-rating";
 import ReviewRegistModal from "./ReviewRegistModal.vue";
 import ReviewModifyModal from "./ReviewModifyModal.vue";
 import http from "@/util/http-common";
@@ -53,9 +59,9 @@ export default {
       myReview: {},
       reviews: [],
       reviewFields: [
-        { key: 'userId', label: '사용자 ID' },
-        { key: 'rating', label: '평점' },
-        { key: 'content', label: '내용' },
+        { key: "userId", label: "* 사용자 ID" },
+        { key: "rating", label: "* 평점" },
+        { key: "content", label: "* 리뷰" },
       ],
     };
   },
@@ -80,16 +86,24 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
-  }
+  },
 };
 </script>
-  
+
 <style>
 .review-list {
-  margin-top: 20px;
+  background-color: #ebfbfc;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.star-rating {
-  display: inline-block;
-  vertical-align: middle
+/* Rest of your existing styles */
+.content {
+  margin-bottom: 10px;
 }
+
+.userid {
+  font-weight: bold;
+}
+</style>

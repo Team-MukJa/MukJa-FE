@@ -5,6 +5,7 @@
       <DestinationInfo :destinationDetail="destinationDetail" :avg="avg" />
     </div>
     <div class="reviews">
+      <br />
       <!-- 여행지 리뷰 컴포넌트 -->
       <ReviewList :placeTitle="placeTitle" />
     </div>
@@ -55,6 +56,6 @@ export default {
 
 <style>
 .destination-info {
-  outline: border 1px black;
+  outline: border 3px black;
 }
 </style>

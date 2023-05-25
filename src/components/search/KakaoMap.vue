@@ -1,7 +1,6 @@
 <template>
-  <div class="map-container">
+  <div class="map-container" style="height: 600px">
     <i class="fas fa-heart"></i>
-
 
     <div id="map" class="map"></div>
   </div>
@@ -71,7 +70,6 @@ export default {
       const container = document.getElementById("map");
       const options = {
         center: new window.kakao.maps.LatLng(37.2073, 127.6358),
-        // center: new window.kakao.maps.LatLng( 36.987,  126.789), // 남산 중심 좌표
         level: 15, // 축소된 지도 레벨
       };
       this.map = new window.kakao.maps.Map(container, options);
@@ -128,6 +126,7 @@ export default {
         });
       }
     },
+
     showCustomOverlay(position) {
       if (this.customOverlay) {
         this.customOverlay.setMap(null);
@@ -137,21 +136,6 @@ export default {
       content.classList.add("card");
       content.style.maxWidth = "200px";
       content.style.minWidth = "200px";
-
-      let cardHeader = document.createElement("div");
-      cardHeader.classList.add("card-header");
-      cardHeader.classList.add("d-flex");
-      cardHeader.classList.add("justify-content-end");
-
-      let closeButton = document.createElement("button");
-      closeButton.setAttribute("type", "button");
-      closeButton.classList.add("btn-close");
-      closeButton.addEventListener("click", this.closeCard);
-      closeButton.setAttribute("data-bs-dismiss", "modal");
-      closeButton.setAttribute("aria-label", "Close");
-
-      cardHeader.appendChild(closeButton);
-      content.appendChild(cardHeader);
 
       let row = document.createElement("div");
       row.classList.add("row");
@@ -202,8 +186,8 @@ export default {
         this.handleDetailClick(position.id);
       });
       detailButton.setAttribute("id", "test");
-      detailButton.classList.add("btn");
-      detailButton.classList.add("btn-primary");
+      // detailButton.classList.add("btn");
+      // detailButton.classList.add("btn-primary");
       detailButton.appendChild(document.createTextNode("상세보기"));
 
       cardBody.appendChild(title);
@@ -220,7 +204,6 @@ export default {
         content: content,
         yAnchor: 1,
       });
-
       // 커스텀 오버레이를 지도에 표시합니다
       this.customOverlay.setMap(this.map);
       // 커스텀 오버레이가 생성되었을 때, 스타일을 적용합니다.
@@ -233,7 +216,10 @@ export default {
 
     closeCard() {
       console.log("클릭됐어요");
-      this.customOverlay.setMap(null);
+      if (this.customOverlay) {
+        this.customOverlay.setMap(null);
+        this.customOverlay = null; // Set the customOverlay to null after closing
+      }
     },
   },
 };
@@ -261,18 +247,18 @@ export default {
 }
 /* 커스텀 오버레이~~~ */
 .custom-overlay {
-  background-color: #fff;
+  background-color: #a0395b;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  min-width: 300px;
+
   font-family: Arial, sans-serif;
+  font-size: 8px;
 }
 
 .custom-overlay__header {
   padding: 10px;
-  background-color: #f8f8f8;
+  background-color: #fabebe;
   border-bottom: 1px solid #ddd;
   font-weight: bold;
 }
@@ -305,13 +291,12 @@ export default {
 }
 
 .custom-overlay__address {
-  margin-bottom: 10px;
+  margin-bottom: 1px;
 }
-
 .custom-overlay__button {
   padding: 5px 10px;
-  background-color: #007bff;
-  border: none;
+  background-color: #f3bdea;
+  border: black;
   color: #fff;
   cursor: pointer;
   text-align: center;
@@ -319,6 +304,10 @@ export default {
 }
 
 .custom-overlay__button:hover {
-  background-color: #0056b3;
+  background-color: #ffc0cb; /* Change the background color to light pink */
+}
+
+#test {
+  background-color: #a0395b;
 }
 </style>
