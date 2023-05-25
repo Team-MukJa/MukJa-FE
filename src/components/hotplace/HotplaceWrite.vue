@@ -2,7 +2,7 @@
   <div class="container">
     <div class="left" style="height: 800px">
       <!-- <MapComponent></MapComponent> -->
-      <the-kakao-map></the-kakao-map>
+      <the-kakao-map @map-clicked="mapClicked"></the-kakao-map>
     </div>
     <div class="right" style="background-color: white; margin: 8px">
       <hotplace-input-item></hotplace-input-item>
@@ -29,9 +29,14 @@ export default {
       // content: "",
       // file: null,
       // selectedDate: null,
+      mapValue: '',
     };
   },
   methods: {
+    mapClicked(value) {
+      this.mapValue = value;
+
+    }
     // submitForm() {
     //   // 게시판 작성 로직 구현
     //   const formData = new FormData();
@@ -58,13 +63,14 @@ export default {
   display: flex;
 }
 
-.left{
+.left {
   width: 60vh;
   justify-content: flex-start;
   border-radius: 10px;
   margin: 10px;
 }
-.right{
+
+.right {
   width: 60vh;
   justify-content: flex-end;
   border-radius: 10px;

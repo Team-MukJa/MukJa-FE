@@ -14,7 +14,7 @@
           />
         </div>
         <div class="results">
-          <div class="place" v-for="rs in search.results" :key="rs.id" @click="showPlace(rs)">
+          <div class="place" v-for="rs in search.results" :key="rs.id" @click="emitPlace(rs)">
             <h4>
               <!-- <a
                 href="#"
@@ -40,21 +40,10 @@
 
 <script>
 export default {
-  name: "KakaoMapasdas",
+  name: "KakaoMap",
 
   data() {
     return {
-      // map: null,
-      // markers: [],
-      // infowindow: null,
-      // customOverlay: null,
-      // searchKeyword: null,
-      // search: {
-      //   keyword: null,
-      //   pgn: null,
-      //   results: [],
-      // },
-      // 수정
       mapOption: {
         center: {
           lat: 37.4990068197872,
@@ -70,6 +59,8 @@ export default {
       placeName: "",
       firstX: "",
       firstY: "",
+
+      map: null, // map 데이터 속성 추가
     };
   },
   watch: {},
@@ -195,9 +186,13 @@ export default {
       var map = new kakao.maps.Map(mapContainer, mapOption);
       // this.map = new kakao.maps.Map(mapContainer, mapOption);
     },
-    showPlace(movePlace) {
-      console.log(movePlace);
-    },
+    emitPlace(clickedMap) {
+      console.log(clickedMap);
+      this.$emit('map-clicked', clickedMap)
+
+
+
+  },
   },
 };
 </script>

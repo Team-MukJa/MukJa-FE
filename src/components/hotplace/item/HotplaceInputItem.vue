@@ -5,7 +5,7 @@
     <!-- <b-form @submit="submitForm"> -->
     <b-form v-on:submit.prevent>
       <b-form-group label="제목" label-for="title-input">
-        <b-form-input id="title-input" v-model="article.subject" required></b-form-input>
+        <b-form-input id="title-input" v-model="article.subject" @input="checkFormValidity" required></b-form-input>
       </b-form-group>
 
       <b-form-group label="카테고리" label-for="category-buttons">
@@ -28,14 +28,47 @@
           id="date-input"
           v-model="article.tripday"
           :day-names="[]"
+          @input="checkFormValidity"
         ></b-form-datepicker>
       </b-form-group>
+
+      <!--Map 에서 받아오는 데이터-->
+      <div v-if="!receivedMapValue" class="mb-4">
+        <b-card>
+          <div class="text-center py-3">
+            <b-badge variant="secondary">장소 정보가 아직 제공되지 않았습니다.</b-badge>
+          </div>
+        </b-card>
+      </div>
+
+      <div v-else class="mb-4">
+        <b-card>
+          <div class="custom-field">
+            <b-form-group label="장소명" label-cols-sm="3">
+              <p>{{ receivedMapValue.place_name }}</p>
+            </b-form-group>
+          </div>
+
+          <div class="custom-field">
+            <b-form-group label="주소" label-cols-sm="3">
+              <p>{{ receivedMapValue.address_name }}</p>
+            </b-form-group>
+          </div>
+
+          <div class="custom-field">
+            <b-form-group label="카테고리" label-cols-sm="3">
+              <p>{{ receivedMapValue.category_group_name }}</p>
+            </b-form-group>
+          </div>
+        </b-card>
+      </div>
 
       <b-form-group label="내용" label-for="content-input">
         <b-form-textarea
           id="content-input"
           v-model="article.content"
           rows="13"
+          @input="checkFormValidity"
           required
         ></b-form-textarea>
       </b-form-group>
@@ -46,12 +79,15 @@
           v-model="article.file"
           accept=".jpg,.png"
           size=""
+          @input="checkFileSize"
         ></b-form-file>
       </b-form-group>
 
-      <b-button type="submit" variant="primary" @click="writePlace">작 성</b-button>
+      <b-button type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid">작 성</b-button>
+
 
       <b-button type="submit" @click="moveList">목 록</b-button>
+
     </b-form>
   </div>
 </template>
@@ -61,6 +97,12 @@ import http from "@/util/http-common";
 
 export default {
   components: {},
+  props: {
+    receivedMapValue: {
+      type: Object,
+      required:true,
+    }
+  },
   data() {
     return {
       article: {
@@ -70,15 +112,43 @@ export default {
         file: null,
         selectedCategory: null,
       },
+<<<<<<< HEAD
+      isFormValid: false,
+=======
       categories: ['음식', '여행', '문화'],
+>>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
     };
   },
+  watch: {
+    receivedMapValue: {
+      handler() {
+        this.checkFormValidity();
+      },
+      deep: true,
+    },
+  },
   methods: {
+<<<<<<< HEAD
+    checkFormValidity() {
+      const { subject, tripday, content, file } = this.article;
+      this.isFormValid = subject && tripday && content && file && this.receivedMapValue;
+    },
+    checkFileSize() {
+      const file = this.article.file;
+      const maxSize = 3 * 1024 * 1024; // 3MB 제한 (원하는 용량으로 변경 가능)
+
+      if (file && file.size > maxSize) {
+        alert("파일 크기는 최대 3MB를 초과할 수 없습니다.");
+        this.article.file = "";
+      }
+      this.checkFormValidity()
+=======
     selectCategory(category) {
       this.article.selectedCategory = category;
     },
     isSelected(category) {
       return this.article.selectedCategory === category;
+>>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
     },
     async writePlace() {
       // 게시판 작성 로직 구현
@@ -97,6 +167,17 @@ export default {
         formData.append("file", this.article.file);
         formData.append("category", this.article.selectedCategory);
 
+<<<<<<< HEAD
+        // map 에서 받아온 데이터
+        formData.append("placeAddress", this.receivedMapValue.address_name);
+        formData.append("category", this.receivedMapValue.category_group_name);
+        formData.append("placeName", this.receivedMapValue.place_name);
+        formData.append("placeX", this.receivedMapValue.x);
+        formData.append("placeY", this.receivedMapValue.y);
+
+        console.log(formData);
+=======
+>>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
         alert("작성");
         // 여기에서 formData를 서버로 전송하는 작업을 수행할 수 있습니다.
         // axios 등을 사용하여 서버와 통신하는 코드를 작성할 수 있습니다.
@@ -104,6 +185,10 @@ export default {
           headers: { "Content-Type": "multipart/form-data" },
         });
         console.log(response);
+<<<<<<< HEAD
+      this.$router.push("/placelist" );
+
+=======
 
         // 폼 데이터 전송 후 화면 초기화
         this.subject = "";
@@ -113,13 +198,23 @@ export default {
         this.article.selectedCategory = null;
 
         this.$router.push({ name: "placelist" });
+>>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
       } catch (error) {
         console.error(error);
+        alert("에러발생")
       }
 
+<<<<<<< HEAD
+      // 폼 데이터 전송 후 화면 초기화
+      this.article.subject = "";
+      this.article.content = "";
+      this.article.file = null;
+      this.article.tripDay = null;
+=======
+>>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
 
     },
-    // writePlace() {},
+
     moveList() {
       console.log("글목록 보러가자!!!");
       this.$router.push({ name: "placelist" });
@@ -127,3 +222,18 @@ export default {
   },
 };
 </script>
+
+<style>
+.custom-field {
+  margin-bottom: 16px;
+  background-color: #F8F8F8;
+  padding: 10px;
+}
+
+.custom-field p {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333333;
+}
+</style>
