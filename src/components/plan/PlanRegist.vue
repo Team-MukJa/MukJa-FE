@@ -3,7 +3,6 @@
     <!-- 여행 계획 리스트 -->
     <div class="left-content">
       <h2 class="text-center">{{ plan.subject }}</h2>
-<<<<<<< HEAD
       <b-tabs v-model="selectedDay" fill vertical @input="handleTabChange">
         <b-tab
           v-for="day in dayOptions"
@@ -13,25 +12,37 @@
           active
           title-link-class="text-dark border-top border-bottom text-bold:hover "
         >
-=======
-      <b-tabs v-model="selectedDay" pills vertical>
-        <b-tab v-for="day in dayOptions" :key="day.value" :title="day.text" class="tab-item">
->>>>>>> 7a1381dd433c9f08d935c65beb71a99f2aaf8a17
           <b-list-group>
-            <b-list-group-item v-for="destination in getDestinationsByDay(day.value)" :key="destination.id"
-              class="destination-list-item">
+            <b-list-group-item
+              v-for="destination in getDestinationsByDay(day.value)"
+              :key="destination.id"
+              class="destination-list-item"
+            >
               <b-card class="destination-card input-list-card">
                 <h4>{{ destination.subject }}</h4>
                 <img :src="destination.img" alt="여행지 사진" class="img-thumbnail" />
                 <b-form-group label="방문 시간" label-for="visit-time-input">
-                  <b-form-timepicker id="visit-time-input" v-model="destination.visitTime" minute-step="15"
-                    :time-formatter="formatTime" placeholder="방문 시간을 선택하세요"></b-form-timepicker>
+                  <b-form-timepicker
+                    id="visit-time-input"
+                    v-model="destination.visitTime"
+                    minute-step="15"
+                    :time-formatter="formatTime"
+                    placeholder="방문 시간을 선택하세요"
+                  ></b-form-timepicker>
                 </b-form-group>
                 <b-form-group label="메모" label-for="memo-input">
-                  <b-form-textarea id="memo-input" v-model="destination.memo" placeholder="메모를 입력하세요"></b-form-textarea>
+                  <b-form-textarea
+                    id="memo-input"
+                    v-model="destination.memo"
+                    placeholder="메모를 입력하세요"
+                  ></b-form-textarea>
                 </b-form-group>
-                <b-button variant="danger" size="sm" @click="deleteDestination(day.value, destination.id)"
-                  class="delete-button">
+                <b-button
+                  variant="danger"
+                  size="sm"
+                  @click="deleteDestination(day.value, destination.id)"
+                  class="delete-button"
+                >
                   삭제
                 </b-button>
               </b-card>
@@ -40,13 +51,7 @@
         </b-tab>
       </b-tabs>
       <div class="save-button-container">
-<<<<<<< HEAD
         <b-button variant="primary" @click="saveDestinations" class="save-button"> 저장 </b-button>
-=======
-        <b-button variant="primary" @click="saveDestinations" class="save-button">
-          저장
-        </b-button>
->>>>>>> 7a1381dd433c9f08d935c65beb71a99f2aaf8a17
       </div>
     </div>
 
@@ -54,22 +59,22 @@
     <div class="middle-content">
       <h2 class="text-center">여행지 검색 진행시켜!!</h2>
       <div class="search-bar">
-<<<<<<< HEAD
         <b-form-input
           v-model="searchQuery"
           placeholder="검색어를 입력하세요"
           class="search-input"
         ></b-form-input>
-=======
-        <b-form-input v-model="searchQuery" placeholder="검색어를 입력하세요" class="search-input"></b-form-input>
->>>>>>> 7a1381dd433c9f08d935c65beb71a99f2aaf8a17
         <b-button variant="primary" @click="searchDestinations(searchQuery)" class="search-button">
           검색
         </b-button>
       </div>
       <b-list-group class="search-results">
-        <b-list-group-item v-for="destination in searchResults" :key="destination.content_id"
-          @click="addDestination(destination)" class="search-result-item">
+        <b-list-group-item
+          v-for="destination in searchResults"
+          :key="destination.content_id"
+          @click="addDestination(destination)"
+          class="search-result-item"
+        >
           <div class="search-result-content">
             <img :src="destination.img" alt="여행지 사진" class="search-result-image" />
             <div class="search-result-title">{{ destination.subject }}</div>
@@ -266,7 +271,6 @@ export default {
 .cont {
   display: flex;
   margin: 30px;
-<<<<<<< HEAD
   width: 150vb;
   max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
   background-color: whitesmoke;
@@ -281,14 +285,12 @@ export default {
   /* 예시: 배경색과 글자색을 변경 */
   background-color: #eaeaea;
   color: #333333;
-=======
   width: 1500px;
   flex-direction: row;
   max-height: 80vh;
   background-color: whitesmoke;
   border-radius: 10px;
   overflow-y: auto;
->>>>>>> 7a1381dd433c9f08d935c65beb71a99f2aaf8a17
 }
 
 .left-content {
@@ -338,7 +340,7 @@ export default {
   /* 스크롤바 썸에 호버 시 배경색 */
 }
 
-.cont>div {
+.cont > div {
   margin: 10px;
   padding: 20px;
   border-radius: 10px;
