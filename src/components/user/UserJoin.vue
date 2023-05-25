@@ -3,7 +3,11 @@
     <b-card class="register-card">
       <h3 class="card-title">회원가입</h3>
       <b-form @submit.prevent="register">
-        <b-form-group id="usernid-group" label="아이디" label-for="username-input">
+        <b-form-group
+          id="usernid-group"
+          label="아이디"
+          label-for="username-input"
+        >
           <b-form-input
             id="userid-input"
             v-model="member.userId"
@@ -13,7 +17,11 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="username-group" label="이름" label-for="username-input">
+        <b-form-group
+          id="username-group"
+          label="이름"
+          label-for="username-input"
+        >
           <b-form-input
             id="username-input"
             v-model="member.userName"
@@ -23,7 +31,11 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="password-group" label="비밀번호" label-for="password-input">
+        <b-form-group
+          id="password-group"
+          label="비밀번호"
+          label-for="password-input"
+        >
           <b-form-input
             id="password-input"
             v-model="member.userPwd"
@@ -55,11 +67,13 @@
           </b-input-group>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="register-button">회원가입</b-button>
+        <b-button type="submit" variant="primary" class="register-button"
+          >회원가입</b-button
+        >
       </b-form>
 
       <div class="login-link">
-        <router-link to="/login">로그인</router-link>
+        <router-link to="/user/login">로그인</router-link>
       </div>
     </b-card>
   </div>
@@ -99,19 +113,11 @@ export default {
 .register-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
-  /* background: linear-gradient(
-    to bottom right,
-    rgb(245, 230, 235),
-    rgb(231, 228, 241),
-    rgb(210, 218, 233),
-    rgb(217, 207, 222),
-    rgb(250, 207, 207),
-    rgb(254, 240, 214)
-  ); */
   background-repeat: no-repeat;
   background-size: cover;
+  margin-top: 110px;
 }
 
 .register-card {

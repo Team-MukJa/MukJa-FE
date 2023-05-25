@@ -1,17 +1,37 @@
 <template>
-  <div class="my-container">
-    <b-tabs id="tab" class="justify-content-center" active-nav-item-class="font-weight-bold text-uppercase" fill>
-      <b-tab title="나의 정보" active title-link-class="text-dark" style="margin-top: 50px"><my-user-detail
-          @update-user="updateUser" @delete-user="deleteUser"></my-user-detail></b-tab>
-      <b-tab title="나의 핫플레이스" title-link-class="text-dark"><my-hot-place style="margin-top: 50px"
-          :myHotPlace="myHotPlace"></my-hot-place></b-tab>
-      <b-tab title="나의 여행계획" title-link-class="text-dark"><my-plan style="margin-top: 50px"
-          :myPlan="myPlan"></my-plan></b-tab>
-      <b-tab title="나의 리뷰" title-link-class="text-dark"><my-review style="margin-top: 50px"
-          :myReview="myReview"></my-review></b-tab>
-      <b-tab title="나의 문의사항" title-link-class="text-dark"><my-notice style="margin-top: 50px"
-          :myNotice="myNotice"></my-notice></b-tab>
-    </b-tabs>
+  <div>
+    <div class="backg"></div>
+    <div class="my-container">
+      <b-tabs
+        id="tab"
+        class="justify-content-center"
+        active-nav-item-class="font-weight-bold text-uppercase"
+        fill
+      >
+        <b-tab
+          title="나의 정보"
+          active
+          title-link-class="text-dark"
+          style="margin-top: 50px"
+          ><my-user-detail
+            @update-user="updateUser"
+            @delete-user="deleteUser"
+          ></my-user-detail
+        ></b-tab>
+        <b-tab title="나의 일지" title-link-class="text-dark"
+          ><my-hot-place style="margin-top: 50px"></my-hot-place
+        ></b-tab>
+        <b-tab title="나의 계획" title-link-class="text-dark"
+          ><my-plan style="margin-top: 50px"></my-plan
+        ></b-tab>
+        <b-tab title="나의 리뷰" title-link-class="text-dark"
+          ><my-review style="margin-top: 50px" :myReview="myReview"></my-review
+        ></b-tab>
+        <b-tab title="나의 커뮤니티" title-link-class="text-dark"
+          ><my-notice style="margin-top: 50px" :myNotice="myNotice"></my-notice
+        ></b-tab>
+      </b-tabs>
+    </div>
   </div>
 </template>
 
@@ -39,8 +59,6 @@ export default {
   },
   data() {
     return {
-      myHotPlace: [],
-      myPlan: [],
       myReview: [],
       myNotice: [],
       member: {
@@ -50,14 +68,9 @@ export default {
     };
   },
   created() {
-    http.get(`/my/place/${this.userInfo.userId}`).then(({ data }) => {
-      this.myHotPlace = data;
-    });
-    http.get(`/my/plan/${this.userInfo.userId}`).then(({ data }) => {
-      this.myPlan = data;
-    });
     http.get(`/my/review/${this.userInfo.userId}`).then(({ data }) => {
       this.myReview = data;
+      console.log(this.myReview);
     });
     http.get(`/my/notice/${this.userInfo.userId}`).then(({ data }) => {
       this.myNotice = data;
@@ -104,19 +117,39 @@ export default {
 </script>
 
 <style scoped>
+.backg {
+  z-index: -1;
+  background-image: url("../assets/paper.png");
+  background-size: 1500px 850px;
+  background-position: center;
+  position: absolute;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
 #tab {
   display: fixed;
   align-content: center;
-  width: 1000px;
-  max-height: 100vh;
-  margin-top: 30px;
+  width: 900px;
+  max-height: 70vh;
+  margin-top: 100px;
   padding-bottom: 50px;
-  background-color: whitesmoke;
   border-radius: 10px;
+  overflow-y: auto;
+}
+#tab::-webkit-scrollbar {
+  width: 5px;
 }
 
-.nav-pills>.nav-item>.active {
+#tab::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.nav-pills > .nav-item > .active {
   background-color: rgb(252, 169, 169) !important;
-  /* 클릭된 탭의 배경색 변경 */
 }
 </style>

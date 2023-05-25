@@ -1,7 +1,7 @@
 <template>
   <div class="review-list-container">
     <div class="review-list">
-      <h3>낭 만 리 뷰</h3>
+      <h3 class="review-title">낭 만 리 뷰</h3>
       <div>
         <div v-show="myReview">
           <div class="content">
@@ -26,7 +26,8 @@
             :star-color="'#f8c102'"
             :border-color="'#ccc'"
             :active-color="'#f8c102'"
-            :inactive-color="'#ccc'"></star-rating>
+            :inactive-color="'#ccc'"
+          ></star-rating>
         </template>
       </b-table>
     </div>
@@ -90,12 +91,14 @@ export default {
 };
 </script>
 
+
 <style>
-.review-list {
+.review-list-container {
   background-color: #ebfbfc;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  height: 485px;
+  width: 700px;
+  border-radius: 30px;
+  overflow: auto;
 }
 
 /* Rest of your existing styles */
@@ -104,6 +107,12 @@ export default {
 }
 
 .userid {
+  font-weight: bold;
+}
+
+.review-title {
+  margin-left: 5px;
+  margin-top: 7px;
   font-weight: bold;
 }
 </style>

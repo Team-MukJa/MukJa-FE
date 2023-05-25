@@ -1,67 +1,237 @@
 <template>
   <div class="container">
-    <div class="card-container">
-      <b-card
-        class="main-card"
-        v-for="item in myHotPlace"
-        :key="item.placeId"
-        @click="goToHotplace"
+    <div class="category-buttons d-flex justify-content-center">
+      <b-button
+        class="category-button"
+        variant="outline-primary"
+        :active="selectedCategory === ''"
+        @click="selectCategory('')"
       >
-        <div class="card-image">
-          <img src="@/assets/travel-plans-image.jpg" alt="핫플레이스 이미지" />
-        </div>
-        <h3 class="card-title">{{ item.subject }}</h3>
-        <p class="card-slogan">{{ item.userId }} | {{ item.hit }}</p>
-        <p class="card-slogan">{{ item.registerTime }}</p>
-      </b-card>
+        전체
+      </b-button>
+      <b-button
+        class="category-button"
+        v-for="category in categories"
+        :key="category"
+        variant="outline-primary"
+        :active="selectedCategory === category"
+        @click="selectCategory(category)"
+      >
+        {{ category }}
+      </b-button>
+      <b-button
+        id="regist-button"
+        class="ml-auto"
+        variant="primary"
+        @click="movePlaceWrite"
+        >일지 작성</b-button
+      >
     </div>
+    <hr />
+
+    <div class="row">
+      <div
+        class="col-lg-3 col-md-6 mb-4"
+        v-for="place in filteredPlaces"
+        :key="place.placeId"
+      >
+        <div class="card" @click="showDetail(place)">
+          <img
+            :src="
+              require(`@/assets/img/springboot/img/${place.saveFolder}/${place.saveFile}`)
+            "
+            class="card-img-top"
+            alt="place Image"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ place.subject }}</h5>
+            <p class="card-text">{{ place.placeName }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">{{ place.registerTime }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--상세보기 모달 Start-->
+    <b-modal
+      class="modal-cont"
+      v-model="showModal"
+      @shown="setSelectedPlace"
+      hide-footer
+      header-bg-variant="transparent"
+      size="lg"
+      centered
+      hide-header
+    >
+      <div class="modal-body" v-if="selectedPlace">
+        <div class="mb-3">
+          <h5 class="modal-title">
+            {{ selectedPlace.subject }}
+            <span class="place-name">({{ selectedPlace.placeName }})</span>
+            <span class="place-name">({{ selectedPlace.placeAddress }})</span>
+          </h5>
+          <hr class="my-2" />
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <!-- 카카오맵 마커 컴포넌트 Start -->
+            <div class="map-container">
+              <hotplace-detail-map :spotInfo="spotInfo"></hotplace-detail-map>
+            </div>
+            <!-- 카카오맵 마커 컴포넌트 End -->
+          </div>
+          <div class="col-md-4">
+            <b-card class="content-container" no-body>
+              <b-card-text>{{ selectedPlace.content }}</b-card-text>
+            </b-card>
+            <div class="image-container">
+              <img
+                :src="
+                  require(`@/assets/img/springboot/img/${selectedPlace.saveFolder}/${selectedPlace.saveFile}`)
+                "
+                alt="place Image"
+                class="place-image"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" v-if="selectedPlace">
+        <b-button id="del-button" variant="danger" @click="confirmDeletePlace"
+          >삭제</b-button
+        >
+        <b-button id="end-button" variant="primary" @click="closeModal"
+          >닫기</b-button
+        >
+      </div>
+    </b-modal>
+    <!--상세보기 모달 End-->
+    <!-- 알림창 모달 Start-->
+    <b-modal
+      v-model="confirmModalVisible"
+      title="삭제 확인"
+      hide-footer
+      header-bg-variant="danger"
+    >
+      <div class="d-flex justify-content-center">
+        <p class="text-danger">정말로 삭제하시겠습니까?</p>
+      </div>
+      <div class="text-center mt-4">
+        <b-button variant="danger" @click="deletePlace">확인</b-button>
+        <b-button variant="secondary" @click="closeConfirmModal">취소</b-button>
+      </div>
+    </b-modal>
+    <!-- 알림창 모달 End-->
   </div>
 </template>
 
 <script>
+import http from "@/util/http-common";
+import HotplaceDetailMap from "../hotplace/item/HotplaceDetailMap.vue";
+
+import { mapState, mapGetters } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   name: "MyHotPlace",
-  components: {},
+  components: { HotplaceDetailMap },
   props: {
     myHotPlace: Array,
   },
   data() {
     return {
-      message: "MyHotPlace",
+      places: [],
+      showModal: false,
+      selectedPlace: null,
+      confirmModalVisible: false, // 알림창 모달 표시 여부
+      categories: ["낭만", "힐링", "여유"], // 카테고리 배열 추가
+      selectedCategory: "", // 선택된 카테고리 변수 추가
+      spotInfo: {
+        x: null,
+        y: null,
+      },
     };
   },
-  created() {},
+  created() {
+    http.get(`/my/place/${this.userInfo.userId}`).then(({ data }) => {
+      console.log(this.userInfo.userId);
+      console.log(data);
+      this.places = data;
+    });
+    if (this.userInfo) {
+      this.article.userId = this.userInfo.userId;
+    }
+  },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
+    filteredPlaces() {
+      if (this.selectedCategory) {
+        return this.places.filter(
+          (place) => place.category === this.selectedCategory
+        );
+      }
+      return this.places;
+    },
+  },
   methods: {
-    goToHotplace() {
-      // this.$router.push({ name: "hotplacelist" });
-      // const plcaeId = item.plcaeId;
-      // this.$router.push({ name: "otplaceview", params: { plcaeid: plcaeId } });
+    setSelectedPlace() {
+      this.selectedPlace = { ...this.selectedPlace };
+    },
+    showDetail(place) {
+      this.selectedPlace = place;
+      this.spotInfo.x = this.selectedPlace.placeX;
+      this.spotInfo.y = this.selectedPlace.placeY;
+      console.log("상세보기");
+      console.log(this.selectedPlace);
+
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+      this.$router.go(0);
+    },
+    deletePlace() {
+      http.delete(`/places/${this.selectedPlace.placeId}`).then(({ data }) => {
+        console.log(data);
+      });
+      this.confirmModalVisible = false;
+      this.$router.go(0);
+    },
+    confirmDeletePlace() {
+      this.confirmModalVisible = true;
+    },
+    closeConfirmModal() {
+      this.confirmModalVisible = false;
+    },
+    movePlaceWrite() {
+      this.$router.push({ name: "placewrite" });
+    },
+    selectCategory(category) {
+      this.selectedCategory = category;
     },
   },
 };
 </script>
 
 <style scoped>
-.card-container {
-  display: grid;
-  grid-template-columns: 30% 30% 30%;
-  row-gap: 10px;
-  justify-content: center;
-  gap: 2rem;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, minmax(100px, auto));
+.container {
+  overflow-y: auto;
+  width: 100%;
+  height: 500px;
+  margin-top: 50px;
+  overflow-y: auto;
 }
-.main-card {
-  width: 300px;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-  font-family: "Roboto", sans-serif;
-  cursor: pointer;
-  transition: box-shadow 0.3s ease-in-out;
-  text-align: center;
-  flex: 0 0 auto;
+
+.container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
 }
 
 .card-title {
@@ -70,26 +240,190 @@ export default {
   font-size: 1.5rem;
   color: #4c4c4c;
 }
-
-.card-slogan {
-  color: #888888;
+.category-buttons {
+  margin-top: 15px;
 }
 
-.main-card:hover {
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-  transform: translateY(-5px);
+.category-button {
+  font-family: "MYYeongnamnu", sans-serif;
+  font-size: 20px;
+  border-color: transparent;
+  color: black;
+  margin-right: 20px;
+  border-radius: 20px;
 }
 
-.card-image {
-  width: 100%;
+.category-button:hover,
+.category-button:focus {
+  background-color: rgb(253, 186, 186);
+  color: black;
+  border-color: transparent;
+}
+
+#regist-button,
+#del-button,
+#end-button {
+  background-color: rgb(253, 186, 186);
+  border-color: transparent;
+  color: black;
+}
+
+#regist-button:hover,
+#regist-button:focus,
+#regist-button:active,
+#del-button:hover,
+#del-button:focus,
+#del-button:active,
+#end-button:hover,
+#end-button:focus,
+#end-button:active {
+  background-color: rgb(255, 165, 165);
+}
+
+.card {
+  border: none;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  background-color: #f8f9fa;
+}
+
+.card:hover {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
   height: 200px;
-  border-radius: 10px;
-  overflow: hidden;
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
-.card-image img {
-  width: 100%;
+.card-body {
+  padding: 1rem;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: #444;
+  font-weight: bold;
+}
+
+.card-text {
+  color: #555;
+  height: 40px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.card-footer {
+  border-top: 1px solid #dee2e6;
+  padding: 0.5rem;
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.modal-footer {
+  padding: 1rem;
+  justify-content: space-between;
+}
+
+.modal-footer button {
+  margin-right: 10px;
+}
+
+.image-container {
+  max-width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.image-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.image-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.place-image {
+  /* max-width: 100%;
+  height: auto;
+  border-radius: 8px; */
+  width: auto;
   height: 100%;
   object-fit: cover;
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.modal-body .row {
+  align-items: flex-start;
+}
+
+.place-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.content-container {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-cont {
+  max-width: 100vw;
+  max-height: 40vh;
+}
+
+.place-name {
+  font-size: 0.8rem;
+  color: #888;
+  margin-left: 0.5rem;
+  display: inline-block;
+  margin-bottom: 0.2rem;
+}
+
+.modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.place-name {
+  font-size: 1rem;
+  color: #888;
+  margin-left: 0.5rem;
+  display: inline-block;
+  align-self: flex-end;
+  margin-bottom: 0.2rem;
+  font-size: 0.8rem;
+}
+
+.map-container {
+  height: 300px;
+  margin-bottom: 1rem;
+}
+
+.modal-body .row {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.modal-body .col-md-6 {
+  flex: 0 0 50%;
+  padding: 0.5rem;
+}
+
+.modal-body .col-md-4 {
+  flex: 0 0 50%;
+  padding: 0.5rem;
+  margin-left: 50px;
 }
 </style>

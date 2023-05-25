@@ -1,63 +1,76 @@
 <template>
-  <div class="main-container">
-    <div style="background-color: whitesmoke">
-      <h2 class="mb-4">공지사항</h2>
-    </div>
-    <div class="table-container">
-      <b-table
-        class="table"
-        striped
-        hover
-        :items="articles"
-        :fields="fields"
-        @row-clicked="viewPost"
-        responsive>
-        <template #cell(id)="row">
-          {{ row.value }}
-        </template>
-      </b-table>
-    </div>
-    <div class="button-container">
-      <!-- <b-button class="create-button" variant="primary" @click="goWriteNotice">글 작성</b-button> -->
-      <b-button variant="primary" @click="openModal" class="regist-button"
-        >게시글 작성</b-button
-      >
-      <b-modal
-        v-model="showModal"
-        title="게시글 작성"
-        @hide="resetForm"
-        class="write-modal">
-        <b-form-group label="제목">
-          <b-form-input v-model="article.subject"></b-form-input>
-        </b-form-group>
-        <b-form-group label="작성자">
-          <b-form-input v-model="article.userId"></b-form-input>
-        </b-form-group>
-        <b-form-group label="내용">
-          <b-form-textarea
-            v-model="article.content"
-            rows="10"></b-form-textarea>
-        </b-form-group>
-        <div class="button-group">
-          <b-button variant="primary" class="mr-2" @click="registArticle"
-            >작성</b-button
-          >
-          <b-button variant="secondary" @click="hideModal">취소</b-button>
-        </div>
-      </b-modal>
+  <div>
+    <div class="backg"></div>
+    <div class="container">
+      <div class="page-header">
+        <h2 class="page-title text-center">NangMan Comunity</h2>
+      </div>
+      <hr />
+      <div class="table-container">
+        <b-table
+          class="table"
+          striped
+          hover
+          :items="articles"
+          :fields="fields"
+          @row-clicked="viewPost"
+          responsive
+        >
+          <template #cell(id)="row">
+            {{ row.value }}
+          </template>
+        </b-table>
+      </div>
+      <div class="button-container">
+        <!-- <b-button class="create-button" variant="primary" @click="goWriteNotice">글 작성</b-button> -->
+        <b-button variant="primary" @click="openModal" class="regist-button"
+          >글 작성</b-button
+        >
+        <b-modal
+          v-model="showModal"
+          title="글 작성"
+          @hide="resetForm"
+          class="write-modal"
+          hide-footer
+        >
+          <b-form-group label="제목">
+            <b-form-input v-model="article.subject"></b-form-input>
+          </b-form-group>
+          <b-form-group label="작성자">
+            <b-form-input v-model="article.userId" readonly></b-form-input>
+          </b-form-group>
+          <b-form-group label="내용">
+            <b-form-textarea
+              v-model="article.content"
+              rows="10"
+            ></b-form-textarea>
+          </b-form-group>
+          <div class="button-group">
+            <b-button
+              id="reg-button"
+              variant="primary"
+              class="mr-2"
+              @click="registArticle"
+              >작성</b-button
+            >
+            <b-button id="end-button" variant="secondary" @click="hideModal"
+              >취소</b-button
+            >
+          </div>
+        </b-modal>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import http from "@/util/http-common";
-// import NoticeListItem from "@/components/notice/NoticeListItem";
+import { mapState, mapGetters } from "vuex";
+const memberStore = "memberStore";
 
 export default {
   name: "NoticeList",
-  components: {
-    // NoticeListItem,
-  },
+  components: {},
   data() {
     return {
       fields: [
@@ -68,8 +81,6 @@ export default {
         { key: "registerTime", label: "작성 시간", sortable: true },
       ],
       articles: [],
-
-      // 공지사항 작성
       showModal: false,
       article: {
         subject: null,
@@ -83,53 +94,33 @@ export default {
       console.log(data);
       this.articles = data;
     });
+    if (this.userInfo) {
+      this.article.userId = this.userInfo.userId;
+    }
+  },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
   },
   methods: {
     viewPost(item) {
-      // 게시물 상세보기로 이동하는 메소드를 구현하세요
       const noticeId = item.noticeId;
       this.$router.push({ name: "noticeview", params: { noticeid: noticeId } });
     },
-
-    // 글 작성 모달
     openModal() {
       this.showModal = true;
     },
     hideModal() {
       this.showModal = false;
     },
-
     resetForm() {
-      // 작성 취소 시 폼 초기화 메소드를 구현하세요
       this.article = {
         subject: "",
         userId: "",
         content: "",
       };
     },
-
-    // 입력값 체크하기 - 체크가 성공하면 registArticle 호출
-    // checkValue() {
-    //   // 사용자 입력값 체크하기
-    //   // 작성자아이디, 제목, 내용이 없을 경우 각 항목에 맞는 메세지를 출력
-    //   let err = true;
-    //   let msg = "";
-    //   !this.userid && ((msg = "작성자 입력해주세요"), (err = false), this.$refs.noticeId.focus());
-    //   err &&
-    //     !this.subject &&
-    //     ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
-    //   err &&
-    //     !this.content &&
-    //     ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
-
-    //   if (!err) alert(msg);
-    //   // 만약, 내용이 다 입력되어 있다면 registArticle 호출
-    //   else this.registArticle();
-    // },
     registArticle() {
-      // 비동기
-      // TODO : 글번호에 해당하는 글정보 등록.
-      // alert("글작성 하러가자!!!!");
       const param = {
         userId: this.article.userId,
         subject: this.article.subject,
@@ -137,19 +128,13 @@ export default {
       };
 
       console.log(param);
-      alert("글작성");
+      alert("글 작성을 완료하였습니다.");
       http.post(`/notices`, param).then(({ data }) => {
-        // let msg = "글작성 시 문제 발생";
-        // if (data === "success") {
-        //   msg = "글작성 성공!!";
-        // }
-        // alert(msg);
         console.log(data);
         this.hideModal();
         this.$router.go(0); // 새로고침
       });
     },
-
     moveList() {
       console.log("글목록 보러가자!!!");
       this.$router.push({ name: "noticelist" });
@@ -159,19 +144,71 @@ export default {
 </script>
 
 <style scoped>
-.main-container {
-  padding: 10px 0; /* 여백 조정 */
-  margin: 150px;
-  font-family: "Arial", sans-serif;
-  background-color: whitesmoke;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border-radius: 10px; /* 테두리 둥글게 조정 */
+.backg {
+  z-index: -1;
+  background-image: url("../../assets/paper.png");
+  background-size: 1500px 850px;
+  background-position: center;
+  position: absolute;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+.container {
+  overflow-y: auto;
+  width: 1000px;
+  height: 700px;
+  margin-top: 50px;
+  overflow-y: auto;
 }
 
+.container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  text-align: center;
+  margin: 30px;
+}
+
+.page-title {
+  margin-top: 10px;
+  font-family: "MYYeongnamnu", sans-serif;
+  font-size: 40px;
+  color: rgb(253, 131, 131);
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+.regist-button,
+#reg-button,
+#end-button {
+  background-color: rgb(253, 186, 186);
+  border-color: transparent;
+  color: black;
+}
+
+.regist-button:hover,
+.regist-button:focus,
+.regist-button:active,
+#reg-button:hover,
+#reg-button:focus,
+#reg-button:active,
+#end-button:hover,
+#end-button:focus,
+#end-button:active {
+  background-color: rgb(255, 165, 165);
+}
 .table-container {
   overflow-x: auto;
 }
@@ -207,19 +244,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
-}
-.regist-button {
-  background-color: #f8a5c2;
-  border-color: #f8a5c2;
-  color: #ffffff;
-}
-
-.regist-button:hover,
-.regist-button:focus,
-.regist-button:active {
-  background-color: #e26893;
-  border-color: #e26893;
-  color: #000000;
 }
 .create-button {
   font-weight: bold;

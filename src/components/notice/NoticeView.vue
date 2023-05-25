@@ -1,22 +1,38 @@
 <template>
-  <div class="container mt-4">
-    <div class="row justify-content-center">
+  <div>
+    <div class="backg"></div>
+    <div class="container">
+      <div class="page-header">
+        <h2 class="page-title text-center">{{ article.subject }}</h2>
+      </div>
+      <hr />
+      <div class="button-group d-flex">
+        <div class="list">
+          <b-button class="bt-button" variant="secondary" @click="moveList"
+            >목록</b-button
+          >
+        </div>
+        <div class="rest">
+          <b-button
+            class="bt-button"
+            variant="primary"
+            @click="moveModifyArticle"
+            >수정</b-button
+          >
+          <b-button class="bt-button" variant="danger" @click="deleteArticle"
+            >삭제</b-button
+          >
+        </div>
+      </div>
+      <hr />
       <div class="col-lg-8">
-        <b-card class="detail-card">
-          <h2 class="mb-4">공지사항 상세보기</h2>
-          <h2 class="mb-4">{{ article.subject }}</h2>
-          <hr />
-          <div class="text-muted mb-4">
-            작성자: {{ article.noticeId }} | 작성일: {{ article.registerTime }} | 조회수:
-            {{ article.hit }}
-          </div>
-          <div class="content" v-html="article.content"></div>
-          <div class="button-group">
-            <b-button variant="primary" class="mr-2" @click="moveModifyArticle">수정</b-button>
-            <b-button variant="danger" @click="deleteArticle">삭제</b-button>
-          </div>
-          <b-button variant="secondary" class="mt-4" @click="moveList">목록</b-button>
-        </b-card>
+        <div class="content" v-html="article.content"></div>
+      </div>
+      <hr />
+      <div class="text-muted">
+        작성자: {{ article.noticeId }} | 작성일: {{ article.registerTime }} |
+        조회수:
+        {{ article.hit }}
       </div>
     </div>
   </div>
@@ -33,8 +49,6 @@ export default {
     };
   },
   created() {
-    // 비동기
-    // TODO : 글번호에 해당하는 글정보 얻기.
     this.noticeid = this.$route.params.noticeid;
     console.log(this.noticeid);
     http.get(`/notices/${this.noticeid}`).then(({ data }) => {
@@ -44,11 +58,17 @@ export default {
   methods: {
     moveModifyArticle() {
       console.log("글수정 하러가자!!!");
-      this.$router.push({ name: "noticemodify", params: { noticeid: this.article.noticeId } });
+      this.$router.push({
+        name: "noticemodify",
+        params: { noticeid: this.article.noticeId },
+      });
     },
     deleteArticle() {
       console.log("글삭제 하러가자!!!");
-      this.$router.push({ name: "noticedelete", params: { noticeid: this.article.noticeId } });
+      this.$router.push({
+        name: "noticedelete",
+        params: { noticeid: this.article.noticeId },
+      });
     },
     moveList() {
       console.log("글목록 보러가자!!!");
@@ -59,23 +79,69 @@ export default {
 </script>
 
 <style scoped>
-.detail-card {
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f8f9fa;
-  width: 700px;
+.backg {
+  z-index: -1;
+  background-image: url("../../assets/paper.png");
+  background-size: 1500px 850px;
+  background-position: center;
+  position: absolute;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
 }
 
-h2 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
+.container {
+  overflow-y: auto;
+  width: 1000px;
+  height: 700px;
+  margin-top: 50px;
+  overflow-y: auto;
 }
 
+.container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  text-align: center;
+  margin: 30px;
+}
+
+.page-title {
+  margin-top: 10px;
+  font-family: "MYYeongnamnu", sans-serif;
+  font-size: 40px;
+  color: rgb(253, 131, 131);
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+.bt-button {
+  font-size: 15px;
+  border-color: transparent;
+  color: black;
+  margin: 0px 10px;
+  background-color: rgb(253, 186, 186);
+}
+
+.bt-button:hover,
+.bt-button:focus {
+  background-color: rgb(255, 165, 165);
+}
 .text-muted {
   font-size: 14px;
   color: #999999;
+  margin-left: 10px;
 }
 
 .content {
@@ -85,38 +151,15 @@ h2 {
 
 .button-group {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 30px;
 }
 
-.b-btn {
-  font-size: 14px;
-  font-weight: bold;
+.list {
+  justify-content: flex-start;
 }
 
-.b-btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.b-btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-
-.b-btn-secondary {
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-
-.b-btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #5a6268;
-}
-
-.b-btn-secondary:focus,
-.b-btn-secondary.focus {
-  background-color: #5a6268;
-  border-color: #5a6268;
+.rest {
+  justify-content: flex-end;
 }
 </style>

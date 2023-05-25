@@ -8,23 +8,48 @@
       <hr />
 
       <div class="category-buttons d-flex justify-content-center">
-        <b-button class="category-button" variant="outline-primary" :active="selectedCategory === ''"
-          @click="selectCategory('')">
+        <b-button
+          class="category-button"
+          variant="outline-primary"
+          :active="selectedCategory === ''"
+          @click="selectCategory('')"
+        >
           전체
         </b-button>
-        <b-button class="category-button" v-for="category in categories" :key="category" variant="outline-primary"
-          :active="selectedCategory === category" @click="selectCategory(category)">
+        <b-button
+          class="category-button"
+          v-for="category in categories"
+          :key="category"
+          variant="outline-primary"
+          :active="selectedCategory === category"
+          @click="selectCategory(category)"
+        >
           {{ category }}
         </b-button>
-        <b-button id="regist-button" class="ml-auto" variant="primary" @click="movePlaceWrite">핫플레이스 작성</b-button>
+        <b-button
+          id="regist-button"
+          class="ml-auto"
+          variant="primary"
+          @click="movePlaceWrite"
+          >일지 작성</b-button
+        >
       </div>
       <hr />
 
       <div class="row">
-        <div class="col-lg-3 col-md-6 mb-4" v-for="place in filteredPlaces" :key="place.placeId">
+        <div
+          class="col-lg-3 col-md-6 mb-4"
+          v-for="place in filteredPlaces"
+          :key="place.placeId"
+        >
           <div class="card" @click="showDetail(place)">
-            <img :src="require(`@/assets/img/springboot/img/${place.saveFolder}/${place.saveFile}`)" class="card-img-top"
-              alt="place Image" />
+            <img
+              :src="
+                require(`@/assets/img/springboot/img/${place.saveFolder}/${place.saveFile}`)
+              "
+              class="card-img-top"
+              alt="place Image"
+            />
             <div class="card-body">
               <h5 class="card-title">{{ place.subject }}</h5>
               <p class="card-text">{{ place.placeName }}</p>
@@ -36,8 +61,16 @@
         </div>
       </div>
       <!--상세보기 모달 Start-->
-      <b-modal class="modal-cont" v-model="showModal" title="상세보기" @shown="setSelectedPlace" hide-footer
-        header-bg-variant="transparent" size="lg" centered>
+      <b-modal
+        class="modal-cont"
+        v-model="showModal"
+        @shown="setSelectedPlace"
+        hide-footer
+        header-bg-variant="transparent"
+        size="lg"
+        centered
+        hide-header
+      >
         <div class="modal-body" v-if="selectedPlace">
           <div class="mb-3">
             <h5 class="modal-title">
@@ -60,28 +93,43 @@
                 <b-card-text>{{ selectedPlace.content }}</b-card-text>
               </b-card>
               <div class="image-container">
-                <img :src="
-                  require(`@/assets/img/springboot/img/${selectedPlace.saveFolder}/${selectedPlace.saveFile}`)
-                " alt="place Image" class="place-image" />
+                <img
+                  :src="
+                    require(`@/assets/img/springboot/img/${selectedPlace.saveFolder}/${selectedPlace.saveFile}`)
+                  "
+                  alt="place Image"
+                  class="place-image"
+                />
               </div>
             </div>
           </div>
         </div>
 
         <div class="modal-footer" v-if="selectedPlace">
-          <b-button id="del-button" variant="danger" @click="confirmDeletePlace">삭제</b-button>
-          <b-button id="end-button" variant="primary" @click="closeModal">닫기</b-button>
+          <b-button id="del-button" variant="danger" @click="confirmDeletePlace"
+            >삭제</b-button
+          >
+          <b-button id="end-button" variant="primary" @click="closeModal"
+            >닫기</b-button
+          >
         </div>
       </b-modal>
       <!--상세보기 모달 End-->
       <!-- 알림창 모달 Start-->
-      <b-modal v-model="confirmModalVisible" title="삭제 확인" hide-footer header-bg-variant="danger">
+      <b-modal
+        v-model="confirmModalVisible"
+        title="삭제 확인"
+        hide-footer
+        header-bg-variant="danger"
+      >
         <div class="d-flex justify-content-center">
           <p class="text-danger">정말로 삭제하시겠습니까?</p>
         </div>
         <div class="text-center mt-4">
           <b-button variant="danger" @click="deletePlace">확인</b-button>
-          <b-button variant="secondary" @click="closeConfirmModal">취소</b-button>
+          <b-button variant="secondary" @click="closeConfirmModal"
+            >취소</b-button
+          >
         </div>
       </b-modal>
       <!-- 알림창 모달 End-->
@@ -120,7 +168,9 @@ export default {
   computed: {
     filteredPlaces() {
       if (this.selectedCategory) {
-        return this.places.filter((place) => place.category === this.selectedCategory);
+        return this.places.filter(
+          (place) => place.category === this.selectedCategory
+        );
       }
       return this.places;
     },
@@ -140,6 +190,7 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+      this.$router.go(0);
     },
     deletePlace() {
       http.delete(`/places/${this.selectedPlace.placeId}`).then(({ data }) => {
@@ -167,7 +218,7 @@ export default {
 <style scoped>
 .backg {
   z-index: -1;
-  background-image: url('../../assets/paper.png');
+  background-image: url("../../assets/paper.png");
   background-size: 1500px 850px;
   background-position: center;
   position: absolute;
@@ -206,8 +257,7 @@ export default {
 
 .page-title {
   margin-top: 10px;
-  font-family: 'MYYeongnamnu',
-    sans-serif;
+  font-family: "MYYeongnamnu", sans-serif;
   font-size: 40px;
   color: rgb(253, 131, 131);
   -webkit-text-stroke-width: 1px;
@@ -235,8 +285,7 @@ export default {
 }
 
 .category-button {
-  font-family: 'MYYeongnamnu',
-    sans-serif;
+  font-family: "MYYeongnamnu", sans-serif;
   font-size: 20px;
   border-color: transparent;
   color: black;

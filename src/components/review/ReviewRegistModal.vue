@@ -12,7 +12,8 @@
         <star-rating
           v-model="review.rating"
           :increment="0.5"
-          class="star-rating"></star-rating>
+          class="star-rating"
+        ></star-rating>
       </div>
 
       <div class="form-group">
@@ -20,7 +21,8 @@
         <textarea
           id="content"
           v-model="review.content"
-          class="form-control"></textarea>
+          class="form-control"
+        ></textarea>
       </div>
 
       <button @click="checkValue" class="btn-submit">작성 완료</button>

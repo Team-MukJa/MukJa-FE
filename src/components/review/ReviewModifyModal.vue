@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="review">
-      <label>리뷰 수정하러가기 -> </label>
-      <button @click="showModal" class="btn-review">낭만 리뷰 작성</button>
+      <button @click="showModal" class="btn-review">리뷰 작성하기</button>
 
       <b-modal
         v-model="modalVisible"
         title="낭만 리뷰 수정"
-        class="modal-review">
+        class="modal-review"
+      >
         <div class="form-group">
           <label for="destination">여행지명: {{ review.placeName }}</label>
         </div>
@@ -17,7 +17,8 @@
           <star-rating
             v-model="review.rating"
             :increment="0.5"
-            class="star-rating"></star-rating>
+            class="star-rating"
+          ></star-rating>
         </div>
 
         <div class="form-group">
@@ -25,7 +26,8 @@
           <textarea
             id="content"
             v-model="review.content"
-            class="form-control"></textarea>
+            class="form-control"
+          ></textarea>
         </div>
 
         <button @click="checkValue" class="btn-submit">수정 완료</button>
@@ -107,11 +109,13 @@ export default {
 <style>
 .btn-review {
   font-family: "Arial", sans-serif;
-  font-size: 18px;
-  background-color: #f3f3f3; /* 연핑크 배경색 */
+  font-size: 15px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  background-color: #8d5ed8; /* 연핑크 배경색 */
   color: #ffffff; /* 흰색 텍스트 색상 */
   border: none;
-  border-radius: px;
+  border-radius: 40px;
   cursor: pointer;
   outline: none; /* 클릭 시 포커스 효과 제거 */
   transition: background-color 0.3s, color 0.3s; /* 원활한 전환을 위한 트랜지션 */

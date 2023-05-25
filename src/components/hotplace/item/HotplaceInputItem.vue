@@ -6,28 +6,44 @@
     <hr class="custom-hr" />
     <b-form v-on:submit.prevent class="regist-place">
       <b-form-group label="제목" label-for="title-input">
-        <b-form-input id="title-input" v-model="article.subject" @input="checkFormValidity" required></b-form-input>
+        <b-form-input
+          id="title-input"
+          v-model="article.subject"
+          @input="checkFormValidity"
+          required
+        ></b-form-input>
       </b-form-group>
 
       <b-form-group label="카테고리" label-for="category-buttons">
-        <div id="category-buttons" class=" d-flex justify-content-center">
-          <b-button class="category-button" v-for="category in categories" :key="category"
-            v-model="article.selectedCategory" :variant="isSelected(category) ? 'primary' : 'outline-primary'"
-            @click="selectCategory(category)">
+        <div id="category-buttons" class="d-flex justify-content-center">
+          <b-button
+            class="category-button"
+            v-for="category in categories"
+            :key="category"
+            v-model="article.selectedCategory"
+            :variant="isSelected(category) ? 'primary' : 'outline-primary'"
+            @click="selectCategory(category)"
+          >
             {{ category }}
           </b-button>
         </div>
       </b-form-group>
 
       <b-form-group id="date-group" label="날짜" label-for="date-input">
-        <b-form-datepicker id="date-input" v-model="article.tripday" :day-names="[]"
-          @input="checkFormValidity"></b-form-datepicker>
+        <b-form-datepicker
+          id="date-input"
+          v-model="article.tripday"
+          :day-names="[]"
+          @input="checkFormValidity"
+        ></b-form-datepicker>
       </b-form-group>
 
       <div v-if="!receivedMapValue" class="mb-3">
         <b-card style="height: 120px">
           <div class="text-center py-2">
-            <b-badge variant="secondary" class="badge-size">방문했던 곳을 지도에서 선택해주세요</b-badge>
+            <b-badge variant="secondary" class="badge-size"
+              >방문했던 곳을 지도에서 선택해주세요</b-badge
+            >
           </div>
         </b-card>
       </div>
@@ -55,19 +71,37 @@
       </div>
 
       <b-form-group label="내용" label-for="content-input">
-        <b-form-textarea id="content-input" v-model="article.content" rows="5" @input="checkFormValidity"
-          required></b-form-textarea>
+        <b-form-textarea
+          id="content-input"
+          v-model="article.content"
+          rows="5"
+          @input="checkFormValidity"
+          required
+        ></b-form-textarea>
       </b-form-group>
 
       <b-form-group label="파일 업로드" label-for="file-input">
-        <b-form-file id="file-input" v-model="article.file" accept=".jpg,.png" size=""
-          @input="checkFileSize"></b-form-file>
+        <b-form-file
+          id="file-input"
+          v-model="article.file"
+          accept=".jpg,.png"
+          size=""
+          @input="checkFileSize"
+        ></b-form-file>
       </b-form-group>
 
       <div class="text-center button-container">
-        <b-button class="regist-button" type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid">작
-          성</b-button>
-        <b-button class="regist-button" type="submit" @click="moveList">목 록</b-button>
+        <b-button
+          class="regist-button"
+          type="submit"
+          variant="primary"
+          @click="writePlace"
+          :disabled="!isFormValid"
+          >작 성</b-button
+        >
+        <b-button class="regist-button" type="submit" @click="moveList"
+          >목 록</b-button
+        >
       </div>
     </b-form>
   </div>
@@ -75,6 +109,8 @@
 
 <script>
 import http from "@/util/http-common";
+import { mapState, mapGetters } from "vuex";
+const memberStore = "memberStore";
 
 export default {
   components: {},
@@ -105,10 +141,20 @@ export default {
       deep: true,
     },
   },
+  created() {
+    if (this.userInfo) {
+      this.article.userId = this.userInfo.userId;
+    }
+  },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
+  },
   methods: {
     checkFormValidity() {
       const { subject, tripday, content, file } = this.article;
-      this.isFormValid = subject && tripday && content && file && this.receivedMapValue;
+      this.isFormValid =
+        subject && tripday && content && file && this.receivedMapValue;
     },
     checkFileSize() {
       const file = this.article.file;
@@ -135,7 +181,7 @@ export default {
         }
 
         const formData = new FormData();
-        let uID = "ssafy";
+        let uID = this.userInfo.userId;
         formData.append("userId", uID);
         formData.append("subject", this.article.subject);
         formData.append("tripDay", this.article.tripday);
@@ -184,8 +230,7 @@ export default {
 }
 
 .page-title {
-  font-family: 'MYYeongnamnu',
-    sans-serif;
+  font-family: "MYYeongnamnu", sans-serif;
   font-size: 40px;
 }
 
@@ -223,7 +268,7 @@ export default {
   margin-top: 20px;
 }
 
-.button-container>*:not(:last-child) {
+.button-container > *:not(:last-child) {
   margin-right: 10px;
 }
 

@@ -6,7 +6,8 @@
           <img
             :src="destinationDetail.firstImage"
             alt="Destination Photo"
-            class="img-fluid" />
+            class="img-fluid"
+          />
         </div>
       </div>
       <div class="details-column">
@@ -72,8 +73,8 @@ export default {
 .destination-info {
   display: flex;
   margin-top: 30px;
-  width: 1200px;
-  height: 450px;
+  /* width: 1200px;
+  height: 450px; */
   background-color: #fde7fd;
 }
 .photo-column {

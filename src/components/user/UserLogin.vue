@@ -4,7 +4,11 @@
       <h3 class="card-title">로그인</h3>
 
       <b-form @submit.prevent="confirm">
-        <b-form-group id="userId-group" label="사용자명" label-for="userId-input">
+        <b-form-group
+          id="userId-group"
+          label="사용자명"
+          label-for="userId-input"
+        >
           <b-form-input
             id="userId-input"
             v-model="member.userId"
@@ -14,7 +18,11 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="password-group" label="비밀번호" label-for="password-input">
+        <b-form-group
+          id="password-group"
+          label="비밀번호"
+          label-for="password-input"
+        >
           <b-form-input
             id="password-input"
             v-model="member.userPwd"
@@ -24,7 +32,9 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="login-button">로그인</b-button>
+        <b-button type="submit" variant="primary" class="login-button"
+          >로그인</b-button
+        >
       </b-form>
 
       <div class="register-link">
@@ -75,19 +85,11 @@ export default {
 .login-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
-  /* background: linear-gradient(
-    to bottom right,
-    rgb(245, 230, 235),
-    rgb(231, 228, 241),
-    rgb(210, 218, 233),
-    rgb(217, 207, 222),
-    rgb(250, 207, 207),
-    rgb(254, 240, 214)
-  ); */
   background-repeat: no-repeat;
   background-size: cover;
+  margin-top: 130px;
 }
 
 .login-card {
@@ -97,6 +99,7 @@ export default {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   font-family: "Roboto", sans-serif;
+  margin-top: 50px;
 }
 
 .card-title {

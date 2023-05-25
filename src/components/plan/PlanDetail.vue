@@ -1,14 +1,17 @@
 <template>
-  <div class="cont">
+  <div>
+    <div class="backg"></div>
     <div class="left-content">
-      <h1>여행정보 상세보기</h1>
-      <div v-for="(date, index) in travelDates" :key="index" class="date-section">
-        <h2 class="date-heading">{{ date }}</h2>
-        <div class="row flex-wrap">
+      <div
+        v-for="(date, index) in travelDates"
+        :key="index"
+        class="date-section"
+      >
+        <h2 class="date-heading">{{ index + 1 + "일차 " + date }}</h2>
+        <div class="row">
           <div
             v-for="(spot, spotIndex) in getSpotsByDate(date)"
             :key="spotIndex"
-            class="col-lg-4 col-md-4 col-sm-6"
           >
             <div class="spot-card-wrapper">
               <b-card class="spot-card" @click="handleCardClick(spot)">
@@ -19,7 +22,7 @@
                   <h3 class="spot-title">{{ spot.subject }}</h3>
                   <p class="spot-memo">{{ spot.memo }}</p>
                   <p class="spot-time">
-                    방문 시간: <span>{{ formatTime(spot.time) }}</span>
+                    {{ formatTime(spot.time) }}
                   </p>
                 </div>
               </b-card>
@@ -29,65 +32,75 @@
         <hr class="date-divider" />
       </div>
     </div>
-    <b-container class="right-content">
-      <b-row><plan-detail-map :spotInfo="spotInfo"></plan-detail-map></b-row>
-      <b-row>
-        <plan-explain :spotInfo="spotInfo"></plan-explain>
-      </b-row>
-    </b-container>
+    <!-- Modal -->
+    <b-modal v-model="showModal" hide-footer hide-header>
+      <plan-detail-map :spotInfo="spotInfo"></plan-detail-map>
+      <plan-explain :spotInfo="spotInfo"></plan-explain>
+    </b-modal>
   </div>
 </template>
 
-<style>
-.cont {
-  margin: 30px;
-  width: 150vb;
-  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
-  background-color: whitesmoke;
-  border-radius: 10px;
-  overflow-y: auto; /* 수직 스크롤 추가 */
-  display: flex;
-  margin-bottom: 100px;
+<style scoped>
+.backg {
+  z-index: -1;
+  background-image: url("../../assets/paper.png");
+  background-size: 1500px 850px;
+  background-position: center;
+  position: absolute;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
 }
+
 .left-content {
-  width: 1100px;
+  margin-top: 70px;
+  background-color: transparent;
+  width: 900px;
   flex: 1.5;
-  /* padding: 20px; */
   height: 75vh; /* 수정 */
-  overflow-y: auto; /* 추가 */
   margin-bottom: 20px; /* 추가 */
   overflow-y: auto;
+  overflow-x: hidden;
+  display: flex; /* 추가: 내부 컨텐츠를 왼쪽으로 정렬하기 위해 flex로 설정 */
+  flex-direction: column; /* 추가: 내부 컨텐츠를 세로로 정렬하기 위해 flex-direction 설정 */
+  justify-content: flex-start; /* 추가: 내부 컨텐츠를 위로 정렬하기 위해 justify-content 설정 */
+}
+.left-content::-webkit-scrollbar {
+  width: 5px;
+}
 
-  border: #c7e2ff 1px;
+.left-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
 }
 .spot-card-wrapper {
   overflow: hidden; /* 내용이 넘칠 경우 숨김 */
 }
-.flex-wrap {
-  flex-wrap: wrap; /* 카드들이 줄을 넘어가지 않고 한 줄에 균등하게 배치 */
-}
 .row {
   height: auto; /* 기존의 고정된 높이를 제거하여 내용에 따라 높이가 조절되도록 변경 */
+  margin-left: 15px;
 }
 
 .spot-card {
-  width: 100%; /* 카드 너비 조정 */
-  margin: 5px 0;
+  width: 140px; /* 카드 너비 조정 */
   height: 200px;
-  padding: 10px; /* 수정: padding 값을 10px로 변경 */
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  margin-right: 5px;
 }
 
 .card-image {
+  width: 100px;
   height: 100px;
   overflow: hidden;
-  border-radius: 10px 10px 0 0;
+  border-radius: 10px;
 }
 
 .card-image img {
-  width: 100%;
-  height: 100%;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
 }
 
@@ -107,13 +120,11 @@
 
 .spot-memo {
   font-size: 5px;
-
   margin-bottom: 5px;
 }
 
 .spot-time {
   font-size: 5px;
-
   color: #888;
 }
 
@@ -121,51 +132,9 @@
   color: #333;
 }
 
-.right-content {
-  flex: 1;
-  padding: 20px;
-  height: 75vh;
-  overflow-y: auto;
-  margin-bottom: 20px;
-  overflow-y: hidden;
-  border: #c7e2ff 1px;
-  flex-direction: column;
-}
-
-.right-content > * {
-  height: 50%; /* 자식 컴포넌트가 동일한 크기로 나눠짐 */
-}
-
-/* 스크롤바 스타일링 */
-.cont ::-webkit-scrollbar {
-  width: 8px; /* 스크롤바의 너비 */
-}
-
-.cont ::-webkit-scrollbar-track {
-  background-color: #f2f2f2; /* 스크롤바 트랙 배경색 */
-}
-
-.cont ::-webkit-scrollbar-thumb {
-  background-color: #c7e2ff; /* 스크롤바 썸 배경색 */
-  border-radius: 4px; /* 스크롤바 썸의 모서리 반경 */
-}
-
-.cont ::-webkit-scrollbar-thumb:hover {
-  background-color: #a9d2ff; /* 스크롤바 썸에 호버 시 배경색 */
-}
-.cont > div {
-  margin: 10px;
-  padding: 20px;
-  border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.date-section {
-  margin-bottom: 40px;
-}
-
 .date-heading {
-  font-size: 24px;
+  font-family: "MYYeongnamnu", sans-serif;
+  font-size: 28px;
   color: #333;
   margin-bottom: 20px;
 }
@@ -177,7 +146,7 @@
 .date-divider {
   border-top: 1px solid #ccc;
   margin-top: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 </style>
 
@@ -193,6 +162,7 @@ export default {
       travelSpots: [],
       travelDates: [], // 서버에서 받아온 일자 리스트
       spotInfo: null,
+      showModal: false,
     };
   },
   components: {
@@ -252,9 +222,8 @@ export default {
       }
     },
     handleCardClick(spot) {
-      console.log(spot);
       this.spotInfo = spot;
-      // console.log(this.spotInfo);
+      this.showModal = true;
     },
     formatTime(time) {
       const [hours, minutes] = time.split(":");

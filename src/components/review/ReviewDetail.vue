@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="destination-reviews">
     <div class="destination-info">
       <!-- 여행지 상세 정보 컴포넌트 -->
       <DestinationInfo :destinationDetail="destinationDetail" :avg="avg" />
@@ -11,6 +11,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import DestinationInfo from "@/components/review/DestinationInfo.vue";
@@ -55,7 +56,23 @@ export default {
 </script>
 
 <style>
+.destination-reviews {
+  display: flex;
+  border-radius: 80px;
+  height: 480px;
+}
+
 .destination-info {
+  flex: 1;
+  height: 480px;
+  border-radius: 30px;
+  margin-right: 20px;
   outline: border 3px black;
+}
+
+.reviews {
+  flex: 1;
+  height: 480px;
+  border-radius: 30px;
 }
 </style>

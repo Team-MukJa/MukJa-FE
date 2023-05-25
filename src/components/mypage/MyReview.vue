@@ -1,11 +1,25 @@
 <template>
   <div>
     <ul>
-      <li v-for="item in myReview" :key="item.reviewId">
+      <li
+        v-for="item in myReview"
+        :key="item.reviewId"
+        @click="goToPlaceDetail(item.placeId)"
+      >
         <div class="rating">
-          <font-awesome-icon v-for="n in item.rating" :key="n" icon="fa-solid fa-star" />
-          <font-awesome-icon v-for="n in 5 - item.rating" :key="n" icon="fa-regular fa-star" />
-          <i style="color: black; font-style: normal">&nbsp;&nbsp;{{ item.placeTitle }}</i>
+          <font-awesome-icon
+            v-for="n in item.rating"
+            :key="n"
+            icon="fa-solid fa-star"
+          />
+          <font-awesome-icon
+            v-for="n in 5 - item.rating"
+            :key="n"
+            icon="fa-regular fa-star"
+          />
+          <i style="color: black; font-style: normal"
+            >&nbsp;&nbsp;{{ item.placeTitle }}</i
+          >
         </div>
         <div class="content">
           <span>{{ item.content }}</span>
@@ -29,7 +43,11 @@ export default {
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    goToPlaceDetail(id) {
+      this.$router.push({ name: "ReviewDetail", params: { contentid: id } });
+    },
+  },
 };
 </script>
 
