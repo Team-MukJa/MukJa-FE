@@ -140,7 +140,7 @@ export default {
   background-size: 1500px 850px;
   background-position: center;
   position: absolute;
-  top: -80px;
+  top: -60px;
   left: 0;
   width: 100%;
   height: 100%;
