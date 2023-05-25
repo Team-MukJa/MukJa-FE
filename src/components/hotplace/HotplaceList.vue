@@ -43,11 +43,12 @@
     <!--상세보기 모달 Start-->
     <b-modal
       v-model="showModal"
+      class="modal-cont"
       title="상세보기"
       @shown="setSelectedPlace"
       hide-footer
       header-bg-variant="transparent"
-      size="xl"
+      size="lg"
       centered
     >
       <div class="modal-body flex-grow-1" v-if="selectedPlace">
@@ -184,7 +185,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card {
   border: none;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -294,4 +295,9 @@ export default {
   margin-bottom: 0.2rem;
   font-size: 0.8rem;
 }
+
+/* .modal-cont {
+  max-width: 100vw;
+  max-height: 40vh;
+} */
 </style>

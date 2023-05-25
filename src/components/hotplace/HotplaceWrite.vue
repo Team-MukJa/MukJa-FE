@@ -63,10 +63,11 @@ export default {
 }
 
 .left {
-  width: 60vh;
+  width: 70vh;
   justify-content: flex-start;
   border-radius: 10px;
   margin: 10px;
+  height: 90vh;
 }
 
 .right {
@@ -75,5 +76,6 @@ export default {
   border-radius: 10px;
   margin: 10px;
   padding: 10px;
+  height: 80vh;
 }
 </style>

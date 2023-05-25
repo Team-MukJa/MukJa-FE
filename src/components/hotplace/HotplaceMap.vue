@@ -39,6 +39,7 @@
 </template>
 
 <script>
+
 export default {
   name: "KakaoMap",
 
@@ -133,6 +134,17 @@ export default {
         this.search.pgn = pagination;
         this.search.results = data;
 
+        // 마커 이미지 설정
+          const markerImage = new window.kakao.maps.MarkerImage(
+        require(`../../assets/marker/marker.png`),
+        new window.kakao.maps.Size(40, 40),
+        {
+          offset: new window.kakao.maps.Point(25, 50),
+        }
+      );
+
+
+
         for (i = 0; i < data.length; i++) {
           var positions = [
             {
@@ -144,10 +156,13 @@ export default {
           this.firstX = data[i].x;
           this.firstY = data[i].y;
           // 마커를 생성합니다
+
+          
           positions.forEach(function (pos) {
             var marker = new kakao.maps.Marker({
               map: map, // 마커를 표시할 지도
               position: pos.latlng, // 마커의 위치
+              image: markerImage,
             });
             // marker.setMap(this.map);
             // 마커에 마우스오버 이벤트를 등록합니다

@@ -68,10 +68,19 @@ export default {
 
       console.log(this.position.latlng);
 
+      // 마커 이미지 설정
+          const markerImage = new window.kakao.maps.MarkerImage(
+        require(`../../../assets/marker/marker.png`),
+        new window.kakao.maps.Size(60, 60),
+        {
+          offset: new window.kakao.maps.Point(25, 50),
+        }
+      );
+
       this.marker = new window.kakao.maps.Marker({
         map: this.map,
         title: this.position.title,
-        img: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+        image: markerImage,
         position: this.position.latlng,
       });
 

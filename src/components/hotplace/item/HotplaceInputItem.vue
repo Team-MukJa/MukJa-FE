@@ -19,8 +19,10 @@
             v-for="category in categories"
             :key="category"
             v-model="article.selectedCategory"
-            :variant="isSelected(category) ? 'primary' : 'outline-primary'"
+            :variant="isSelected(category) ? 'dark' : 'outline-dark'"
             @click="selectCategory(category)"
+            class="btn-dark-custom text-light"
+
           >
             {{ category }}
           </b-button>
@@ -89,7 +91,7 @@
         ></b-form-file>
       </b-form-group>
 
-      <b-button type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid"
+      <b-button type="submit" variant="dark" @click="writePlace" :disabled="!isFormValid"
         >작 성</b-button
       >
 
@@ -207,11 +209,11 @@ export default {
 <style>
 .writehotplace {
   margin: 0 auto;
-  height: 75vh;
+  height: 60vh;
 }
 
 .regist-place {
-  height: 70vh;
+  height:70vh;
   overflow-y: auto;
 }
 
@@ -241,4 +243,9 @@ export default {
   font-size: 12px;
   padding: 4px 8px;
 }
+
+.btn-dark-custom {
+      background-color: #000000;
+      color: #ffffff;
+    }
 </style>
