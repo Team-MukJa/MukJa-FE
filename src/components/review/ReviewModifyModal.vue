@@ -1,26 +1,39 @@
 <template>
   <div>
-    <label>리뷰 수정하러가기 -> </label>
-    <button @click="showModal" class="btn-review">* click *</button>
+    <div class="review">
+      <b-button @click="showModal" class="dark">수정</b-button>
 
-    <b-modal v-model="modalVisible" title="리뷰 수정" class="modal-review">
-      <div class="form-group">
-        <label for="destination">여행지명: {{ review.placeName }}</label>
-      </div>
+      <b-modal
+        v-model="modalVisible"
+        title="낭만 리뷰 수정"
+        class="modal-review"
+      >
+        <div class="form-group">
+          <label for="destination">여행지명: {{ review.placeName }}</label>
+        </div>
 
-      <div class="form-group">
-        <label for="rating">평점:</label>
-        <star-rating v-model="review.rating" :increment="0.5" class="star-rating"></star-rating>
-      </div>
+        <div class="form-group">
+          <label for="rating">평점:</label>
+          <star-rating
+            v-model="review.rating"
+            :increment="0.5"
+            class="star-rating"
+          ></star-rating>
+        </div>
 
-      <div class="form-group">
-        <label for="content">내용:</label>
-        <textarea id="content" v-model="review.content" class="form-control"></textarea>
-      </div>
+        <div class="form-group">
+          <label for="content">내용:</label>
+          <textarea
+            id="content"
+            v-model="review.content"
+            class="form-control"
+          ></textarea>
+        </div>
 
-      <button @click="checkValue" class="btn-submit">수정 완료</button>
-      <button @click="deleteReview" class="btn-submit">삭제</button>
-    </b-modal>
+        <button @click="checkValue" class="btn-submit">수정 완료</button>
+        <button @click="deleteReview" class="btn-submit">삭제</button>
+      </b-modal>
+    </div>
   </div>
 </template>
 
@@ -66,13 +79,15 @@ export default {
         ((msg = "평점 입력해주세요"), (err = false), this.$refs.rating.focus());
       err &&
         !this.review.content &&
-        ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
+        ((msg = "내용 입력해주세요"),
+        (err = false),
+        this.$refs.content.focus());
 
       if (!err) alert(msg);
       else this.modifyReview();
     },
     modifyReview() {
-      http.put(`/tour/review/`, this.review).then(({ data }) => {
+      http.put(`/tour/review/this.review`).then(({ data }) => {
         console.log(data);
         this.$router.go(this.$router.currentRoute);
         this.modalVisible = false;
@@ -92,36 +107,18 @@ export default {
 </script>
 
 <style>
-.btn-review {
+/* .btn-review {
   font-family: "Arial", sans-serif;
-  font-size: 18px;
-  background-color: #fbff00;
-  text-decoration: underline;
-  color: #080000;
-  border: #080000;
-  padding: px 16px;
-  border-radius: 4px;
+  font-size: 15px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  background-color: #; /* 연핑크 배경색 /
+  color: #ffffff; / 흰색 텍스트 색상 /
+  border: none;
+  border-radius: 40px;
   cursor: pointer;
-}
-
-.modal-review .modal-content {
-  font-family: "Arial", sans-serif;
-}
-
-.modal-review .form-group {
-  margin-bottom: 16px;
-}
-
-.modal-review label {
-  font-weight: bold;
-}
-
-.modal-review .form-control {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+  outline: none; / 클릭 시 포커스 효과 제거 /
+  transition: background-color 0.3s, color 0.3s; / 원활한 전환을 위한 트랜지션 */
 
 .star-rating {
   color: #ffd700;
@@ -131,11 +128,12 @@ export default {
 .btn-submit {
   font-family: "Arial", sans-serif;
   font-size: 16px;
-  background-color: #28a745;
+  background-color: #7d5df3;
   color: #fff;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
+  margin-right: 10px;
   cursor: pointer;
 }
 </style>

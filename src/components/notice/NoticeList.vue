@@ -32,7 +32,9 @@
       </b-table>
     </div>
     <div class="button-container">
-      <b-button variant="primary" @click="openModal" class="regist-button"> 게시글 작성 </b-button>
+      <b-button variant="primary" @click="openModal" class="regist-button">
+        게시글 작성
+      </b-button>
       <b-modal
         v-model="showModal"
         title="게시글 작성"
@@ -42,10 +44,16 @@
       >
         <!-- 폼 내부 스타일 수정 -->
         <b-form-group label="제목" label-cols-sm="3" label-cols-lg="2">
-          <b-form-input class="custom-input" v-model="article.subject"></b-form-input>
+          <b-form-input
+            class="custom-input"
+            v-model="article.subject"
+          ></b-form-input>
         </b-form-group>
         <b-form-group label="작성자" label-cols-sm="3" label-cols-lg="2">
-          <b-form-input class="custom-input" v-model="article.userId"></b-form-input>
+          <b-form-input
+            class="custom-input"
+            v-model="article.userId"
+          ></b-form-input>
         </b-form-group>
         <b-form-group label="내용" label-cols-sm="3" label-cols-lg="2">
           <b-form-textarea
@@ -56,7 +64,9 @@
         </b-form-group>
         <div class="button-group">
           <!-- 버튼 스타일 수정 -->
-          <b-button variant="dark" class="mr-2" @click="registArticle"> 작성 </b-button>
+          <b-button variant="dark" class="mr-2" @click="registArticle">
+            작성
+          </b-button>
           <b-button variant="dark" @click="hideModal"> 취소 </b-button>
         </div>
       </b-modal>
@@ -79,6 +89,7 @@
   justify-content: center;
   text-align: center;
   border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .header {

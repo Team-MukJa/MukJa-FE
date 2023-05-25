@@ -86,7 +86,7 @@ export default {
       this.$router.push({ name: "AppPlan" });
     },
     goToReview() {
-      this.$router.push({ name: "AppReview" });
+      this.$router.push({ name: "AppSearch" });
     },
     goToNotices() {
       this.$router.push({ name: "notices" });

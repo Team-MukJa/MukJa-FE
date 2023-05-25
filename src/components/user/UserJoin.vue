@@ -111,9 +111,10 @@ export default {
 </script>
 <style scoped>
 .register-container {
+  margin-top: 200px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   height: 100vh;
   /* background: linear-gradient(
     to bottom right,
@@ -130,6 +131,7 @@ export default {
 
 .register-card {
   width: 600px;
+  height: 600px;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);

@@ -131,11 +131,12 @@ export default {
   max-height: 100vh;
   margin-top: 30px;
   padding-bottom: 50px;
-  background-color: whitesmoke;
+  background-color: white;
   border-radius: 10px;
 }
 .my-container {
   background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 .nav-pills > .nav-item > .active {
   background-color: rgb(252, 169, 169) !important;

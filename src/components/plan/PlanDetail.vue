@@ -52,6 +52,7 @@
   overflow-y: auto; /* 수직 스크롤 추가 */
   display: flex;
   margin-bottom: 100px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 .left-content {
   width: 1100px;

@@ -179,6 +179,7 @@ export default {
   border-radius: 10px;
   overflow-y: auto;
   overflow-x: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .plan-container::-webkit-scrollbar {

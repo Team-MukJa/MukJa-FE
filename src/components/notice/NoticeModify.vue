@@ -6,10 +6,16 @@
           <h2 class="mb-4 center">수정</h2>
           <hr />
           <b-form-group label="제목">
-            <b-form-input class="custom-input" v-model="article.subject"></b-form-input>
+            <b-form-input
+              class="custom-input"
+              v-model="article.subject"
+            ></b-form-input>
           </b-form-group>
           <b-form-group label="작성자">
-            <b-form-input class="custom-input" v-model="article.userId"></b-form-input>
+            <b-form-input
+              class="custom-input"
+              v-model="article.userId"
+            ></b-form-input>
           </b-form-group>
           <b-form-group label="내용">
             <b-form-textarea
@@ -19,7 +25,9 @@
             ></b-form-textarea>
           </b-form-group>
           <div class="button-group">
-            <b-button variant="dark" class="mr-2" @click="checkValue">수정</b-button>
+            <b-button variant="dark" class="mr-2" @click="checkValue"
+              >수정</b-button
+            >
             <b-button variant="dark" @click="moveList">목록</b-button>
           </div>
         </b-card>
@@ -46,13 +54,19 @@ export default {
       let err = true;
       let msg = "";
       !this.article.userId &&
-        ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userid.focus());
+        ((msg = "작성자 입력해주세요"),
+        (err = false),
+        this.$refs.userid.focus());
       err &&
         !this.article.subject &&
-        ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
+        ((msg = "제목 입력해주세요"),
+        (err = false),
+        this.$refs.subject.focus());
       err &&
         !this.article.content &&
-        ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
+        ((msg = "내용 입력해주세요"),
+        (err = false),
+        this.$refs.content.focus());
 
       if (!err) alert(msg);
       // 만약, 내용이 다 입력되어 있다면 modifyArticle 호출
@@ -98,6 +112,7 @@ export default {
   align-items: center;
   height: 60vh;
   width: 120vh;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 .content {
   background-color: #f9f9f9;
