@@ -1,5 +1,16 @@
 <template>
   <div class="map-container">
+    <div class="category-buttons">
+      <button class="button" @click="filterMarkers(0)">전체</button>
+      <button class="button" @click="filterMarkers(12)">관광지</button>
+      <button class="button" @click="filterMarkers(14)">문화시설</button>
+      <button class="button" @click="filterMarkers(15)">축제/공연/행사</button>
+      <button class="button" @click="filterMarkers(25)">여행코스</button>
+      <button class="button" @click="filterMarkers(28)">레포츠</button>
+      <button class="button" @click="filterMarkers(32)">숙박</button>
+      <button class="button" @click="filterMarkers(38)">쇼핑</button>
+      <button class="button" @click="filterMarkers(39)">음식점</button>
+    </div>
     <div id="map" class="map"></div>
   </div>
 </template>
@@ -25,10 +36,12 @@ export default {
       this.positions = [];
       this.searchResults.forEach((destInfo) => {
         let obj = {};
-        obj.title = destInfo.subject;
+        obj.subject = destInfo.subject;
         obj.latlng = new kakao.maps.LatLng(destInfo.x, destInfo.y);
         obj.img = destInfo.img;
         obj.addr = destInfo.addr;
+        obj.contentId = destInfo.contentId;
+        obj.type = destInfo.contentTypeId;
         this.positions.push(obj);
       });
       this.loadMarker();
@@ -43,6 +56,25 @@ export default {
   },
 
   methods: {
+    filterMarkers(category) {
+      if (category === 0) {
+        this.loadMarker();
+      } else {
+        this.markers.forEach((marker) => {
+          const position = this.positions.find((pos) => {
+            return (
+              pos.latlng.La.toFixed(7) === marker.getPosition().La.toFixed(7) &&
+              pos.latlng.Ma.toFixed(7) === marker.getPosition().Ma.toFixed(7)
+            );
+          });
+          if (position && position.type === category) {
+            marker.setMap(this.map);
+          } else {
+            marker.setMap(null);
+          }
+        });
+      }
+    },
     loadScript() {
       const script = document.createElement("script");
       script.src =
@@ -69,10 +101,18 @@ export default {
 
       this.markers = [];
       this.positions.forEach((position) => {
+        const markerImage = new window.kakao.maps.MarkerImage(
+          require(`../../assets/marker/${position.type}.png`),
+          new window.kakao.maps.Size(35, 35),
+          {
+            offset: new window.kakao.maps.Point(25, 50),
+          }
+        );
+
         const marker = new window.kakao.maps.Marker({
           map: this.map,
-          title: position.title,
-          img: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+          title: position.subject,
+          image: markerImage,
           position: position.latlng,
         });
 
@@ -115,8 +155,9 @@ export default {
       }
 
       let content = document.createElement("div");
-      content.style.maxWidth = "300px";
-      content.style.minWidth = "300px";
+      content.classList.add("card");
+      content.style.maxWidth = "200px";
+      content.style.minWidth = "200px";
 
       let cardHeader = document.createElement("div");
       cardHeader.classList.add("card-header");
@@ -145,7 +186,7 @@ export default {
       img.classList.add("img-fluid");
       img.classList.add("rounded-start");
       img.classList.add("h-100");
-      img.setAttribute("alt", position.title);
+      img.setAttribute("alt", position.subject);
       img.style.objectFit = "cover";
       img.style.width = "100%";
       img.style.height = "300px";
@@ -167,7 +208,7 @@ export default {
       title.classList.add("fw-bold");
       title.classList.add("fs-5");
       title.classList.add("text-wrap");
-      title.appendChild(document.createTextNode(position.title));
+      title.appendChild(document.createTextNode(position.subject));
 
       let addr = document.createElement("p");
       addr.classList.add("card-text");
@@ -177,11 +218,13 @@ export default {
 
       let detailButton = document.createElement("button");
       detailButton.setAttribute("type", "button");
-      detailButton.addEventListener("click", this.closeCard);
+      detailButton.addEventListener("click", () => {
+        this.handleDetailClick(position);
+      });
       detailButton.setAttribute("id", "test");
       detailButton.classList.add("btn");
       detailButton.classList.add("btn-primary");
-      detailButton.appendChild(document.createTextNode("상세보기"));
+      detailButton.appendChild(document.createTextNode("계획에 추가하기"));
 
       cardBody.appendChild(title);
       cardBody.appendChild(addr);
@@ -202,9 +245,10 @@ export default {
       this.customOverlay.setMap(this.map);
       // 커스텀 오버레이가 생성되었을 때, 스타일을 적용합니다.
     },
-    handleDetailClick() {
+    handleDetailClick(pos) {
       // 상세보기 버튼 클릭 시 실행되는 메소드
-      console.log("상세보기 버튼이 클릭되었습니다.");
+      console.log(pos);
+      this.$emit("add-place", pos);
     },
 
     closeCard() {
@@ -237,6 +281,7 @@ export default {
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
 /* 커스텀 오버레이~~~ */
 .custom-overlay {
   background-color: #fff;
@@ -298,5 +343,22 @@ export default {
 
 .custom-overlay__button:hover {
   background-color: #0056b3;
+}
+
+.category-buttons {
+  top: 20px;
+  margin-bottom: 20px;
+  left: 20px;
+}
+
+.category-buttons .button {
+  margin-right: 5px;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.category-buttons .button:hover,
+.category-buttons .button:focus {
+  background-color: rgb(252, 169, 169);
 }
 </style>
