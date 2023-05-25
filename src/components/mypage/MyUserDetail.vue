@@ -3,7 +3,11 @@
     <b-card class="register-card">
       <h3 class="card-title">내 정보</h3>
       <b-form>
-        <b-form-group id="username-group" label="아이디" label-for="username-input">
+        <b-form-group
+          id="username-group"
+          label="아이디"
+          label-for="username-input"
+        >
           <b-form-input
             id="username-input"
             v-model="my.userId"
@@ -13,8 +17,16 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="password-group" label="비밀번호" label-for="password-input">
-          <b-form-input id="password-input" v-model="my.userPwd" type="test"></b-form-input>
+        <b-form-group
+          id="password-group"
+          label="비밀번호"
+          label-for="password-input"
+        >
+          <b-form-input
+            id="password-input"
+            v-model="my.userPwd"
+            type="test"
+          ></b-form-input>
         </b-form-group>
 
         <b-form-group id="name-group" label="이름" label-for="name-input">
@@ -49,14 +61,29 @@
           </b-input-group>
         </b-form-group>
 
-        <b-form-group id="regtime-group" label="가입날짜" label-for="regtime-fieldset">
-          <b-form-input id="regtime-fieldset" v-model="regtime" type="text" readonly></b-form-input>
+        <b-form-group
+          id="regtime-group"
+          label="가입날짜"
+          label-for="regtime-fieldset"
+        >
+          <b-form-input
+            id="regtime-fieldset"
+            v-model="regtime"
+            type="text"
+            readonly
+          ></b-form-input>
         </b-form-group>
 
-        <b-button variant="primary" class="modify-button" @click.self.prevent="doModify"
+        <b-button
+          variant="dark"
+          class="modify-button"
+          @click.self.prevent="doModify"
           >수정</b-button
         >
-        <b-button variant="primary" class="delete-button" @click.self.prevent="doDelete"
+        <b-button
+          variant="dark"
+          class="delete-button"
+          @click.self.prevent="doDelete"
           >탈퇴</b-button
         >
       </b-form>
@@ -141,16 +168,14 @@ export default {
 
 .modify-button {
   width: 45%;
-  background-color: #f8a5c2;
-  border-color: #f8a5c2;
+
   color: #ffffff;
   margin-top: 10%;
   margin-right: 10%;
 }
 .delete-button {
   width: 45%;
-  background-color: #f8a5c2;
-  border-color: #f8a5c2;
+
   color: #ffffff;
   margin-top: 10%;
 }

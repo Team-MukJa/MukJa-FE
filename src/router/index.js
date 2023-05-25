@@ -71,6 +71,7 @@ const routes = [
 
   {
     path: "/search",
+    name: "AppSearch",
     component: PlaceSearch,
   },
 

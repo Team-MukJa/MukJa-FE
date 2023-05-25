@@ -1,8 +1,12 @@
 <template>
   <div class="cont">
     <div class="left-content">
-      <h1>여행정보 상세보기</h1>
-      <div v-for="(date, index) in travelDates" :key="index" class="date-section">
+      <!-- <h1>여행정보 상세보기</h1> -->
+      <div
+        v-for="(date, index) in travelDates"
+        :key="index"
+        class="date-section"
+      >
         <h2 class="date-heading">{{ date }}</h2>
         <div class="row flex-wrap">
           <div
@@ -43,7 +47,7 @@
   margin: 30px;
   width: 150vb;
   max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
-  background-color: whitesmoke;
+  background-color: white;
   border-radius: 10px;
   overflow-y: auto; /* 수직 스크롤 추가 */
   display: flex;

@@ -19,14 +19,26 @@
           </b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
-          <b-nav-item-dropdown right toggle-class="btn btn-link" class="person-icon">
+          <b-nav-item-dropdown
+            right
+            toggle-class="btn btn-link"
+            class="person-icon"
+          >
             <template #button-content>
               <i class="fa fa-user"></i>
             </template>
-            <b-dropdown-item v-if="userInfo" @click="goToMyPage">마이페이지</b-dropdown-item>
-            <b-dropdown-item v-if="userInfo" @click="logout">로그아웃</b-dropdown-item>
-            <b-dropdown-item v-if="!userInfo" @click="goToLogin">로그인</b-dropdown-item>
-            <b-dropdown-item v-if="!userInfo" @click="goToRegister">회원가입</b-dropdown-item>
+            <b-dropdown-item v-if="userInfo" @click="goToMyPage"
+              >마이페이지</b-dropdown-item
+            >
+            <b-dropdown-item v-if="userInfo" @click="logout"
+              >로그아웃</b-dropdown-item
+            >
+            <b-dropdown-item v-if="!userInfo" @click="goToLogin"
+              >로그인</b-dropdown-item
+            >
+            <b-dropdown-item v-if="!userInfo" @click="goToRegister"
+              >회원가입</b-dropdown-item
+            >
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>

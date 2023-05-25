@@ -3,12 +3,7 @@
     <div class="category-buttons">
       <button class="button" @click="filterMarkers(0)">전체</button>
       <button class="button" @click="filterMarkers(12)">관광지</button>
-      <button class="button" @click="filterMarkers(14)">문화시설</button>
-      <button class="button" @click="filterMarkers(15)">축제/공연/행사</button>
-      <button class="button" @click="filterMarkers(25)">여행코스</button>
-      <button class="button" @click="filterMarkers(28)">레포츠</button>
       <button class="button" @click="filterMarkers(32)">숙박</button>
-      <button class="button" @click="filterMarkers(38)">쇼핑</button>
       <button class="button" @click="filterMarkers(39)">음식점</button>
     </div>
     <div id="map" class="map"></div>
@@ -223,8 +218,8 @@ export default {
       });
       detailButton.setAttribute("id", "test");
       detailButton.classList.add("btn");
-      detailButton.classList.add("btn-primary");
-      detailButton.appendChild(document.createTextNode("계획에 추가하기"));
+      detailButton.classList.add("btn-dark");
+      detailButton.appendChild(document.createTextNode("추가하기"));
 
       cardBody.appendChild(title);
       cardBody.appendChild(addr);
@@ -359,6 +354,6 @@ export default {
 
 .category-buttons .button:hover,
 .category-buttons .button:focus {
-  background-color: rgb(252, 169, 169);
+  background-color: #555;
 }
 </style>

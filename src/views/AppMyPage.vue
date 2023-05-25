@@ -1,16 +1,36 @@
 <template>
   <div class="my-container">
-    <b-tabs id="tab" class="justify-content-center" active-nav-item-class="font-weight-bold text-uppercase" fill>
-      <b-tab title="나의 정보" active title-link-class="text-dark" style="margin-top: 50px"><my-user-detail
-          @update-user="updateUser" @delete-user="deleteUser"></my-user-detail></b-tab>
-      <b-tab title="나의 핫플레이스" title-link-class="text-dark"><my-hot-place style="margin-top: 50px"
-          :myHotPlace="myHotPlace"></my-hot-place></b-tab>
-      <b-tab title="나의 여행계획" title-link-class="text-dark"><my-plan style="margin-top: 50px"
-          :myPlan="myPlan"></my-plan></b-tab>
-      <b-tab title="나의 리뷰" title-link-class="text-dark"><my-review style="margin-top: 50px"
-          :myReview="myReview"></my-review></b-tab>
-      <b-tab title="나의 문의사항" title-link-class="text-dark"><my-notice style="margin-top: 50px"
-          :myNotice="myNotice"></my-notice></b-tab>
+    <b-tabs
+      id="tab"
+      class="justify-content-center"
+      active-nav-item-class="font-weight-bold text-uppercase"
+      fill
+    >
+      <b-tab
+        title="나의 정보"
+        active
+        title-link-class="text-dark"
+        style="margin-top: 50px"
+        ><my-user-detail
+          @update-user="updateUser"
+          @delete-user="deleteUser"
+        ></my-user-detail
+      ></b-tab>
+      <b-tab title="나의 핫플레이스" title-link-class="text-dark"
+        ><my-hot-place
+          style="margin-top: 50px"
+          :myHotPlace="myHotPlace"
+        ></my-hot-place
+      ></b-tab>
+      <b-tab title="나의 여행계획" title-link-class="text-dark"
+        ><my-plan style="margin-top: 50px" :myPlan="myPlan"></my-plan
+      ></b-tab>
+      <b-tab title="나의 리뷰" title-link-class="text-dark"
+        ><my-review style="margin-top: 50px" :myReview="myReview"></my-review
+      ></b-tab>
+      <b-tab title="나의 문의사항" title-link-class="text-dark"
+        ><my-notice style="margin-top: 50px" :myNotice="myNotice"></my-notice
+      ></b-tab>
     </b-tabs>
   </div>
 </template>
@@ -114,8 +134,10 @@ export default {
   background-color: whitesmoke;
   border-radius: 10px;
 }
-
-.nav-pills>.nav-item>.active {
+.my-container {
+  background-color: white;
+}
+.nav-pills > .nav-item > .active {
   background-color: rgb(252, 169, 169) !important;
   /* 클릭된 탭의 배경색 변경 */
 }

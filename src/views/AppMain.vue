@@ -1,34 +1,28 @@
 <template>
-  <div>
-    <section
+  <div class="main">
+    <div
       v-for="(section, index) in sections"
       :key="index"
       class="section section-announcement theme-dark"
       data-analytics-section-engagement="name:announcement hero"
-      style="display: flex; height: 33vh; width: 100%; background-color: #000000; color: #ffffff"
     >
-      <div
-        class="section-content"
-        style="flex: 1; display: flex; align-items: center; justify-content: center"
-      >
-        <h2 class="typography-hero-product-headline large-10 medium-12 small-12 large-centered">
+      <div class="section-content">
+        <h2 class="typography-hero-product-headline">
           {{ section.title }}
         </h2>
-        <button class="button">예쁜 버튼</button>
       </div>
-      <p
-        class="typography-body"
-        style="flex: 1; display: flex; align-items: center; justify-content: center"
-      >
+
+      <div class="typography-body">
         <a
-          href="/105/media/kr/macbook-pro-14-and-16/2022/1baf5961-c793-48e7-9efd-0d23cac1e101/films/product/macbook-pro-14-and-16-product-tpl-kr-2022_16x9.m3u8"
+          href="#"
+          @click="goToSection(section.link)"
+          class="section-link"
           data-analytics-intrapage-link=""
         >
-          <span class="icon-copy">발표 동영상 보기</span
-          ><span class="icon icon-after icon icon-playsolid"></span>
+          {{ section.buttonText }}
         </a>
-      </p>
-    </section>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,8 +30,71 @@
 export default {
   data() {
     return {
-      sections: [{ title: "첫 번째 섹션" }, { title: "두 번째 섹션" }, { title: "세 번째 섹션" }],
+      sections: [
+        {
+          title: "떠나고 싶은곳을 찾아보세요",
+          link: "AppSearch",
+          buttonText: "여행지 검색하기 ",
+        },
+        {
+          title: "아무도 몰랐던 맛집, 쉼터를 공유해 보세요",
+          link: "places",
+          buttonText: "나만의 장소 공유 하기",
+        },
+        {
+          title: "나만의 여행계획을 공유해보세요",
+          link: "AppPlan",
+          buttonText: "여행 계획 작성하기",
+        },
+      ],
     };
+  },
+  methods: {
+    goToSection(routeName) {
+      this.$router.push({ name: routeName });
+    },
   },
 };
 </script>
+
+<style>
+.section {
+  height: 33vh;
+  width: 200vh;
+  background-color: #000000;
+  color: #ffffff;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.section-content {
+  margin-bottom: 10px;
+}
+
+.typography-hero-product-headline {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.typography-body {
+  text-align: center;
+}
+
+.section-link {
+  display: inline-block;
+  padding: 8px 24px;
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.section-link:hover {
+  background-color: #e5e5e5;
+}
+</style>

@@ -23,7 +23,10 @@ export default {
     spotInfo() {
       console.log("change");
       this.position.title = this.spotInfo.subject;
-      this.position.latlng = new kakao.maps.LatLng(this.spotInfo.x, this.spotInfo.y);
+      this.position.latlng = new kakao.maps.LatLng(
+        this.spotInfo.x,
+        this.spotInfo.y
+      );
       this.loadMap();
 
       this.loadMarker();
@@ -62,10 +65,17 @@ export default {
     loadMarker() {
       this.deleteMarker();
 
+      const markerImage = new window.kakao.maps.MarkerImage(
+        require(`../../assets/marker/marker.png`),
+        new window.kakao.maps.Size(70, 70),
+        {
+          offset: new window.kakao.maps.Point(25, 50),
+        }
+      );
       this.marker = new window.kakao.maps.Marker({
         map: this.map,
         title: this.position.title,
-        img: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+        image: markerImage,
         position: this.position.latlng,
       });
 

@@ -4,7 +4,11 @@
       <h3 class="card-title">로그인</h3>
 
       <b-form @submit.prevent="confirm">
-        <b-form-group id="userId-group" label="사용자명" label-for="userId-input">
+        <b-form-group
+          id="userId-group"
+          label="사용자명"
+          label-for="userId-input"
+        >
           <b-form-input
             id="userId-input"
             v-model="member.userId"
@@ -14,7 +18,11 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="password-group" label="비밀번호" label-for="password-input">
+        <b-form-group
+          id="password-group"
+          label="비밀번호"
+          label-for="password-input"
+        >
           <b-form-input
             id="password-input"
             v-model="member.userPwd"
@@ -24,7 +32,9 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="login-button">로그인</b-button>
+        <b-button type="submit" variant="dark" class="login-button"
+          >로그인</b-button
+        >
       </b-form>
 
       <div class="register-link">
@@ -108,7 +118,7 @@ export default {
 
 .login-button {
   width: 100%;
-  background-color: #f8a5c2;
+  background-color: #4c4c4c;
   color: #ffffff;
 }
 
@@ -130,6 +140,5 @@ export default {
 
 .b-form-input:focus {
   box-shadow: none;
-  border-color: #f8a5c2;
 }
 </style>

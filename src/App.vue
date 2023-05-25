@@ -37,6 +37,7 @@ section {
   display: block;
   height: 100vh;
   overflow: hidden;
+  width: 100%;
 }
 
 section .header {

@@ -1,21 +1,30 @@
 <template>
   <div class="plan-container">
-    <div class="page-header">
-      <h2 class="page-title text-center">여행 계획 리스트</h2>
-      <b-button id="regist-button" class="ml-auto" variant="primary" @click="openModal"
-        >글 작성</b-button
-      >
-    </div>
+    <b-button
+      id="regist-button"
+      class="ml-auto"
+      variant="primary"
+      @click="openModal"
+      >글 작성</b-button
+    >
     <hr />
 
     <div class="row">
       <div class="col-md-6" v-for="plan in plans" :key="plan.id">
         <b-card class="plan-card" @click="goToDetailPage(plan.planId)">
           <h4 class="card-title">{{ plan.subject }}</h4>
-          <b-card-text class="card-text">{{ truncateText(plan.content, 30) }}</b-card-text>
-          <div class="d-flex justify-content-between">
-            <div v-for="image in plan.representativeImage" :key="image">
-              <img :src="image" alt="여행 사진" class="img-thumbnail" />
+          <b-card-text class="card-text">{{
+            truncateText(plan.content, 30)
+          }}</b-card-text>
+          <div class="d-flex justify-content-between image-container">
+            <div
+              v-for="image in plan.representativeImage"
+              :key="image"
+              class="image-wrapper"
+            >
+              <div class="image-hover">
+                <img :src="image" alt="여행 사진" class="img-thumbnail" />
+              </div>
             </div>
           </div>
         </b-card>
@@ -23,10 +32,19 @@
     </div>
 
     <!-- 모달 추가 -->
-    <b-modal v-model="modalOpen" title="여행 계획 작성" @ok="submitForm" @cancel="closeModal">
+    <b-modal
+      v-model="modalOpen"
+      title="여행 계획 작성"
+      @ok="submitForm"
+      @cancel="closeModal"
+    >
       <b-form>
         <b-form-group label="여행 제목" label-for="title-input">
-          <b-form-input id="title-input" v-model="plan.subject" required></b-form-input>
+          <b-form-input
+            id="title-input"
+            v-model="plan.subject"
+            required
+          ></b-form-input>
         </b-form-group>
         <!-- <b-form-group label="작성자" label-for="userId-input">
           <b-form-input id="user-input" v-model="plan.userId" required></b-form-input>
@@ -53,7 +71,11 @@
         </div>
 
         <b-form-group label="여행 내용" label-for="content-input">
-          <b-form-textarea id="content-input" v-model="plan.content" required></b-form-textarea>
+          <b-form-textarea
+            id="content-input"
+            v-model="plan.content"
+            required
+          ></b-form-textarea>
         </b-form-group>
       </b-form>
     </b-modal>
@@ -151,30 +173,31 @@ export default {
 <style scoped>
 .plan-container {
   margin: 30px;
-  width: 150vb;
-  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
-  background-color: whitesmoke;
+  width: 150vh;
+  max-height: 80vh;
+  background-color: #ffffff;
   border-radius: 10px;
-  overflow-y: auto; /* 수직 스크롤 추가 */
-  overflow-x: hidden; /* 수직 스크롤 추가 */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .plan-container::-webkit-scrollbar {
-  width: 8px; /* 스크롤바의 너비 */
+  width: 8px;
 }
 
 .plan-container::-webkit-scrollbar-track {
-  background-color: #f2f2f2; /* 스크롤바 트랙 배경색 */
+  background-color: #f6f6f6;
 }
 
 .plan-container::-webkit-scrollbar-thumb {
-  background-color: #c7e2ff; /* 스크롤바 썸 배경색 */
-  border-radius: 4px; /* 스크롤바 썸의 모서리 반경 */
+  background-color: #ccc;
+  border-radius: 4px;
 }
 
 .plan-container::-webkit-scrollbar-thumb:hover {
-  background-color: #a9d2ff; /* 스크롤바 썸에 호버 시 배경색 */
+  background-color: #999;
 }
+
 .page-header {
   display: flex;
   align-items: center;
@@ -186,20 +209,24 @@ export default {
 
 .page-title {
   font-family: "Arial", sans-serif;
-  font-size: 24px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 20px;
 }
 
 #regist-button {
-  background-color: #f8a5c2;
-  border-color: #f8a5c2;
+  background-color: #343a40;
+  border-color: #343a40;
   color: #ffffff;
 }
+
 #regist-button:hover,
 #regist-button:focus,
 #regist-button:active {
-  background-color: #e26893;
-  border-color: #e26893;
-  color: #000000;
+  background-color: #1d2124;
+  border-color: #1d2124;
+  color: #ffffff;
 }
 
 hr {
@@ -209,33 +236,74 @@ hr {
 
 .plan-card {
   margin: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #e5e5e5;
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
+  background-color: #ffffff;
+  transition: box-shadow 0.3s;
+}
+
+.plan-card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .card-title {
   font-size: 18px;
   font-weight: bold;
+  color: #333333;
+  margin-bottom: 10px;
 }
 
 .card-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* 표시할 줄 수 */
-  -webkit-box-orient: vertical;
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 10px;
 }
 
+.image-wrapper {
+  margin-right: 1px;
+  border: none !important;
+  position: relative;
+}
+
+.image-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s;
+}
+
+.image-hover:hover::before {
+  opacity: 1;
+}
+
+.image-hover:hover .img-thumbnail {
+  transform: scale(1.1);
+}
 .img-thumbnail {
-  width: 100px;
-  height: 100px;
+  width: 200px; /* Adjust image width */
+  height: 150px;
   object-fit: cover;
-  margin-right: 10px;
+  border-radius: 10px;
+  transition: transform 0.3s; /* margin-bottom: 0; - */
 }
 
 .col-md-6:not(:last-child) {
-  border-right: 1px solid #ccc;
+  border-right: 1px solid #e5e5e5;
+}
+
+.b-modal .modal-dialog {
+  margin-top: 10vh;
 }
 </style>

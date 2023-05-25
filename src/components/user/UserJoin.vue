@@ -3,7 +3,11 @@
     <b-card class="register-card">
       <h3 class="card-title">회원가입</h3>
       <b-form @submit.prevent="register">
-        <b-form-group id="usernid-group" label="아이디" label-for="username-input">
+        <b-form-group
+          id="usernid-group"
+          label="아이디"
+          label-for="username-input"
+        >
           <b-form-input
             id="userid-input"
             v-model="member.userId"
@@ -13,7 +17,11 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="username-group" label="이름" label-for="username-input">
+        <b-form-group
+          id="username-group"
+          label="이름"
+          label-for="username-input"
+        >
           <b-form-input
             id="username-input"
             v-model="member.userName"
@@ -23,7 +31,11 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="password-group" label="비밀번호" label-for="password-input">
+        <b-form-group
+          id="password-group"
+          label="비밀번호"
+          label-for="password-input"
+        >
           <b-form-input
             id="password-input"
             v-model="member.userPwd"
@@ -55,7 +67,9 @@
           </b-input-group>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="register-button">회원가입</b-button>
+        <b-button type="submit" variant="dark" class="register-button"
+          >회원가입</b-button
+        >
       </b-form>
 
       <div class="login-link">
@@ -132,7 +146,7 @@ export default {
 
 .register-button {
   width: 100%;
-  background-color: #f8a5c2;
+  background-color: #4c4c4c;
   color: #ffffff;
 }
 
@@ -154,6 +168,6 @@ export default {
 
 .b-form-input:focus {
   box-shadow: none;
-  border-color: #f8a5c2;
+  border-color: #4c4c4c;
 }
 </style>

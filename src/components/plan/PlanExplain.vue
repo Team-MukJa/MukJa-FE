@@ -1,7 +1,11 @@
 <template>
   <div class="destination-info">
     <div class="destination-image">
-      <img :src="spotInfo.img" alt="Destination Image" class="rounded img-fluid" />
+      <img
+        :src="spotInfo.img"
+        alt="Destination Image"
+        class="rounded img-fluid"
+      />
     </div>
     <div class="destination-details">
       <h3 class="destination-title">{{ spotInfo.subject }}</h3>
@@ -13,11 +17,18 @@
       >
         {{ isDescriptionVisible ? "숨기기" : "내용보기" }}
       </button>
-      <div v-show="isDescriptionVisible" class="destination-description-wrapper">
-        <p class="destination-description text-center">{{ spotInfo.content }}</p>
+      <div
+        v-show="isDescriptionVisible"
+        class="destination-description-wrapper"
+      >
+        <p class="destination-description text-center">
+          {{ spotInfo.content }}
+        </p>
       </div>
       <div class="destination-divider"></div>
-      <p class="destination-address text-center"><strong>주소:</strong> {{ spotInfo.addr }}</p>
+      <p class="destination-address text-center">
+        <strong>주소:</strong> {{ spotInfo.addr }}
+      </p>
     </div>
   </div>
 </template>
