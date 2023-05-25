@@ -1,74 +1,99 @@
 <template>
-  <div>
+  <div class="writehotplace">
     <h1>핫플레이스 작성</h1>
     <!-- 나머지 게시판 작성 화면 코드 -->
     <!-- <b-form @submit="submitForm"> -->
     <b-form v-on:submit.prevent>
       <b-form-group label="제목" label-for="title-input">
-        <b-form-input id="title-input" v-model="article.subject" @input="checkFormValidity" required></b-form-input>
+        <b-form-input
+          id="title-input"
+          v-model="article.subject"
+          @input="checkFormValidity"
+          required
+        ></b-form-input>
       </b-form-group>
 
       <b-form-group label="카테고리" label-for="category-buttons">
         <div id="category-buttons" class="d-flex">
-          <b-button v-for="category in categories" :key="category" v-model="article.selectedCategory"
-            :variant="isSelected(category) ? 'primary' : 'outline-primary'" @click="selectCategory(category)">
+          <b-button
+            v-for="category in categories"
+            :key="category"
+            v-model="article.selectedCategory"
+            :variant="isSelected(category) ? 'primary' : 'outline-primary'"
+            @click="selectCategory(category)"
+          >
             {{ category }}
           </b-button>
         </div>
       </b-form-group>
 
-
       <b-form-group id="date-group" label="날짜" label-for="date-input">
-        <b-form-datepicker id="date-input" v-model="article.tripday" :day-names="[]"
-          @input="checkFormValidity"></b-form-datepicker>
+        <b-form-datepicker
+          id="date-input"
+          v-model="article.tripday"
+          :day-names="[]"
+          @input="checkFormValidity"
+        ></b-form-datepicker>
       </b-form-group>
 
       <!--Map 에서 받아오는 데이터-->
-      <div v-if="!receivedMapValue" class="mb-4">
-        <b-card>
-          <div class="text-center py-3">
-            <b-badge variant="secondary">장소 정보가 아직 제공되지 않았습니다.</b-badge>
+      <div v-if="!receivedMapValue" class="mb-3">
+        <b-card style="height: 120px">
+          <div class="text-center py-2">
+            <b-badge variant="secondary" class="badge-size"
+              >방문했던 곳을 지도에서 선택해주세요</b-badge
+            >
           </div>
         </b-card>
       </div>
 
-      <div v-else class="mb-4">
+      <div v-else class="mb-3">
         <b-card>
           <div class="custom-field">
             <b-form-group label="장소명" label-cols-sm="3">
-              <p>{{ receivedMapValue.place_name }}</p>
+              <p class="map-data">{{ receivedMapValue.place_name }}</p>
             </b-form-group>
           </div>
 
           <div class="custom-field">
             <b-form-group label="주소" label-cols-sm="3">
-              <p>{{ receivedMapValue.address_name }}</p>
+              <p class="map-data">{{ receivedMapValue.address_name }}</p>
             </b-form-group>
           </div>
 
           <div class="custom-field">
             <b-form-group label="카테고리" label-cols-sm="3">
-              <p>{{ receivedMapValue.category_group_name }}</p>
+              <p class="map-data">{{ receivedMapValue.category_group_name }}</p>
             </b-form-group>
           </div>
         </b-card>
       </div>
 
       <b-form-group label="내용" label-for="content-input">
-        <b-form-textarea id="content-input" v-model="article.content" rows="13" @input="checkFormValidity"
-          required></b-form-textarea>
+        <b-form-textarea
+          id="content-input"
+          v-model="article.content"
+          rows="8"
+          @input="checkFormValidity"
+          required
+        ></b-form-textarea>
       </b-form-group>
 
       <b-form-group label="파일 업로드" label-for="file-input">
-        <b-form-file id="file-input" v-model="article.file" accept=".jpg,.png" size=""
-          @input="checkFileSize"></b-form-file>
+        <b-form-file
+          id="file-input"
+          v-model="article.file"
+          accept=".jpg,.png"
+          size=""
+          @input="checkFileSize"
+        ></b-form-file>
       </b-form-group>
 
-      <b-button type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid">작 성</b-button>
-
+      <b-button type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid"
+        >작 성</b-button
+      >
 
       <b-button type="submit" @click="moveList">목 록</b-button>
-
     </b-form>
   </div>
 </template>
@@ -82,7 +107,7 @@ export default {
     receivedMapValue: {
       type: Object,
       required: true,
-    }
+    },
   },
   data() {
     return {
@@ -94,7 +119,7 @@ export default {
         selectedCategory: null,
       },
       isFormValid: false,
-      categories: ['음식', '여행', '문화'],
+      categories: ["음식", "여행", "문화"],
     };
   },
   watch: {
@@ -118,7 +143,7 @@ export default {
         alert("파일 크기는 최대 3MB를 초과할 수 없습니다.");
         this.article.file = "";
       }
-      this.checkFormValidity()
+      this.checkFormValidity();
     },
     selectCategory(category) {
       this.article.selectedCategory = category;
@@ -159,18 +184,17 @@ export default {
         });
         console.log(response);
 
-        // 폼 데이터 전송 후 화면 초기화
-        this.subject = "";
-        this.content = "";
-        this.file = null;
-        this.tripDay = null;
-        this.article.selectedCategory = null;
-
         this.$router.push({ name: "placelist" });
       } catch (error) {
         console.error(error);
-        alert("에러발생")
+        alert("에러발생");
       }
+
+      // 폼 데이터 전송 후 화면 초기화
+      // this.article.subject = "";
+      // this.article.content = "";
+      // this.article.file = null;
+      // this.article.tripDay = null;
     },
     moveList() {
       console.log("글목록 보러가자!!!");
@@ -181,16 +205,34 @@ export default {
 </script>
 
 <style>
+.writehotplace {
+  margin: 0 auto;
+}
+
 .custom-field {
-  margin-bottom: 16px;
-  background-color: #F8F8F8;
+  margin-bottom: 8px;
+  background-color: #f8f8f8;
   padding: 10px;
+  height: 50px;
 }
 
 .custom-field p {
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   color: #333333;
+}
+
+.card-body {
+  height: 200px;
+}
+
+.map-data {
+  font-size: 12px;
+}
+
+.badge-size {
+  font-size: 12px;
+  padding: 4px 8px;
 }
 </style>
