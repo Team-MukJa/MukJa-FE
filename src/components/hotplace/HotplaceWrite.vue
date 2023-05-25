@@ -5,14 +5,12 @@
       <the-kakao-map @map-clicked="mapClicked"></the-kakao-map>
     </div>
     <div class="right" style="background-color: white; margin: 8px">
-      <hotplace-input-item></hotplace-input-item>
+      <hotplace-input-item :received-map-value="mapValue"></hotplace-input-item>
     </div>
   </div>
 </template>
 
 <script>
-// import MapComponent from "./MapComponent.vue";
-// import TheKakaoMap from "./TheKakaoMap.vue";
 import TheKakaoMap from "./HotplaceMap.vue";
 
 import HotplaceInputItem from "./item/HotplaceInputItem.vue";
@@ -29,14 +27,15 @@ export default {
       // content: "",
       // file: null,
       // selectedDate: null,
-      mapValue: '',
+      mapValue: "",
     };
   },
   methods: {
     mapClicked(value) {
       this.mapValue = value;
-
-    }
+      console.log("맵 데이터");
+      console.log(this.mapValue);
+    },
     // submitForm() {
     //   // 게시판 작성 로직 구현
     //   const formData = new FormData();

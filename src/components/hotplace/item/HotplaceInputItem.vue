@@ -3,7 +3,7 @@
     <h1>핫플레이스 작성</h1>
     <!-- 나머지 게시판 작성 화면 코드 -->
     <!-- <b-form @submit="submitForm"> -->
-    <b-form v-on:submit.prevent>
+    <b-form v-on:submit.prevent class="regist-place">
       <b-form-group label="제목" label-for="title-input">
         <b-form-input
           id="title-input"
@@ -73,7 +73,7 @@
         <b-form-textarea
           id="content-input"
           v-model="article.content"
-          rows="8"
+          rows="5"
           @input="checkFormValidity"
           required
         ></b-form-textarea>
@@ -170,7 +170,7 @@ export default {
 
         // map 에서 받아온 데이터
         formData.append("placeAddress", this.receivedMapValue.address_name);
-        formData.append("category", this.receivedMapValue.category_group_name);
+        // formData.append("category", this.receivedMapValue.category_group_name);
         formData.append("placeName", this.receivedMapValue.place_name);
         formData.append("placeX", this.receivedMapValue.x);
         formData.append("placeY", this.receivedMapValue.y);
@@ -207,6 +207,12 @@ export default {
 <style>
 .writehotplace {
   margin: 0 auto;
+  height: 75vh;
+}
+
+.regist-place {
+  height: 70vh;
+  overflow-y: auto;
 }
 
 .custom-field {
