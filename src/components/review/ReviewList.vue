@@ -1,14 +1,26 @@
 <template>
   <div class="review-list-container">
     <div class="review-list">
-      <h3 class="review-title">낭 만 리 뷰</h3>
-      <div>
-        <div v-show="myReview">
-          <div class="content">
-            <span>{{ myReview.content }}</span>
+      <h2 class="review-title text-center">낭 만 리 뷰</h2>
+      <div class="myreview-div">
+        <div v-show="myReview" class="myreview-on">
+          <div class="review-content">
+            {{ myReview.userId }} |
+            <span class="content"> {{ myReview.content }} | </span>
+            <span v-if="myReview"
+              ><font-awesome-icon
+                v-for="n in myReview.rating"
+                :key="n"
+                icon="fa-solid fa-star" />
+              <font-awesome-icon
+                v-for="n in 5 - myReview.rating"
+                :key="n"
+                icon="fa-regular fa-star"
+            /></span>
           </div>
-          <div class="userid">{{ myReview.userId }}</div>
-          <review-modify-modal></review-modify-modal>
+          <div class="review-actions">
+            <review-modify-modal></review-modify-modal>
+          </div>
         </div>
         <div v-show="!myReview">
           <review-regist-modal :title="placeTitle"></review-regist-modal>
@@ -74,6 +86,7 @@ export default {
     http
       .get(`/tour/review/${this.contentId}/${this.userInfo.userId}`)
       .then(({ data }) => {
+        console.log("myreview", data);
         this.myReview = data;
       })
       .catch(function (error) {
@@ -82,6 +95,7 @@ export default {
     http
       .get(`/tour/review/${this.contentId}`)
       .then(({ data }) => {
+        console.log("reviews", data);
         this.reviews = data;
       })
       .catch(function (error) {
@@ -92,7 +106,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .review-list-container {
   background-color: #ebfbfc;
   height: 485px;
@@ -101,7 +115,6 @@ export default {
   overflow: auto;
 }
 
-/* Rest of your existing styles */
 .content {
   margin-bottom: 10px;
 }
@@ -112,7 +125,22 @@ export default {
 
 .review-title {
   margin-left: 5px;
-  margin-top: 7px;
+  margin-top: 20px;
   font-weight: bold;
+}
+
+.myreview-on {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 10px;
+  padding: 10px;
+}
+.review-content {
+  flex: 1;
+}
+
+.review-actions {
+  margin-left: auto;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="destination-reviews">
     <div class="destination-info">
       <!-- 여행지 상세 정보 컴포넌트 -->
-      <DestinationInfo :destinationDetail="destinationDetail" :avg="avg" />
+      <DestinationInfo :destinationDetail="destinationDetail" />
     </div>
     <div class="reviews">
       <br />
@@ -27,7 +27,6 @@ export default {
     return {
       contentId: 0,
       destinationDetail: {}, // 상세 정보를 담는 객체
-      avg: 0,
       placeTitle: "",
       reviews: [], // 리뷰 목록을 담는 배열
     };
@@ -43,36 +42,30 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
-    http
-      .get(`/tour/review/avg/${this.contentId}`)
-      .then(({ data }) => {
-        this.avg = data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
   },
 };
 </script>
 
-<style>
+<style scoped>
 .destination-reviews {
   display: flex;
   border-radius: 80px;
-  height: 480px;
+  height: 90%;
+  margin-top: 50px;
 }
 
 .destination-info {
   flex: 1;
-  height: 480px;
+  height: 800px;
   border-radius: 30px;
   margin-right: 20px;
+  margin-left: 50px;
   outline: border 3px black;
 }
 
 .reviews {
   flex: 1;
-  height: 480px;
+  height: 800px;
   border-radius: 30px;
 }
 </style>

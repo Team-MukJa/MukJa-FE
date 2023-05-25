@@ -28,8 +28,16 @@
           </p>
           <hr class="divider" />
           <div class="destination-item">
-            <b-icon icon="star-fill" aria-hidden="true"></b-icon>
-            <!-- <star-rating v-model="avg" :increment="0.5" class="star-rating"></star-rating> -->
+            <font-awesome-icon
+              v-for="n in this.rating"
+              :key="n"
+              icon="fa-solid fa-star"
+            />
+            <font-awesome-icon
+              v-for="n in 5 - this.rating"
+              :key="n"
+              icon="fa-regular fa-star"
+            />
           </div>
           <hr class="divider" />
           <p class="destination-description">
@@ -46,7 +54,7 @@
 
 <script>
 import BIcon from "bootstrap-vue";
-// import StarRating from "vue-star-rating";
+import http from "@/util/http-common";
 
 export default {
   components: {
@@ -55,67 +63,80 @@ export default {
   },
   props: {
     destinationDetail: Object,
-    avg: Number,
   },
   data() {
-    return {};
+    return {
+      contentId: 0,
+      rating: 0,
+    };
   },
-  created() {},
+  created() {
+    this.contentId = this.$route.params.contentid;
+    http
+      .get(`/tour/review/avg/${this.contentId}`)
+      .then(({ data }) => {
+        this.rating = data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
 };
 </script>
-<style>
+<style scoped>
 .destination-info-container {
-  margin-top: 30px;
-  max-height: 450px; /* Define the maximum height for the scrollable container */
-  overflow-y: auto; /* Enable vertical scrolling */
+  width: 600px;
+  height: 90%;
+  overflow-y: auto;
 }
-
+.destination-info-container::-webkit-scrollbar {
+  width: 5px;
+}
+.destination-info-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
 .destination-info {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 30px;
-  /* width: 1200px;
-  height: 450px; */
   background-color: #fde7fd;
 }
-.photo-column {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
 
-.photo {
+.photo > img {
   margin-top: 30px;
   width: 380px;
-  height: 300px;
-}
-
-.details-column {
-  flex: 1;
+  height: 280px;
 }
 
 .destination-title {
+  margin-top: 10px;
   font-size: 38px;
-  margin-top: 20px;
   margin-bottom: 20px;
+  margin-left: 10px;
+  text-align: center;
 }
-
+.destination-addr,
+.destination-tel {
+  text-align: center;
+}
+.destination-description {
+  margin: 10px;
+}
 .divider {
   border: 0cap;
-  /* border-top: 1px solid #ccc; */
   margin: 20px 0;
 }
 
 .destination-item {
   display: flex;
   align-items: center;
+  justify-content: center;
   font-size: 18px;
   margin-bottom: 10px;
-}
-
-.star-rating {
   margin-left: 10px;
-  font-size: 45px;
-  font-style: normal;
+  color: gold;
 }
 
 .destination-description ::-webkit-scrollbar-thumb {

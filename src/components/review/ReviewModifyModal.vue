@@ -1,12 +1,13 @@
 <template>
   <div>
     <div class="review">
-      <button @click="showModal" class="btn-review">리뷰 작성하기</button>
+      <button @click="showModal" class="btn-review">리뷰 수정하기</button>
 
       <b-modal
         v-model="modalVisible"
         title="낭만 리뷰 수정"
         class="modal-review"
+        hide-footer
       >
         <div class="form-group">
           <label for="destination">여행지명: {{ review.placeName }}</label>

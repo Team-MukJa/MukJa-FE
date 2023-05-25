@@ -6,7 +6,7 @@
           <div class="slide-content">
             <h3>{{ slides[0].title }}</h3>
             <p>{{ slides[0].description }}</p>
-            <button class="slide-button" @click="goToTravelPlans">
+            <button class="slide-button" @click="goToSearchLocations">
               <strong>당장 확인하기</strong>
             </button>
           </div>
@@ -24,7 +24,7 @@
           <div class="slide-content">
             <h3>{{ slides[2].title }}</h3>
             <p>{{ slides[2].description }}</p>
-            <button class="slide-button" @click="goToSearchLocations">
+            <button class="slide-button" @click="goToTravelPlans">
               <strong>당장 확인하기</strong>
             </button>
           </div>
@@ -32,8 +32,13 @@
       </div>
     </div>
     <div class="indicators">
-      <span v-for="(slide, index) in slides" :key="index" class="indicator" :class="{ active: index === currentIndex }"
-        @click="goToSlide(index)"></span>
+      <span
+        v-for="(slide, index) in slides"
+        :key="index"
+        class="indicator"
+        :class="{ active: index === currentIndex }"
+        @click="goToSlide(index)"
+      ></span>
     </div>
   </div>
 </template>
@@ -45,16 +50,16 @@ export default {
     return {
       slides: [
         {
-          title: "여행 계획",
-          description: "여행을 계획하고 새로운 경험을 만나보세요!",
+          title: "낭만 플레이스",
+          description: "낭만적인 장소를 찾아보세요!",
         },
         {
-          title: "핫플레이스",
-          description: "핫플레이스에서 인기있는 장소와 트렌드를 확인하세요!",
+          title: "낭만 일지",
+          description: "당신만의 낭만적인 장소를 기록해주세요.",
         },
         {
-          title: "여행지 검색",
-          description: "당신의 다음 여행지를 찾아보세요!",
+          title: "낭만 계획",
+          description: "낭만적인 여행을 계획하고 자랑해보세요!",
         },
       ],
       currentIndex: 0,
@@ -83,10 +88,10 @@ export default {
       this.translateX = -this.currentIndex * this.slideWidth;
     },
     goToTravelPlans() {
-      this.$router.push({ name: "PlanList" });
+      this.$router.push({ name: "AppPlan" });
     },
     goToHotPlaces() {
-      this.$router.push({ name: "hotplacelist" });
+      this.$router.push({ name: "places" });
     },
     goToSearchLocations() {
       this.$router.push({ name: "search" });

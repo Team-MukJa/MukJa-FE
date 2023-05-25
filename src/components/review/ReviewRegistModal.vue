@@ -2,7 +2,12 @@
   <div>
     <button @click="showModal" class="btn-review">낭만 리뷰 등록하기</button>
 
-    <b-modal v-model="modalVisible" title="리뷰 작성" class="modal-review">
+    <b-modal
+      hide-footer
+      v-model="modalVisible"
+      title="리뷰 작성"
+      class="modal-review"
+    >
       <div class="form-group">
         <label for="destination">여행지명: {{ title }}</label>
       </div>
