@@ -24,29 +24,8 @@
         </div>
       </div>
     </div>
+    
     <!-- 여기에 Category 항목 추가 -->
-
-    <!-- <div>
-      <div class="content-type-checkbox-group">
-        <label
-          v-for="contentType in contentTypes"
-          :key="contentType.value"
-          class="content-type-checkbox">
-          <input
-            type="checkbox"
-            :value="contentType.value"
-            v-model="selectedContentTypes"
-            @change="toggleContentType" />
-          {{ contentType.text }}
-          <img
-            class="category-icon"
-            width="25px"
-            :src="require(`../../assets/marker/${contentType.value}.png`)"
-            :alt="contentType.text" />
-        </label>
-      </div>
-    </div> -->
-
     <div>
       <div class="content-type-checkbox-group">
         <button
@@ -137,9 +116,9 @@ export default {
       } else {
         this.selectedContentTypes.push(contentTypeValue);
       }
-      this.selectedContentTypes.push(contentTypeValue);
-      console.log(contentTypeValue); // contentTypeValue를
-      console.log(this.selectedContentTypes.length);
+
+      console.log(contentTypeValue); // contentTypeValue 쳌
+      console.log(this.selectedContentTypes.length); //배열로 잘 들어갔는지 쳌
     },
 
     updateGugunOptions() {
@@ -186,8 +165,9 @@ export default {
 <style scoped>
 .label {
   font-size: 20px;
-  font-family: "Times New Roman", Times, serif;
+  /* font-family: "Times New Roman", Times, serif; */
   font-weight: bold;
+  color: white;
   margin-right: 10px;
   margin-left: 30px;
 }
@@ -203,10 +183,11 @@ input {
 }
 
 button {
-  background-color: #b25ef7;
+  background-color: #f7cbe1;
   height: 35px;
   width: 50px;
-  color: #fff;
+  color: #080808;
+  font-weight: 800;
   /* border-radius: 90px; */
 
   cursor: pointer;
