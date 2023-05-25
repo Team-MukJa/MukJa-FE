@@ -24,7 +24,7 @@ export default {
 
 <style>
 .bg {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #f2f2f2;
   position: absolute;
   top: 0;
   left: 0;
@@ -33,7 +33,6 @@ export default {
 }
 
 section {
-  background-image: url("@/assets/bg2.jpg");
   background-size: cover;
   display: block;
   height: 100vh;
@@ -61,5 +60,11 @@ section .main-view {
     rgb(250, 207, 207),
     rgb(254, 240, 214)
   ); */
+}
+
+.custom-input:focus {
+  outline: none;
+  border-color: gray;
+  box-shadow: 0 0 5px gray;
 }
 </style>

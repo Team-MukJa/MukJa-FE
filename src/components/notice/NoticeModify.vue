@@ -1,22 +1,26 @@
 <template>
-  <div class="container mt-4">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
+  <div class="cont">
+    <div class="content">
+      <div class="card-containe">
         <b-card class="edit-card">
-          <h2 class="mb-4">공지사항 수정</h2>
+          <h2 class="mb-4 center">수정</h2>
           <hr />
           <b-form-group label="제목">
-            <b-form-input v-model="article.subject"></b-form-input>
+            <b-form-input class="custom-input" v-model="article.subject"></b-form-input>
           </b-form-group>
           <b-form-group label="작성자">
-            <b-form-input v-model="article.userId"></b-form-input>
+            <b-form-input class="custom-input" v-model="article.userId"></b-form-input>
           </b-form-group>
           <b-form-group label="내용">
-            <b-form-textarea v-model="article.content" rows="10"></b-form-textarea>
+            <b-form-textarea
+              class="custom-input"
+              v-model="article.content"
+              rows="10"
+            ></b-form-textarea>
           </b-form-group>
           <div class="button-group">
-            <b-button variant="primary" class="mr-2" @click="checkValue">수정</b-button>
-            <b-button variant="secondary" @click="moveList">목록</b-button>
+            <b-button variant="dark" class="mr-2" @click="checkValue">수정</b-button>
+            <b-button variant="dark" @click="moveList">목록</b-button>
           </div>
         </b-card>
       </div>
@@ -87,6 +91,28 @@ export default {
 </script>
 
 <style scoped>
+.cont {
+  margin: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  width: 120vh;
+}
+.content {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+}
+
+.custom-input:focus {
+  outline: none;
+  border-color: gray;
+  box-shadow: 0 0 5px gray;
+}
 .edit-card {
   padding: 30px;
   border-radius: 10px;
@@ -102,33 +128,42 @@ h2 {
 
 .button-group {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 30px;
 }
 
-.b-btn {
+.b-button {
   font-size: 14px;
   font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.b-btn-primary {
+.b-button-primary {
   background-color: #007bff;
   border-color: #007bff;
+  color: #ffffff;
 }
 
-.b-btn-secondary {
+.b-button-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.b-button-secondary {
   background-color: #6c757d;
   border-color: #6c757d;
+  color: #ffffff;
 }
 
-.b-btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #5a6268;
+.b-button-secondary:hover {
+  background-color: #555e64;
+  border-color: #555e64;
 }
 
-.b-btn-secondary:focus,
-.b-btn-secondary.focus {
-  background-color: #5a6268;
-  border-color: #5a6268;
+.b-form-group {
+  margin-bottom: 20px;
 }
 </style>
