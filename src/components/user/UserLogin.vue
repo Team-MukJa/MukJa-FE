@@ -83,9 +83,10 @@ export default {
 
 <style scoped>
 .login-container {
+  margin-top: 300px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   height: 100vh;
   /* background: linear-gradient(
     to bottom right,
@@ -101,7 +102,8 @@ export default {
 }
 
 .login-card {
-  width: 400px;
+  width: 50vh;
+  height: 35vh;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);

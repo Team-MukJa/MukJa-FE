@@ -303,6 +303,7 @@ export default {
   /* 수직 스크롤 추가 */
   display: flex;
   margin-bottom: 100px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .custom-nav-item {
@@ -342,6 +343,24 @@ export default {
   overflow-y: auto;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.5s;
+}
+.slide-enter,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
 .cont ::-webkit-scrollbar {
   width: 8px; /* 스크롤바의 너비 */
 }

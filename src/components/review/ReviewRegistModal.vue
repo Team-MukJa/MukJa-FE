@@ -1,7 +1,6 @@
 <template>
   <div>
-    <label>리뷰 등록하러가기 -> </label>
-    <button @click="showModal" class="btn-review">* click *</button>
+    <button @click="showModal" class="btn-review">작성</button>
 
     <b-modal v-model="modalVisible" title="리뷰 작성" class="modal-review">
       <div class="form-group">
@@ -10,12 +9,20 @@
 
       <div class="form-group">
         <label for="rating">평점:</label>
-        <star-rating v-model="review.rating" :increment="0.5" class="star-rating"></star-rating>
+        <star-rating
+          v-model="review.rating"
+          :increment="0.5"
+          class="star-rating"
+        ></star-rating>
       </div>
 
       <div class="form-group">
         <label for="content">내용:</label>
-        <textarea id="content" v-model="review.content" class="form-control"></textarea>
+        <textarea
+          id="content"
+          v-model="review.content"
+          class="form-control"
+        ></textarea>
       </div>
 
       <button @click="checkValue" class="btn-submit">작성 완료</button>
@@ -53,6 +60,8 @@ export default {
   },
   created() {
     this.contentId = this.$route.params.contentid;
+    this.review.userId = this.userInfo.userId;
+    console.log(this.review.userId);
   },
   methods: {
     showModal() {
@@ -67,16 +76,17 @@ export default {
         ((msg = "평점 입력해주세요"), (err = false), this.$refs.rating.focus());
       err &&
         !this.review.content &&
-        ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
+        ((msg = "내용 입력해주세요"),
+        (err = false),
+        this.$refs.content.focus());
 
       if (!err) alert(msg);
       // 만약, 내용이 다 입력되어 있다면 modifyArticle 호출
       else this.registerReview();
     },
     registerReview() {
-      this.review.userId = this.userInfo.userId;
       this.review.placeId = this.contentId;
-      http.post(`/tour/review/`, this.review).then(({ data }) => {
+      http.post(`/tour/review`, this.review).then(({ data }) => {
         console.log(data);
         this.$router.go(this.$router.currentRoute);
         this.modalVisible = false;
@@ -87,18 +97,6 @@ export default {
 </script>
 
 <style>
-.btn-review {
-  font-family: "Arial", sans-serif;
-  font-size: 18px;
-  background-color: #fbff00;
-  text-decoration: underline;
-  color: #080000;
-  border: #080000;
-  padding: px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 .modal-review .modal-content {
   font-family: "Arial", sans-serif;
 }

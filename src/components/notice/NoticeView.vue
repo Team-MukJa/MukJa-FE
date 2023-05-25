@@ -13,8 +13,12 @@
           </div>
           <div class="notice-content" v-html="article.content"></div>
           <div class="button-group">
-            <b-button variant="dark" class="back-button" @click="moveList">목록으로</b-button>
-            <b-button variant="dark" class="mr-2" @click="moveModifyArticle">수정</b-button>
+            <b-button variant="dark" class="back-button" @click="moveList"
+              >목록으로</b-button
+            >
+            <b-button variant="dark" class="mr-2" @click="moveModifyArticle"
+              >수정</b-button
+            >
             <b-button variant="dark" @click="deleteArticle">삭제</b-button>
           </div>
         </div>
@@ -31,6 +35,7 @@
   align-items: center;
   height: 60vh;
   width: 120vh;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .content {
@@ -145,11 +150,17 @@ export default {
   methods: {
     moveModifyArticle() {
       console.log("글수정 하러가자!!!");
-      this.$router.push({ name: "noticemodify", params: { noticeid: this.article.noticeId } });
+      this.$router.push({
+        name: "noticemodify",
+        params: { noticeid: this.article.noticeId },
+      });
     },
     deleteArticle() {
       console.log("글삭제 하러가자!!!");
-      this.$router.push({ name: "noticedelete", params: { noticeid: this.article.noticeId } });
+      this.$router.push({
+        name: "noticedelete",
+        params: { noticeid: this.article.noticeId },
+      });
     },
     moveList() {
       console.log("글목록 보러가자!!!");
