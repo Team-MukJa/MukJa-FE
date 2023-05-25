@@ -1,24 +1,29 @@
 <template>
   <div class="container">
     <h1>핫플레이스 목록</h1>
-    <div class="category-buttons">
+    <div class="category-buttons d-flex">
       <b-button
-        v-for="category in categories"
-        :key="category"
-        variant="outline-primary"
-        :active="selectedCategory === category"
-        @click="selectCategory(category)"
-      >
-        {{ category }}
-      </b-button>
-      <b-button
-        variant="outline-primary"
+        variant="dark"
         :active="selectedCategory === ''"
         @click="selectCategory('')"
       >
         전체
       </b-button>
+      <b-button
+        v-for="category in categories"
+        :key="category"
+        variant="dark"
+        :active="selectedCategory === category"
+        @click="selectCategory(category)"
+      >
+        {{ category }}
+      </b-button>
+
+      <div class="ml-auto">
+    <b-button variant="dark" @click="movePlaceWrite">핫플레이스 작성</b-button>
+  </div>
     </div>
+
     <div class="row">
       <div class="col-lg-3 col-md-6 mb-4" v-for="place in filteredPlaces" :key="place.placeId">
         <div class="card" @click="showDetail(place)">
@@ -37,41 +42,40 @@
         </div>
       </div>
     </div>
-    <div class="text-center mt-4">
-      <b-button variant="primary" @click="movePlaceWrite">핫플레이스 작성</b-button>
-    </div>
+
     <!--상세보기 모달 Start-->
     <b-modal
       v-model="showModal"
-      class="modal-cont"
-      title="상세보기"
+      class="modal-view"
+      title="뭐묵자"
       @shown="setSelectedPlace"
       hide-footer
       header-bg-variant="transparent"
-      size="lg"
+      size="xl"
       centered
     >
-      <div class="modal-body flex-grow-1" v-if="selectedPlace">
+      <div class="modal-body" v-if="selectedPlace">
         <div class="mb-3">
           <h5 class="modal-title">
             {{ selectedPlace.subject }}
-            <span class="place-name">({{ selectedPlace.placeName }})</span>
-            <span class="place-name">({{ selectedPlace.placeAddress }})</span>
+            <span class="place-name place-right">({{ selectedPlace.placeAddress }})</span>
+            <span class="place-name place-right">({{ selectedPlace.placeName }})</span>
           </h5>
           <hr class="my-2" />
         </div>
         <div class="row">
-          <div class="col-md-4 d-flex align-items-center" v-if="selectedPlace">
+          <div class="col-md-5 " v-if="selectedPlace">
             <!-- 카카오맵 마커 컴포넌트 Start -->
-            <div>
+            <div class="map-container">
               <hotplace-detail-map :spotInfo="spotInfo"></hotplace-detail-map>
             </div>
             <!-- 카카오맵 마커 컴포넌트 End -->
           </div>
-          <div class="col-md-8">
-            <b-card class="content-container" no-body>
-              <b-card-text>{{ selectedPlace.content }}</b-card-text>
-            </b-card>
+          
+          <div class="col-md-7">
+            <div class="content-container">
+    <div class="content-text">{{ selectedPlace.content }}</div>
+  </div>
             <div class="image-container">
               <img
                 :src="
@@ -79,6 +83,7 @@
                 "
                 alt="place Image"
                 class="place-image"
+                style="max-width: 100%; max-height: 100%;"
               />
             </div>
           </div>
@@ -156,6 +161,8 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+      this.$router.go(0);
+
     },
 
     deletePlace() {
@@ -238,7 +245,8 @@ export default {
 }
 
 .image-container {
-  text-align: center;
+  /* text-align: center; */
+  height: 600px;
   margin-bottom: 1rem;
 }
 
@@ -266,6 +274,7 @@ export default {
 
 .content-container {
   padding: 0.5rem;
+  height: 100px;
 }
 
 .modal-dialog {
@@ -281,10 +290,10 @@ export default {
   margin-bottom: 0.2rem;
 }
 
-.modal-content {
+/* .modal-content {
   height: 100%;
   overflow-y: auto;
-}
+} */
 
 .place-name {
   font-size: 1rem;
@@ -296,8 +305,27 @@ export default {
   font-size: 0.8rem;
 }
 
-/* .modal-cont {
+.modal-view {
   max-width: 100vw;
   max-height: 40vh;
-} */
+}
+.container{
+  overflow-y: auto;
+  width: 1000px;
+  height: 1000px;
+  margin-top: 50px;
+  overflow-y: auto;
+  text-align: center;
+}
+.category-buttons{
+  margin-bottom: 30px;
+}
+.map-container{
+  width: 400px;
+  height: 700px;
+  margin: 1rem;
+}
+.place-right {
+  float: right;
+}
 </style>
