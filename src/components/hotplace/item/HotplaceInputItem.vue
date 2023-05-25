@@ -149,17 +149,16 @@ export default {
         formData.append("placeX", this.receivedMapValue.x);
         formData.append("placeY", this.receivedMapValue.y);
 
-        console.log(formData);
-        alert("작성");
         const response = await http.post(`/places`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         console.log(response);
+        alert("기록을 완료하였습니다.");
 
         this.$router.push({ name: "placelist" });
       } catch (error) {
         console.error(error);
-        alert("에러발생");
+        alert("기록 중 에러가 발생하였습니다.");
       }
     },
     moveList() {

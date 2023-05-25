@@ -192,6 +192,7 @@ export default {
 
 .container::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
 }
 
 .page-header {
@@ -303,12 +304,17 @@ export default {
 }
 
 .image-container {
-  /* text-align: center;
-  margin-bottom: 1rem; */
   max-width: 100%;
   max-height: 200px;
-  /* Adjust the height as per your requirement */
-  overflow: hidden;
+  overflow-y: auto;
+}
+
+.image-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.image-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .place-image {
