@@ -2,7 +2,11 @@
   <div class="cont">
     <div class="left-content">
       <h1>여행정보 상세보기</h1>
-      <div v-for="(date, index) in travelDates" :key="index" class="date-section">
+      <div
+        v-for="(date, index) in travelDates"
+        :key="index"
+        class="date-section"
+      >
         <h2 class="date-heading">{{ date }}</h2>
         <div class="row">
           <div
@@ -38,8 +42,27 @@
 </template>
 
 <style>
+.cont {
+  margin: 30px;
+  width: 1200px;
+  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
+  background-color: whitesmoke;
+  border-radius: 10px;
+  overflow-y: auto; /* 수직 스크롤 추가 */
+}
+.left-content {
+  width: 1100px;
+  flex: 1.5;
+  /* padding: 20px; */
+  height: 75vh; /* 수정 */
+  overflow-y: auto; /* 추가 */
+  margin-bottom: 20px; /* 추가 */
+  overflow-y: auto;
+
+  border: #c7e2ff 1px;
+}
 .card-image {
-  height: 200px;
+  height: 75vh;
   overflow: hidden;
   border-radius: 10px 10px 0 0;
 }
