@@ -2,9 +2,7 @@
   <div class="plan-container">
     <div class="page-header">
       <h2 class="page-title text-center">여행 계획 리스트</h2>
-      <b-button id="regist-button" class="ml-auto" variant="primary" @click="openModal"
-        >글 작성</b-button
-      >
+      <b-button id="regist-button" class="ml-auto" variant="primary" @click="openModal">글 작성</b-button>
     </div>
     <hr />
 
@@ -34,20 +32,12 @@
         <div class="form-row">
           <div class="col">
             <b-form-group label="여행 시작일" label-for="start-date-picker">
-              <b-form-datepicker
-                id="start-date-picker"
-                v-model="plan.startDate"
-                required
-              ></b-form-datepicker>
+              <b-form-datepicker id="start-date-picker" v-model="plan.startDate" required></b-form-datepicker>
             </b-form-group>
           </div>
           <div class="col">
             <b-form-group label="여행 종료일" label-for="end-date-picker">
-              <b-form-datepicker
-                id="end-date-picker"
-                v-model="plan.endDate"
-                required
-              ></b-form-datepicker>
+              <b-form-datepicker id="end-date-picker" v-model="plan.endDate" required></b-form-datepicker>
             </b-form-group>
           </div>
         </div>
@@ -152,29 +142,38 @@ export default {
 .plan-container {
   margin: 30px;
   width: 150vb;
-  max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
+  max-height: 80vh;
+  /* 최대 높이를 viewport의 80%로 설정 */
   background-color: whitesmoke;
   border-radius: 10px;
-  overflow-y: auto; /* 수직 스크롤 추가 */
-  overflow-x: hidden; /* 수직 스크롤 추가 */
+  overflow-y: auto;
+  /* 수직 스크롤 추가 */
+  overflow-x: hidden;
+  /* 수직 스크롤 추가 */
 }
 
 .plan-container::-webkit-scrollbar {
-  width: 8px; /* 스크롤바의 너비 */
+  width: 8px;
+  /* 스크롤바의 너비 */
 }
 
 .plan-container::-webkit-scrollbar-track {
-  background-color: #f2f2f2; /* 스크롤바 트랙 배경색 */
+  background-color: #f2f2f2;
+  /* 스크롤바 트랙 배경색 */
 }
 
 .plan-container::-webkit-scrollbar-thumb {
-  background-color: #c7e2ff; /* 스크롤바 썸 배경색 */
-  border-radius: 4px; /* 스크롤바 썸의 모서리 반경 */
+  background-color: #c7e2ff;
+  /* 스크롤바 썸 배경색 */
+  border-radius: 4px;
+  /* 스크롤바 썸의 모서리 반경 */
 }
 
 .plan-container::-webkit-scrollbar-thumb:hover {
-  background-color: #a9d2ff; /* 스크롤바 썸에 호버 시 배경색 */
+  background-color: #a9d2ff;
+  /* 스크롤바 썸에 호버 시 배경색 */
 }
+
 .page-header {
   display: flex;
   align-items: center;
@@ -190,15 +189,16 @@ export default {
 }
 
 #regist-button {
-  background-color: #f8a5c2;
-  border-color: #f8a5c2;
+  background-color: rgb(253, 186, 186);
+  border-color: rgb(253, 186, 186);
   color: #ffffff;
 }
+
 #regist-button:hover,
 #regist-button:focus,
 #regist-button:active {
-  background-color: #e26893;
-  border-color: #e26893;
+  background-color: rgb(253, 186, 186);
+  border-color: rgb(253, 186, 186);
   color: #000000;
 }
 
@@ -224,7 +224,8 @@ hr {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* 표시할 줄 수 */
+  -webkit-line-clamp: 2;
+  /* 표시할 줄 수 */
   -webkit-box-orient: vertical;
 }
 
