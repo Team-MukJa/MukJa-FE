@@ -1,6 +1,9 @@
 <template>
   <div class="map_wrap">
-    <div id="map" style="width: 100%; height: 80vh; position: relative; overflow: hidden"></div>
+    <div
+      id="map"
+      style="width: 100%; height: 80vh; position: relative; overflow: hidden"
+    ></div>
 
     <div id="menu_wrap" class="bg_white searchbox">
       <div class="searchbox">
@@ -14,7 +17,12 @@
           />
         </div>
         <div class="results">
-          <div class="place" v-for="rs in search.results" :key="rs.id" @click="emitPlace(rs)">
+          <div
+            class="place"
+            v-for="rs in search.results"
+            :key="rs.id"
+            @click="emitPlace(rs)"
+          >
             <h4>
               <!-- <a
                 href="#"
@@ -39,7 +47,6 @@
 </template>
 
 <script>
-
 export default {
   name: "KakaoMap",
 
@@ -135,15 +142,13 @@ export default {
         this.search.results = data;
 
         // 마커 이미지 설정
-          const markerImage = new window.kakao.maps.MarkerImage(
-        require(`../../assets/marker/marker.png`),
-        new window.kakao.maps.Size(40, 40),
-        {
-          offset: new window.kakao.maps.Point(25, 50),
-        }
-      );
-
-
+        const markerImage = new window.kakao.maps.MarkerImage(
+          require(`../../assets/marker/marker.png`),
+          new window.kakao.maps.Size(40, 40),
+          {
+            offset: new window.kakao.maps.Point(25, 50),
+          }
+        );
 
         for (i = 0; i < data.length; i++) {
           var positions = [
@@ -157,7 +162,6 @@ export default {
           this.firstY = data[i].y;
           // 마커를 생성합니다
 
-          
           positions.forEach(function (pos) {
             var marker = new kakao.maps.Marker({
               map: map, // 마커를 표시할 지도
@@ -183,7 +187,10 @@ export default {
             });
 
             var infowindow = new kakao.maps.InfoWindow({
-              content: '<div style="width:105%; padding:5px;">' + pos.content + "</div>",
+              content:
+                '<div style="width:105%; padding:5px;">' +
+                pos.content +
+                "</div>",
               // removable : true
             });
             kakao.maps.event.addListener(marker, "click", function () {
@@ -203,11 +210,8 @@ export default {
     },
     emitPlace(clickedMap) {
       console.log(clickedMap);
-      this.$emit('map-clicked', clickedMap)
-
-
-
-  },
+      this.$emit("map-clicked", clickedMap);
+    },
   },
 };
 </script>
