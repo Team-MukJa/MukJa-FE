@@ -24,8 +24,29 @@
         </div>
       </div>
     </div>
+    <!-- 여기에 Category 항목 추가 -->
 
-    <!-- 여기에 Cateogory 항목 추가 -->
+    <!-- <div>
+      <div class="content-type-checkbox-group">
+        <label
+          v-for="contentType in contentTypes"
+          :key="contentType.value"
+          class="content-type-checkbox">
+          <input
+            type="checkbox"
+            :value="contentType.value"
+            v-model="selectedContentTypes"
+            @change="toggleContentType" />
+          {{ contentType.text }}
+          <img
+            class="category-icon"
+            width="25px"
+            :src="require(`../../assets/marker/${contentType.value}.png`)"
+            :alt="contentType.text" />
+        </label>
+      </div>
+    </div> -->
+
     <div>
       <div class="content-type-checkbox-group">
         <button
@@ -109,6 +130,18 @@ export default {
     };
   },
   methods: {
+    toggleContentType(contentTypeValue) {
+      if (this.selectedContentTypes.includes(contentTypeValue)) {
+        const index = this.selectedContentTypes.indexOf(contentTypeValue);
+        this.selectedContentTypes.splice(index, 1);
+      } else {
+        this.selectedContentTypes.push(contentTypeValue);
+      }
+      this.selectedContentTypes.push(contentTypeValue);
+      console.log(contentTypeValue); // contentTypeValue를
+      console.log(this.selectedContentTypes.length);
+    },
+
     updateGugunOptions() {
       this.gugun = "";
     },
@@ -141,6 +174,8 @@ export default {
           console.log(error);
         }
       );
+
+      console.log(this.selectedContentTypes);
 
       this.searched = true;
     },
@@ -206,8 +241,7 @@ li {
 }
 
 .content-type-button:hover,
-.content-type-button:focus {
-  background-color: #b25ef7;
-  color: white;
+.content-type-selected {
+  background-color: #f7cbe1; /* 연핑크색 배경으로 변경 */
 }
 </style>
