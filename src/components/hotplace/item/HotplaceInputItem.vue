@@ -10,13 +10,8 @@
 
       <b-form-group label="카테고리" label-for="category-buttons">
         <div id="category-buttons" class="d-flex">
-          <b-button
-            v-for="category in categories"
-            :key="category"
-            v-model="article.selectedCategory"
-            :variant="isSelected(category) ? 'primary' : 'outline-primary'"
-            @click="selectCategory(category)"
-          >
+          <b-button v-for="category in categories" :key="category" v-model="article.selectedCategory"
+            :variant="isSelected(category) ? 'primary' : 'outline-primary'" @click="selectCategory(category)">
             {{ category }}
           </b-button>
         </div>
@@ -24,12 +19,8 @@
 
 
       <b-form-group id="date-group" label="날짜" label-for="date-input">
-        <b-form-datepicker
-          id="date-input"
-          v-model="article.tripday"
-          :day-names="[]"
-          @input="checkFormValidity"
-        ></b-form-datepicker>
+        <b-form-datepicker id="date-input" v-model="article.tripday" :day-names="[]"
+          @input="checkFormValidity"></b-form-datepicker>
       </b-form-group>
 
       <!--Map 에서 받아오는 데이터-->
@@ -64,23 +55,13 @@
       </div>
 
       <b-form-group label="내용" label-for="content-input">
-        <b-form-textarea
-          id="content-input"
-          v-model="article.content"
-          rows="13"
-          @input="checkFormValidity"
-          required
-        ></b-form-textarea>
+        <b-form-textarea id="content-input" v-model="article.content" rows="13" @input="checkFormValidity"
+          required></b-form-textarea>
       </b-form-group>
 
       <b-form-group label="파일 업로드" label-for="file-input">
-        <b-form-file
-          id="file-input"
-          v-model="article.file"
-          accept=".jpg,.png"
-          size=""
-          @input="checkFileSize"
-        ></b-form-file>
+        <b-form-file id="file-input" v-model="article.file" accept=".jpg,.png" size=""
+          @input="checkFileSize"></b-form-file>
       </b-form-group>
 
       <b-button type="submit" variant="primary" @click="writePlace" :disabled="!isFormValid">작 성</b-button>
@@ -100,7 +81,7 @@ export default {
   props: {
     receivedMapValue: {
       type: Object,
-      required:true,
+      required: true,
     }
   },
   data() {
@@ -112,11 +93,8 @@ export default {
         file: null,
         selectedCategory: null,
       },
-<<<<<<< HEAD
       isFormValid: false,
-=======
       categories: ['음식', '여행', '문화'],
->>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
     };
   },
   watch: {
@@ -128,7 +106,6 @@ export default {
     },
   },
   methods: {
-<<<<<<< HEAD
     checkFormValidity() {
       const { subject, tripday, content, file } = this.article;
       this.isFormValid = subject && tripday && content && file && this.receivedMapValue;
@@ -142,13 +119,12 @@ export default {
         this.article.file = "";
       }
       this.checkFormValidity()
-=======
+    },
     selectCategory(category) {
       this.article.selectedCategory = category;
     },
     isSelected(category) {
       return this.article.selectedCategory === category;
->>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
     },
     async writePlace() {
       // 게시판 작성 로직 구현
@@ -167,7 +143,6 @@ export default {
         formData.append("file", this.article.file);
         formData.append("category", this.article.selectedCategory);
 
-<<<<<<< HEAD
         // map 에서 받아온 데이터
         formData.append("placeAddress", this.receivedMapValue.address_name);
         formData.append("category", this.receivedMapValue.category_group_name);
@@ -176,8 +151,6 @@ export default {
         formData.append("placeY", this.receivedMapValue.y);
 
         console.log(formData);
-=======
->>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
         alert("작성");
         // 여기에서 formData를 서버로 전송하는 작업을 수행할 수 있습니다.
         // axios 등을 사용하여 서버와 통신하는 코드를 작성할 수 있습니다.
@@ -185,10 +158,6 @@ export default {
           headers: { "Content-Type": "multipart/form-data" },
         });
         console.log(response);
-<<<<<<< HEAD
-      this.$router.push("/placelist" );
-
-=======
 
         // 폼 데이터 전송 후 화면 초기화
         this.subject = "";
@@ -198,23 +167,11 @@ export default {
         this.article.selectedCategory = null;
 
         this.$router.push({ name: "placelist" });
->>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
       } catch (error) {
         console.error(error);
         alert("에러발생")
       }
-
-<<<<<<< HEAD
-      // 폼 데이터 전송 후 화면 초기화
-      this.article.subject = "";
-      this.article.content = "";
-      this.article.file = null;
-      this.article.tripDay = null;
-=======
->>>>>>> ccf9a31504083af5c0a6f5dac7d90f3eeaa7cb5d
-
     },
-
     moveList() {
       console.log("글목록 보러가자!!!");
       this.$router.push({ name: "placelist" });
