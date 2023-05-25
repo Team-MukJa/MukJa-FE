@@ -55,29 +55,46 @@
       <li class="nav-link-login mx-auto" @click="toggleMenuHighlight(null)">
         <ul class="nav-items">
           <li class="nav-item">
-            <router-link to="/search" nav-link-class="text-light" class="nav-link-login"
-              @click="toggleMenuHighlight('search')" :class="{ 'menu-highlight': highlightedMenu === 'search' }">
+            <router-link
+              to="/search"
+              nav-link-class="text-light"
+              class="nav-link-login"
+              @click="toggleMenuHighlight('search')"
+              :class="{ 'menu-highlight': highlightedMenu === 'search' }"
+            >
               여행지 검색
             </router-link>
           </li>
           <span class="divider"></span>
           <li class="nav-item">
-            <router-link to="/places" class="nav-link-login" @click="toggleMenuHighlight('hotplaces')"
-              :class="{ 'menu-highlight': highlightedMenu === 'hotplaces' }">
+            <router-link
+              to="/places"
+              class="nav-link-login"
+              @click="toggleMenuHighlight('hotplaces')"
+              :class="{ 'menu-highlight': highlightedMenu === 'hotplaces' }"
+            >
               핫플레이스
             </router-link>
           </li>
           <span class="divider"></span>
           <li class="nav-item">
-            <router-link to="/plan" class="nav-link-login" @click="toggleMenuHighlight('plan')"
-              :class="{ 'menu-highlight': highlightedMenu === 'plan' }">
+            <router-link
+              to="/plan"
+              class="nav-link-login"
+              @click="toggleMenuHighlight('plan')"
+              :class="{ 'menu-highlight': highlightedMenu === 'plan' }"
+            >
               여행 계획
             </router-link>
           </li>
           <span class="divider"></span>
           <li class="nav-item">
-            <router-link to="/notices" class="nav-link-login" @click="toggleMenuHighlight('notices')"
-              :class="{ 'menu-highlight': highlightedMenu === 'notices' }">
+            <router-link
+              to="/notices"
+              class="nav-link-login"
+              @click="toggleMenuHighlight('notices')"
+              :class="{ 'menu-highlight': highlightedMenu === 'notices' }"
+            >
               공지사항
             </router-link>
           </li>
@@ -125,8 +142,13 @@ export default {
     ...mapState(memberStore, ["isLogin", "userInfo"]),
     ...mapGetters(["checkUserInfo"]),
   },
+  created() {
+    let token = localStorage.getItem("access-token");
+    // console.log("1. confirm() token >> " + token);
+    this.getUserInfo(token);
+  },
   methods: {
-    ...mapActions(memberStore, ["userLogout"]),
+    ...mapActions(memberStore, ["userLogout", "getUserInfo"]),
 
     goToMyPage() {
       this.$router.push({ name: "my" });
@@ -222,7 +244,6 @@ export default {
   color: #542d8d;
 }
 
-
 .menu-highlight {
   background-color: rgb(253, 186, 186);
 }
@@ -235,7 +256,6 @@ export default {
   margin: 0 10px;
   vertical-align: middle;
 }
-
 
 .dropdown-button {
   position: relative;

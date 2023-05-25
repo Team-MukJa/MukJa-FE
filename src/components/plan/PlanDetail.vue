@@ -2,30 +2,28 @@
   <div class="cont">
     <div class="left-content">
       <h1>여행정보 상세보기</h1>
-      <div
-        v-for="(date, index) in travelDates"
-        :key="index"
-        class="date-section"
-      >
+      <div v-for="(date, index) in travelDates" :key="index" class="date-section">
         <h2 class="date-heading">{{ date }}</h2>
-        <div class="row">
+        <div class="row flex-wrap">
           <div
             v-for="(spot, spotIndex) in getSpotsByDate(date)"
             :key="spotIndex"
-            class="col-lg-3 col-md-4 col-sm-6"
+            class="col-lg-4 col-md-4 col-sm-6"
           >
-            <b-card class="spot-card" @click="handleCardClick(spot)">
-              <div class="card-image">
-                <img :src="spot.img" alt="여행지 사진" />
-              </div>
-              <div class="card-content">
-                <h3 class="spot-title">{{ spot.subject }}</h3>
-                <p class="spot-memo">{{ spot.memo }}</p>
-                <p class="spot-time">
-                  방문 시간: <span>{{ formatTime(spot.time) }}</span>
-                </p>
-              </div>
-            </b-card>
+            <div class="spot-card-wrapper">
+              <b-card class="spot-card" @click="handleCardClick(spot)">
+                <div class="card-image">
+                  <img :src="spot.img" alt="여행지 사진" />
+                </div>
+                <div class="card-content">
+                  <h3 class="spot-title">{{ spot.subject }}</h3>
+                  <p class="spot-memo">{{ spot.memo }}</p>
+                  <p class="spot-time">
+                    방문 시간: <span>{{ formatTime(spot.time) }}</span>
+                  </p>
+                </div>
+              </b-card>
+            </div>
           </div>
         </div>
         <hr class="date-divider" />
@@ -33,7 +31,6 @@
     </div>
     <b-container class="right-content">
       <b-row><plan-detail-map :spotInfo="spotInfo"></plan-detail-map></b-row>
-
       <b-row>
         <plan-explain :spotInfo="spotInfo"></plan-explain>
       </b-row>
@@ -44,11 +41,13 @@
 <style>
 .cont {
   margin: 30px;
-  width: 1200px;
+  width: 150vb;
   max-height: 80vh; /* 최대 높이를 viewport의 80%로 설정 */
   background-color: whitesmoke;
   border-radius: 10px;
   overflow-y: auto; /* 수직 스크롤 추가 */
+  display: flex;
+  margin-bottom: 100px;
 }
 .left-content {
   width: 1100px;
@@ -61,8 +60,27 @@
 
   border: #c7e2ff 1px;
 }
+.spot-card-wrapper {
+  overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+}
+.flex-wrap {
+  flex-wrap: wrap; /* 카드들이 줄을 넘어가지 않고 한 줄에 균등하게 배치 */
+}
+.row {
+  height: auto; /* 기존의 고정된 높이를 제거하여 내용에 따라 높이가 조절되도록 변경 */
+}
+
+.spot-card {
+  width: 100%; /* 카드 너비 조정 */
+  margin: 5px 0;
+  height: 200px;
+  padding: 10px; /* 수정: padding 값을 10px로 변경 */
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
 .card-image {
-  height: 75vh;
+  height: 100px;
   overflow: hidden;
   border-radius: 10px 10px 0 0;
 }
@@ -74,58 +92,48 @@
 }
 
 .card-content {
-  padding: 20px;
+  height: calc(100% - 80px); /* 수정: 높이 조정 */
+  padding: 10px;
   background-color: #fff;
   border-radius: 0 0 10px 10px;
+  text-align: center;
 }
 
 .spot-title {
-  font-size: 18px;
+  font-size: 10px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
 .spot-memo {
-  margin-bottom: 10px;
+  font-size: 5px;
+
+  margin-bottom: 5px;
 }
 
 .spot-time {
-  font-style: italic;
+  font-size: 5px;
+
   color: #888;
 }
 
 .spot-time span {
   color: #333;
 }
-.cont {
-  height: 100vh; /* 화면 세로 전체 높이로 설정 */
-  display: flex;
-  margin: 0 auto;
-}
-.left-content {
-  flex: 1;
-  padding: 20px;
-  height: 100vh; /* 수정 */
-  overflow-y: auto; /* 추가 */
-  margin-bottom: 20px; /* 추가 */
-  overflow-y: auto;
-  border: #c7e2ff 1px;
-}
 
 .right-content {
   flex: 1;
   padding: 20px;
-  height: 100vh; /* 수정 */
-  overflow-y: auto; /* 추가 */
-  margin-bottom: 20px; /* 추가 */
+  height: 75vh;
   overflow-y: auto;
+  margin-bottom: 20px;
+  overflow-y: hidden;
   border: #c7e2ff 1px;
   flex-direction: column;
 }
 
 .right-content > * {
   height: 50%; /* 자식 컴포넌트가 동일한 크기로 나눠짐 */
-  border: 1px solid black; /* 각 자식 컴포넌트의 테두리 스타일 (옵션) */
 }
 
 /* 스크롤바 스타일링 */
@@ -160,13 +168,6 @@
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
-}
-
-.spot-card {
-  margin-bottom: 20px;
-  padding: 20px;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
 }
 
 .spot-card:hover {
