@@ -260,6 +260,7 @@ export default {
       };
       console.log(param);
       alert("글작성");
+
       http.post(`/notices`, param).then(({ data }) => {
         console.log(data);
         this.hideModal();

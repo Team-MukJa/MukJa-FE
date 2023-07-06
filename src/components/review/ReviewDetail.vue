@@ -40,6 +40,8 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
+    http.defaults.headers["Authorization"] =
+      localStorage.getItem("access-token");
     http
       .get(`/tour/review/avg/${this.contentId}`)
       .then(({ data }) => {

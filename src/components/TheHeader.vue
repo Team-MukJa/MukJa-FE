@@ -62,10 +62,9 @@ export default {
   },
   created() {
     let token = localStorage.getItem("access-token");
-
-    this.getUserInfo(token);
-
     if (token) {
+      this.getUserInfo(token);
+
       console.log("재접속입니다");
       this.reLogin();
     }
