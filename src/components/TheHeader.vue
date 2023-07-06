@@ -62,10 +62,15 @@ export default {
   },
   created() {
     let token = localStorage.getItem("access-token");
+
     this.getUserInfo(token);
+
+    if (!token) {
+      this.reLogin();
+    }
   },
   methods: {
-    ...mapActions(memberStore, ["userLogout", "getUserInfo"]),
+    ...mapActions(memberStore, ["userLogout", "getUserInfo", "reLogin"]),
 
     goToMyPage() {
       this.$router.push({ name: "my" });
