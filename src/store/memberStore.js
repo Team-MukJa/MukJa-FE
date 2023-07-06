@@ -62,6 +62,9 @@ const memberStore = {
         }
       );
     },
+    async reLogin({ commit }) {
+      commit("SET_IS_VALID_TOKEN", true);
+    },
     async getUserInfo({ commit }, token) {
       let decodeToken = jwtDecode(token);
 

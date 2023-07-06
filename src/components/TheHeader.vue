@@ -65,7 +65,8 @@ export default {
 
     this.getUserInfo(token);
 
-    if (!token) {
+    if (token) {
+      console.log("재접속입니다");
       this.reLogin();
     }
   },
