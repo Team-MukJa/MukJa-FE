@@ -17,6 +17,7 @@ function registPlanInfo(planInfos, success, fail) {
   api.defaults.headers["Authorization"] = `Bearer ${localStorage.getItem(
     "access-token"
   )}`;
+
   api
     .post(`/plans/detail`, JSON.stringify(planInfos))
     .then(success)

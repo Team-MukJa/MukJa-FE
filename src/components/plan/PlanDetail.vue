@@ -1,6 +1,6 @@
 <template>
   <div class="cont">
-    <div class="left-content">
+    <div class="left-content1">
       <!-- <h1>여행정보 상세보기</h1> -->
       <div
         v-for="(date, index) in travelDates"
@@ -33,7 +33,7 @@
         <hr class="date-divider" />
       </div>
     </div>
-    <b-container class="right-content">
+    <b-container class="right-content1">
       <b-row><plan-detail-map :spotInfo="spotInfo"></plan-detail-map></b-row>
       <b-row>
         <plan-explain :spotInfo="spotInfo"></plan-explain>
@@ -54,7 +54,7 @@
   margin-bottom: 100px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
-.left-content {
+.left-content1 {
   width: 1100px;
   flex: 1.5;
   /* padding: 20px; */
@@ -126,7 +126,7 @@
   color: #333;
 }
 
-.right-content {
+.right-content1 {
   flex: 1;
   padding: 20px;
   height: 75vh;
@@ -137,7 +137,7 @@
   flex-direction: column;
 }
 
-.right-content > * {
+.right-content1 > * {
   height: 50%; /* 자식 컴포넌트가 동일한 크기로 나눠짐 */
 }
 

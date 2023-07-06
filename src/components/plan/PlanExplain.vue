@@ -1,5 +1,5 @@
 <template>
-  <div class="destination-info">
+  <div class="destination-info1">
     <div class="destination-image">
       <img
         :src="spotInfo.img"
@@ -34,7 +34,7 @@
 </template>
 
 <style scoped>
-.destination-info {
+.destination-info1 {
   display: flex;
   width: 100%;
   flex-direction: column;

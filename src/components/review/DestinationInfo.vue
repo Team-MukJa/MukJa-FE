@@ -75,7 +75,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .destination-info-container {
   max-height: 450px;
   padding: 10px;

@@ -277,7 +277,7 @@ export default {
       registPlanInfo(
         formattedDestinationLists,
         ({ data }) => {
-          console.log(data);
+          console.log("값이 전달되라아아" + data);
         },
         (error) => {
           console.log(error);
