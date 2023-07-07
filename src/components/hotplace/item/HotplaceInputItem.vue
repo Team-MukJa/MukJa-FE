@@ -179,6 +179,11 @@ export default {
 
         console.log(formData);
         alert("작성");
+
+        // 헤더에 인증 추가
+      http.defaults.headers["Authorization"] =
+      `Bearer ${localStorage.getItem("access-token")}`
+
         // 여기에서 formData를 서버로 전송하는 작업을 수행할 수 있습니다.
         // axios 등을 사용하여 서버와 통신하는 코드를 작성할 수 있습니다.
         const response = await http.post(`/places`, formData, {
@@ -193,10 +198,7 @@ export default {
       }
 
       // 폼 데이터 전송 후 화면 초기화
-      // this.article.subject = "";
-      // this.article.content = "";
-      // this.article.file = null;
-      // this.article.tripDay = null;
+
     },
     moveList() {
       console.log("글목록 보러가자!!!");

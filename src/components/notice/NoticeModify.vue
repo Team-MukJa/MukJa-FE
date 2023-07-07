@@ -77,11 +77,6 @@ export default {
       // 비동기
       // TODO : 글번호에 해당하는 글정보 수정.
       http.put(`/notices/${this.articleno}`, this.article).then(({ data }) => {
-        // let msg = "글수정 시 문제 발생!!!";
-        // if (data === "success") {
-        //   msg = "글수정 성공!!!";
-        // }
-        // alert(msg);
         console.log(data);
         this.moveList();
       });

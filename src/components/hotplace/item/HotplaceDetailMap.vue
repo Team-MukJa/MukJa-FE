@@ -23,13 +23,7 @@ export default {
     console.log(this.spotInfo);
   },
   watch: {
-    // spotInfo() {
-    //   console.log("change");
-    //   this.position.title = this.spotInfo.subject;
-    //   this.position.latlng = new kakao.maps.LatLng(this.spotInfo.y, this.spotInfo.x);
-    //   this.loadMap();
-    //   this.loadMarker();
-    // },
+
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {

@@ -261,6 +261,10 @@ export default {
       console.log(param);
       alert("글작성");
 
+      // 헤더에 인증 추가
+      http.defaults.headers["Authorization"] =
+      `Bearer ${localStorage.getItem("access-token")}`;
+
       http.post(`/notices`, param).then(({ data }) => {
         console.log(data);
         this.hideModal();

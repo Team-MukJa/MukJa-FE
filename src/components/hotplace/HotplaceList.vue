@@ -133,6 +133,10 @@ export default {
     HotplaceDetailMap,
   },
   created() {
+    // // 헤더에 인증 추가
+    //   http.defaults.headers["Authorization"] =
+    //   `Bearer ${localStorage.getItem("access-token")}`
+
     http.get("/places").then(({ data }) => {
       console.log(data);
       this.places = data;

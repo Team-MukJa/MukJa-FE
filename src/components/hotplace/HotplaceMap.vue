@@ -24,15 +24,7 @@
             @click="emitPlace(rs)"
           >
             <h4>
-              <!-- <a
-                href="#"
-                @click="
-                  placeRegister(rs, $event);
-                  return false;
-                "
-                style="text-decoration: none"
-                >{{ rs.place_name }}</a
-              > -->
+
               {{ rs.place_name }}
             </h4>
             <div class="addr">{{ rs.road_address_name }}</div>
@@ -40,8 +32,7 @@
         </div>
       </div>
       <hr />
-      <!-- <ul id="placesList"></ul>
-      <div id="pagination"></div> -->
+
     </div>
   </div>
 </template>

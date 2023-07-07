@@ -41,7 +41,7 @@ export default {
         console.log(error);
       });
     http.defaults.headers["Authorization"] =
-      localStorage.getItem("access-token");
+      `Bearer ${localStorage.getItem("access-token")}`;
     http
       .get(`/tour/review/avg/${this.contentId}`)
       .then(({ data }) => {
