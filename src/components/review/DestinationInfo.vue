@@ -1,102 +1,142 @@
 <template>
-  <div class="destination-info">
-    <div class="photo">
-      <img :src="photo" alt="Destination Photo" class="img-fluid" />
-    </div>
-    <div class="details">
-      <h2 class="destination-title">{{ name }}</h2>
-      <hr class="divider" />
-      <p class="destination-item">
-        <b-icon icon="geo-alt-fill" aria-hidden="true"></b-icon> {{ address }}
-      </p>
-      <hr class="divider" />
-      <div class="destination-item">
-        <b-icon icon="star-fill" aria-hidden="true"></b-icon>
-        <star-rating
-          v-model="rating"
-          :increment="0.5"
-          class="star-rating"></star-rating>
+  <div class="destination-info-container">
+    <div class="destination-info">
+      <div class="photo-column">
+        <div class="photo">
+          <img
+            :src="destinationDetail.firstImage"
+            alt="Destination Photo"
+            class="img-fluid"
+          />
+        </div>
       </div>
-      <hr class="divider" />
-      <p class="destination-description">{{ description }}</p>
+      <div class="details-column">
+        <div class="details">
+          <h2 class="destination-title">{{ destinationDetail.title }}</h2>
+          <hr class="divider" />
+          <p class="destination-addr">
+            <b-icon icon="geo-alt-fill" aria-hidden="true"></b-icon>
+            {{ destinationDetail.zipcode }}<br />
+            {{ destinationDetail.addr1 + " " + destinationDetail.addr2 }}
+          </p>
+          <hr class="divider" />
+          <p class="destination-tel">
+            <span v-if="destinationDetail.tel">{{
+              destinationDetail.tel
+            }}</span>
+            <span v-else>-</span>
+          </p>
+          <hr class="divider" />
+          <div class="destination-item">
+            <b-icon icon="star-fill" aria-hidden="true"></b-icon>
+            <star-rating
+              :rating="fixedAvgReview"
+              :increment="0.5"
+              class="star-rating"
+            ></star-rating>
+          </div>
+          <hr class="divider" />
+          <p class="destination-description">
+            {{ destinationDetail.overview }}
+          </p>
+        </div>
+      </div>
+      <!-- <review-regist-modal></review-regist-modal> -->
     </div>
-    <!-- <review-regist-modal></review-regist-modal> -->
   </div>
 </template>
+
+<!-- 나머지 코드는 동일 -->
 
 <script>
 import BIcon from "bootstrap-vue";
 import StarRating from "vue-star-rating";
-// import ReviewRegistModal from "./ReviewRegistModal.vue";
-
+// import StarRating from "./StarRating.vue";
 export default {
   components: {
     BIcon,
     StarRating,
-    // ReviewRegistModal,
+  },
+  props: {
+    avg: {
+      type: Number,
+      required: true,
+    },
+    destinationDetail: Object,
   },
   data() {
-      return {
-        //require안들어가면 사진이 안들어감
-      photo: require("@/assets/travel-plans-image.jpg"),
-      name: "소쇄원",
-      address: "전남 담양군 가사문학면 소쇄원길 17 (우)57392",
-      rating: 5,
-          description: "여행지 설명: 소쇄원은 자연과 인공을 조화시킨 조선중기의 대표적인 원림으로 우리나라 선비의 고고한 품성과 절의가 풍기는 아름다움이 있다. 정원은 계곡을 중심으로 하는 사다리꼴 형태로 되어 있다. 4.060m2의 면적에 기능과 공간의 특성에 따라 애양단구역, 오곡문구역, 제월당구역, 광풍각구역으로 구분할 수 있다. 정원 내에는 대나무, 소나무, 느티나무, 단풍나무들로 된 숲이 있다. 주위에는 흙과 돌로 쌓은 자연스러운 담이 있는데 ‘애양단’, ‘오곡문’, ‘소쇄처사양공지려’의 석판과 목판글씨가 담벽에 박혀있다. 소쇄원 안에는 영조 31년(1755) 당시 소쇄원의 모습을 목판에 새긴 그림이 남아 있어, 원래의 모습을 알 수 있다.선비의 고고한 품성과 절의가 엿보이는 아름다운 정원으로, 조선시대를 대표할 수 있는 정원이다.",
-    };
+    return {};
+  },
+  computed: {
+    fixedAvgReview() {
+      return this.avg;
+    },
   },
 };
 </script>
 
-<style>
-/* 필요한 스타일을 작성해주세요. */
+<style scoped>
+.destination-info-container {
+  max-height: 450px;
+  padding: 10px;
+  margin: 10px;
+}
+
 .destination-info {
+  margin-top: 10px;
+  width: 100%;
+  height: 450px;
+}
+.photo-column {
+  flex: 1;
   display: flex;
-  align-items: center;
-  padding: 20px;
+  justify-content: center;
 }
 
 .photo {
-  width: 800px;
-  height: 200px;
+  margin-top: 20px;
+  width: 300px;
+  height: 300px;
+}
+
+.img-fluid {
+  border-radius: 10%;
+  width: 200px;
+  height: 100px;
+}
+
+.details-column {
   flex: 1;
-  padding-right: 20px;
-}
-
-.photo img {
-  max-width: 100%;
-  height: auto;
-}
-
-.details {
-  flex: 2;
 }
 
 .destination-title {
-  font-size: 28px;
+  font-size: 38px;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
 .divider {
-  border: none;
+  border: 0cap;
   border-top: 1px solid #ccc;
   margin: 20px 0;
 }
 
 .destination-item {
-  display: flex;
-  align-items: center;
+  /* display: flex; */
+  /* align-items: center; */
   font-size: 18px;
   margin-bottom: 10px;
+  margin-left: 200px;
 }
 
 .star-rating {
   margin-left: 10px;
-  font-size:45px;
+  font-size: 45px;
   font-style: normal;
 }
 
-.destination-description {
-  font-size: 20px;
+.destination-description ::-webkit-scrollbar-thumb {
+  font-size: 18px;
+  margin-right: 30px;
 }
 </style>

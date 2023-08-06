@@ -3,20 +3,42 @@
     <b-card class="register-card">
       <h3 class="card-title">회원가입</h3>
       <b-form @submit.prevent="register">
-        <b-form-group id="username-group" label="아이디" label-for="username-input">
+        <b-form-group
+          id="usernid-group"
+          label="아이디"
+          label-for="username-input"
+        >
           <b-form-input
-            id="username-input"
-            v-model="username"
+            id="userid-input"
+            v-model="member.userId"
             type="text"
             placeholder="아이디를 입력하세요"
             required
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="password-group" label="비밀번호" label-for="password-input">
+        <b-form-group
+          id="username-group"
+          label="이름"
+          label-for="username-input"
+        >
+          <b-form-input
+            id="username-input"
+            v-model="member.userName"
+            type="text"
+            placeholder="이름을 입력하세요"
+            required
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group
+          id="password-group"
+          label="비밀번호"
+          label-for="password-input"
+        >
           <b-form-input
             id="password-input"
-            v-model="password"
+            v-model="member.userPwd"
             type="password"
             placeholder="비밀번호를 입력하세요"
             required
@@ -24,16 +46,30 @@
         </b-form-group>
 
         <b-form-group id="email-group" label="이메일" label-for="email-input">
-          <b-form-input
-            id="email-input"
-            v-model="email"
-            type="email"
-            placeholder="이메일을 입력하세요"
-            required
-          ></b-form-input>
+          <b-input-group>
+            <b-form-input
+              id="email-id-input"
+              v-model="member.emailId"
+              type="text"
+              placeholder="이메일 ID을 입력하세요"
+              required
+            ></b-form-input>
+            <b-input-group-prepend>
+              <span class="input-group-text">@</span>
+            </b-input-group-prepend>
+            <b-form-input
+              id="email-domain-input"
+              v-model="member.emailDomain"
+              type="text"
+              placeholder="도메인을 입력하세요"
+              required
+            ></b-form-input>
+          </b-input-group>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="register-button">회원가입</b-button>
+        <b-button type="submit" variant="dark" class="register-button"
+          >회원가입</b-button
+        >
       </b-form>
 
       <div class="login-link">
@@ -43,26 +79,42 @@
   </div>
 </template>
 <script>
+import { join } from "@/api/member";
+
 export default {
   data() {
     return {
-      username: "",
-      password: "",
-      email: "",
+      member: {
+        userId: null,
+        userName: null,
+        userPwd: null,
+        emailId: null,
+        emailDomain: null,
+      },
     };
   },
+  computed: {},
   methods: {
     register() {
-      // 회원가입 메소드 내용 유지
+      join(
+        this.member,
+        ({ data }) => {
+          if (data === 1) this.$router.push({ name: "UserLogin" });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
 };
 </script>
 <style scoped>
 .register-container {
+  margin-top: 200px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   height: 100vh;
   /* background: linear-gradient(
     to bottom right,
@@ -78,7 +130,8 @@ export default {
 }
 
 .register-card {
-  width: 400px;
+  width: 600px;
+  height: 600px;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -95,7 +148,7 @@ export default {
 
 .register-button {
   width: 100%;
-  background-color: #f8a5c2;
+  background-color: #4c4c4c;
   color: #ffffff;
 }
 
@@ -117,6 +170,6 @@ export default {
 
 .b-form-input:focus {
   box-shadow: none;
-  border-color: #f8a5c2;
+  border-color: #4c4c4c;
 }
 </style>

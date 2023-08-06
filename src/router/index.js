@@ -5,16 +5,38 @@ import AppMyPage from "@/views/AppMyPage";
 import AppMain from "@/views/AppMain";
 import AppPlan from "@/views/AppPlan";
 
+import store from "@/store";
+
 //추가
 import AppReview from "@/views/AppReview";
 
 //추가
 import DestinationInfo from "@/components/review/DestinationInfo.vue";
 import ReviewDetail from "@/components/review/ReviewDetail.vue";
-import PlaceSearch from "@/components/review/ReviewDetail2.vue";
-
+import PlaceSearch from "@/components/review/PlaceSearch.vue";
 
 Vue.use(VueRouter);
+
+// https://v3.router.vuejs.org/kr/guide/advanced/navigation-guards.html
+const onlyAuthUser = async (to, from, next) => {
+  const checkUserInfo = store.getters["memberStore/checkUserInfo"];
+  const checkToken = store.getters["memberStore/checkToken"];
+  let token = sessionStorage.getItem("access-token");
+  console.log("로그인 처리 전", checkUserInfo, token);
+
+  if (checkUserInfo != null && token) {
+    console.log("토큰 유효성 체크하러 가자!!!!");
+    await store.dispatch("memberStore/getUserInfo", token);
+  }
+  if (!checkToken || checkUserInfo === null) {
+    alert("로그인이 필요한 페이지입니다..");
+    // next({ name: "login" });
+    router.push({ name: "UserLogin" });
+  } else {
+    console.log("로그인 했다!!!!!!!!!!!!!.");
+    next();
+  }
+};
 
 const routes = [
   {
@@ -42,27 +64,30 @@ const routes = [
   },
   {
     path: "/my",
+    name: "my",
     component: AppMyPage,
+    beforeEnter: onlyAuthUser,
   },
-
 
   {
     path: "/search",
+    name: "AppSearch",
     component: PlaceSearch,
   },
 
   //추가
-
   {
     path: "/review",
     name: "AppReview",
     component: AppReview,
-    redirect: "/review/detail",
+    // redirect: "/review/detail2",
 
     children: [
       {
         path: "regist",
         name: "PlanRegist",
+        beforeEnter: onlyAuthUser,
+
         component: () => import("@/components/plan/PlanRegist"),
       },
       {
@@ -77,21 +102,12 @@ const routes = [
       },
 
       {
-        path: "detail",
+        path: "detail/:contentid",
         name: "ReviewDetail",
         component: ReviewDetail,
       },
-      {
-        path: "detail2",
-        name: "PlaceSearch",
-        component: PlaceSearch,
-      },
     ],
   },
-
-
-
-
 
   // notice
   {
@@ -114,18 +130,19 @@ const routes = [
       {
         path: "view/:articleno",
         name: "noticeview",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/notice/NoticeView"),
       },
       {
         path: "modify/:articleno",
         name: "noticemodify",
-        // beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/notice/NoticeModify"),
       },
       {
         path: "delete/:articleno",
         name: "noticedelete",
-        // beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/notice/NoticeDelete"),
       },
     ],
@@ -146,38 +163,22 @@ const routes = [
       {
         path: "write",
         name: "placewrite",
-        // beforeEnter: onlyAuthUser,
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/hotplace/HotplaceWrite"),
-      },
-      {
-        path: "view/:place-id",
-        name: "placeview",
-        component: () => import("@/components/hotplace/HotplaceView"),
-      },
-      {
-        path: "modify/:place-id",
-        name: "placemodify",
-        // beforeEnter: onlyAuthUser,
-        component: () => import("@/components/hotplace/HotplaceModify"),
-      },
-      {
-        path: "delete/:noticeid",
-        name: "noticedelete",
-        // beforeEnter: onlyAuthUser,
-        component: () => import("@/components/hotplace/HotplaceDelete"),
       },
     ],
   },
 
   {
     path: "/plan",
-    name: "AppPain",
+    name: "AppPlan",
     component: AppPlan,
     redirect: "/plan/list",
     children: [
       {
         path: "regist",
         name: "PlanRegist",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/plan/PlanRegist"),
       },
       {
@@ -187,8 +188,9 @@ const routes = [
       },
 
       {
-        path: "detail",
+        path: "detail:planid",
         name: "PlanDetail",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/plan/PlanDetail"),
       },
     ],

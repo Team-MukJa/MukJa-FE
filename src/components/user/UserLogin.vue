@@ -3,48 +3,79 @@
     <b-card class="login-card">
       <h3 class="card-title">로그인</h3>
 
-      <b-form @submit.prevent="login">
-        <b-form-group id="username-group" label="사용자명" label-for="username-input">
+      <b-form @submit.prevent="confirm">
+        <b-form-group
+          id="userId-group"
+          label="사용자명"
+          label-for="userId-input"
+        >
           <b-form-input
-            id="username-input"
-            v-model="username"
+            id="userId-input"
+            v-model="member.userId"
             type="text"
             placeholder="사용자명을 입력하세요"
             required
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group id="password-group" label="비밀번호" label-for="password-input">
+        <b-form-group
+          id="password-group"
+          label="비밀번호"
+          label-for="password-input"
+        >
           <b-form-input
             id="password-input"
-            v-model="password"
+            v-model="member.userPwd"
             type="password"
             placeholder="비밀번호를 입력하세요"
             required
           ></b-form-input>
         </b-form-group>
 
-        <b-button type="submit" variant="primary" class="login-button">로그인</b-button>
+        <b-button type="submit" variant="dark" class="login-button"
+          >로그인</b-button
+        >
       </b-form>
 
       <div class="register-link">
-        <router-link to="/register">회원가입</router-link>
+        <router-link to="/user/join">회원가입</router-link>
       </div>
     </b-card>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   data() {
     return {
-      username: "",
-      password: "",
+      member: {
+        userId: null,
+        userPwd: null,
+      },
     };
   },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "isLoginError", "userInfo"]),
+  },
   methods: {
-    login() {
-      // 로그인 메소드 내용 유지
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    async confirm() {
+      await this.userConfirm(this.member);
+      let token = localStorage.getItem("access-token");
+      // console.log("1. confirm() token >> " + token);
+      if (this.isLogin) {
+        await this.getUserInfo(token);
+        // console.log("4. confirm() userInfo :: ", this.userInfo);
+        this.$router.push({ name: "AppMain" });
+      } else {
+        alert("로그인에 실패하였습니다.");
+      }
+    },
+    movePage() {
+      this.$router.push({ name: "UserJoin" });
     },
   },
 };
@@ -52,9 +83,10 @@ export default {
 
 <style scoped>
 .login-container {
+  margin-top: 300px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   height: 100vh;
   /* background: linear-gradient(
     to bottom right,
@@ -70,7 +102,8 @@ export default {
 }
 
 .login-card {
-  width: 400px;
+  width: 50vh;
+  height: 35vh;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -87,7 +120,7 @@ export default {
 
 .login-button {
   width: 100%;
-  background-color: #f8a5c2;
+  background-color: #4c4c4c;
   color: #ffffff;
 }
 
@@ -109,6 +142,5 @@ export default {
 
 .b-form-input:focus {
   box-shadow: none;
-  border-color: #f8a5c2;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <div style="background-color: whitesmoke">
+    <div class="header" style="color: black">
       <h2 class="mb-4">공지사항</h2>
     </div>
     <div class="table-container">
@@ -13,155 +13,102 @@
         @row-clicked="viewPost"
         responsive
       >
+        <!-- 테이블 셀 스타일 수정 -->
         <template #cell(id)="row">
-          {{ row.value }}
+          <div class="cell-value">{{ row.value }}</div>
+        </template>
+        <template #cell(subject)="row">
+          <div class="cell-value">{{ row.value }}</div>
+        </template>
+        <template #cell(userId)="row">
+          <div class="cell-value">{{ row.value }}</div>
+        </template>
+        <template #cell(hit)="row">
+          <div class="cell-value">{{ row.value }}</div>
+        </template>
+        <template #cell(registerTime)="row">
+          <div class="cell-value">{{ row.value }}</div>
         </template>
       </b-table>
     </div>
     <div class="button-container">
-      <!-- <b-button class="create-button" variant="primary" @click="goWriteNotice">글 작성</b-button> -->
-      <b-button variant="primary" @click="openModal">게시글 작성</b-button>
-      <b-modal v-model="showModal" title="게시글 작성" @hide="resetForm" class="write-modal">
-        <b-form-group label="제목">
-          <b-form-input v-model="article.subject"></b-form-input>
+      <b-button variant="primary" @click="openModal" class="regist-button">
+        게시글 작성
+      </b-button>
+      <b-modal
+        v-model="showModal"
+        title="게시글 작성"
+        @hide="resetForm"
+        class="write-modal"
+        hide-footer
+      >
+        <!-- 폼 내부 스타일 수정 -->
+        <b-form-group label="제목" label-cols-sm="3" label-cols-lg="2">
+          <b-form-input
+            class="custom-input"
+            v-model="article.subject"
+          ></b-form-input>
         </b-form-group>
-        <b-form-group label="작성자">
-          <b-form-input v-model="article.userId"></b-form-input>
+        <b-form-group label="작성자" label-cols-sm="3" label-cols-lg="2">
+          <b-form-input
+            class="custom-input"
+            v-model="article.userId"
+          ></b-form-input>
         </b-form-group>
-        <b-form-group label="내용">
-          <b-form-textarea v-model="article.content" rows="10"></b-form-textarea>
+        <b-form-group label="내용" label-cols-sm="3" label-cols-lg="2">
+          <b-form-textarea
+            class="custom-input"
+            v-model="article.content"
+            rows="10"
+          ></b-form-textarea>
         </b-form-group>
         <div class="button-group">
-          <b-button variant="primary" class="mr-2" @click="registArticle">작성</b-button>
-          <b-button variant="secondary" @click="hideModal">취소</b-button>
+          <!-- 버튼 스타일 수정 -->
+          <b-button variant="dark" class="mr-2" @click="registArticle">
+            작성
+          </b-button>
+          <b-button variant="dark" @click="hideModal"> 취소 </b-button>
         </div>
       </b-modal>
     </div>
   </div>
 </template>
 
-<script>
-import http from "@/util/http-common";
-// import NoticeListItem from "@/components/notice/NoticeListItem";
-
-export default {
-  name: "NoticeList",
-  components: {
-    // NoticeListItem,
-  },
-  data() {
-    return {
-      fields: [
-        { key: "noticeId", label: "번호", sortable: true },
-        { key: "subject", label: "제목", sortable: true },
-        { key: "userId", label: "작성자", sortable: true },
-        { key: "hit", label: "조회수", sortable: true },
-        { key: "registerTime", label: "작성 시간", sortable: true },
-      ],
-      articles: [],
-
-      // 공지사항 작성
-      showModal: false,
-      article: {
-        subject: null,
-        userId: null,
-        content: null,
-      },
-    };
-  },
-  created() {
-    http.get("/notices").then(({ data }) => {
-      console.log(data);
-      this.articles = data;
-    });
-  },
-  methods: {
-    viewPost(item) {
-      // 게시물 상세보기로 이동하는 메소드를 구현하세요
-      const noticeId = item.noticeId;
-      this.$router.push({ name: "noticeview", params: { noticeid: noticeId } });
-    },
-
-    // 글 작성 모달
-    openModal() {
-      this.showModal = true;
-    },
-    hideModal() {
-      this.showModal = false;
-    },
-
-    resetForm() {
-      // 작성 취소 시 폼 초기화 메소드를 구현하세요
-      this.article = {
-        subject: "",
-        userId: "",
-        content: "",
-      };
-    },
-
-    // 입력값 체크하기 - 체크가 성공하면 registArticle 호출
-    // checkValue() {
-    //   // 사용자 입력값 체크하기
-    //   // 작성자아이디, 제목, 내용이 없을 경우 각 항목에 맞는 메세지를 출력
-    //   let err = true;
-    //   let msg = "";
-    //   !this.userid && ((msg = "작성자 입력해주세요"), (err = false), this.$refs.noticeId.focus());
-    //   err &&
-    //     !this.subject &&
-    //     ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
-    //   err &&
-    //     !this.content &&
-    //     ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
-
-    //   if (!err) alert(msg);
-    //   // 만약, 내용이 다 입력되어 있다면 registArticle 호출
-    //   else this.registArticle();
-    // },
-    registArticle() {
-      // 비동기
-      // TODO : 글번호에 해당하는 글정보 등록.
-      // alert("글작성 하러가자!!!!");
-      const param = {
-        userId: this.article.userId,
-        subject: this.article.subject,
-        content: this.article.content,
-      };
-
-      console.log(param);
-
-      http.post(`/notices`, param).then(({ data }) => {
-        // let msg = "글작성 시 문제 발생";
-        // if (data === "success") {
-        //   msg = "글작성 성공!!";
-        // }
-        // alert(msg);
-        console.log(data);
-        this.hideModal();
-        this.$router.go(0); // 새로고침
-      });
-    },
-
-    moveList() {
-      console.log("글목록 보러가자!!!");
-      this.$router.push({ name: "noticelist" });
-    },
-  },
-};
-</script>
-
+<!-- 스타일 수정 -->
 <style scoped>
 .main-container {
-  margin: 20px;
+  padding: 10px 0;
+  height: 75vh;
+  width: 150vh;
+  margin: 50px;
   font-family: "Arial", sans-serif;
-  background-color: whitesmoke;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .table-container {
+  height: 75vh;
+  width: 150vh;
   overflow-x: auto;
 }
 
 .table {
   font-size: 14px;
+}
+
+.cell-value {
+  padding: 10px 15px;
 }
 
 .b-table th,
@@ -193,8 +140,19 @@ export default {
   margin-top: 10px;
 }
 
-.create-button {
-  font-weight: bold;
+.regist-button {
+  background-color: #000000;
+  border-color: #000000;
+  color: #ffffff;
+}
+
+.regist-button:hover,
+.regist-button:focus,
+.regist-button:active {
+  background-color: #161617cc;
+  border-color: #161617cc;
+  color: #000000;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
 }
 
 .button-group {
@@ -202,37 +160,121 @@ export default {
   justify-content: flex-end;
   margin-top: 30px;
 }
-
-.b-btn {
-  font-size: 14px;
-  font-weight: bold;
+.b-form-control:focus {
+  box-shadow: none;
+  border-color: #ced4da;
 }
-
-.b-btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.b-btn-secondary {
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-
-.b-btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #5a6268;
-}
-
-.b-btn-secondary:focus,
-.b-btn-secondary.focus {
-  background-color: #5a6268;
-  border-color: #5a6268;
-}
-
 .write-modal {
   width: 100%;
   height: 50%;
   margin: 0;
   padding: 0;
 }
+
+.table-container {
+  height: 75vh;
+  width: 150vh;
+  overflow-x: auto;
+  scrollbar-color: #000000 #ffffff;
+  scrollbar-width: thin;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 8px;
+  background-color: #ffffff;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #000000;
+}
+
+.custom-input:focus {
+  outline: none;
+  border-color: gray;
+  box-shadow: 0 0 5px gray;
+}
 </style>
+
+<script>
+import http from "@/util/http-common";
+import { mapState, mapGetters } from "vuex";
+const memberStore = "memberStore";
+
+export default {
+  name: "NoticeList",
+  data() {
+    return {
+      fields: [
+        { key: "noticeId", label: "번호", sortable: true },
+        { key: "subject", label: "제목", sortable: true },
+        { key: "userId", label: "작성자", sortable: true },
+        { key: "hit", label: "조회수", sortable: true },
+        { key: "registerTime", label: "작성 시간", sortable: true },
+      ],
+      articles: [],
+      showModal: false,
+      article: {
+        subject: null,
+        userId: null,
+        content: null,
+      },
+    };
+  },
+  created() {
+    http.get("/notices").then(({ data }) => {
+      console.log(data);
+      this.articles = data;
+    });
+
+    if (this.userInfo) {
+      this.article.userId = this.userInfo.userId;
+    }
+  },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
+  },
+  methods: {
+    viewPost(item) {
+      const noticeId = item.noticeId;
+      this.$router.push({ name: "noticeview", params: { noticeid: noticeId } });
+    },
+    openModal() {
+      this.showModal = true;
+    },
+    hideModal() {
+      this.showModal = false;
+    },
+    resetForm() {
+      this.article = {
+        subject: "",
+        userId: "",
+        content: "",
+      };
+    },
+    registArticle() {
+      const param = {
+        userId: this.article.userId,
+        subject: this.article.subject,
+        content: this.article.content,
+      };
+      console.log(param);
+      alert("글작성");
+
+      // 헤더에 인증 추가
+      http.defaults.headers["Authorization"] =
+      `Bearer ${localStorage.getItem("access-token")}`;
+
+      http.post(`/notices`, param).then(({ data }) => {
+        console.log(data);
+        this.hideModal();
+        this.$router.go(0);
+      });
+    },
+    moveList() {
+      console.log("글목록 보러가자!!!");
+      this.$router.push({ name: "noticelist" });
+    },
+  },
+};
+</script>

@@ -1,16 +1,10 @@
 <template>
   <div>
-    <label>리뷰 등록하러가기 -> </label>
-    <button @click="showModal" class="btn-review">* click *</button>
+    <button @click="showModal" class="btn-review">작성</button>
 
     <b-modal v-model="modalVisible" title="리뷰 작성" class="modal-review">
       <div class="form-group">
-        <label for="destination">여행지명:</label>
-        <input
-          id="destination"
-          v-model="review.destination"
-          type="text"
-          class="form-control" />
+        <label for="destination">여행지명: {{ title }}</label>
       </div>
 
       <div class="form-group">
@@ -18,15 +12,8 @@
         <star-rating
           v-model="review.rating"
           :increment="0.5"
-          class="star-rating"></star-rating>
-      </div>
-
-      <div class="form-group">
-        <label for="description">안내 문구:</label>
-        <textarea
-          id="description"
-          v-model="review.description"
-          class="form-control"></textarea>
+          class="star-rating"
+        ></star-rating>
       </div>
 
       <div class="form-group">
@@ -34,57 +21,82 @@
         <textarea
           id="content"
           v-model="review.content"
-          class="form-control"></textarea>
+          class="form-control"
+        ></textarea>
       </div>
 
-      <button @click="submitReview" class="btn-submit">작성 완료</button>
+      <button @click="checkValue" class="btn-submit">작성 완료</button>
     </b-modal>
   </div>
 </template>
 
 <script>
 import StarRating from "vue-star-rating";
+import http from "@/util/http-common";
+import { mapState } from "vuex";
+const memberStore = "memberStore";
+
 export default {
+  components: {
+    StarRating,
+  },
+  props: {
+    title: String,
+  },
   data() {
     return {
+      contentId: 0,
       modalVisible: false,
       review: {
-        destination: "",
         rating: 0,
-        description: "",
         content: "",
+        userId: "",
+        placeId: 0,
       },
     };
   },
-  components: {
-    StarRating,
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+  },
+  created() {
+    this.contentId = this.$route.params.contentid;
+    this.review.userId = this.userInfo.userId;
+    console.log(this.review.userId);
   },
   methods: {
     showModal() {
       this.modalVisible = true;
     },
-    submitReview() {
+    checkValue() {
       // 리뷰 작성 완료 후 처리하는 로직 추가
       // 예: 서버에 전송, 모달 닫기 등
-      this.modalVisible = false;
+      let err = true;
+      let msg = "";
+      !this.review.rating &&
+        ((msg = "평점 입력해주세요"), (err = false), this.$refs.rating.focus());
+      err &&
+        !this.review.content &&
+        ((msg = "내용 입력해주세요"),
+        (err = false),
+        this.$refs.content.focus());
+
+      if (!err) alert(msg);
+      // 만약, 내용이 다 입력되어 있다면 modifyArticle 호출
+      else this.registerReview();
+    },
+    registerReview() {
+      this.review.placeId = this.contentId;
+      http.post(`/tour/review`, this.review).then(({ data }) => {
+        console.log(data);
+        this.$router.go(this.$router.currentRoute);
+        this.modalVisible = false;
+      });
     },
   },
 };
 </script>
 
 <style>
-.btn-review {
-  font-family: "Arial", sans-serif;
-  font-size: 18px;
-  background-color: #fbff00;
-  text-decoration: underline;
-  color: #080000;
-  border: #080000;
-  padding: px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 .modal-review .modal-content {
   font-family: "Arial", sans-serif;
 }
